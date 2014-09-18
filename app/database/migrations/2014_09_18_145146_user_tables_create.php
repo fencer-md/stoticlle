@@ -1,0 +1,79 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class UserTablesCreate extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('user_roles', function($table)
+        {
+            $table->increments('id');
+            $table->string('role');
+            $table->timestamps();
+        });
+		Schema::create('users_transaction_internal', function($table)
+        {
+            $table->increments('id');
+            $table->integer('ammount');
+            $table->date('date');
+            $table->string('transaction_id');
+            $table->string('message');
+            $table->timestamps();
+        });
+		Schema::create('users_transaction_external', function($table)
+        {
+            $table->increments('id');
+            $table->integer('ammount');
+            $table->date('date');
+            $table->string('payment_method');
+            $table->string('transaction_id');
+            $table->timestamps();
+        });
+		Schema::create('users_info', function($table)
+        {
+            $table->increments('id');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('sex')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->timestamps();
+        });
+		Schema::create('users', function($table)
+        {
+            $table->increments('id');
+            $table->string('email')->unique;
+            $table->string('password');
+            $table->string('role');
+            $table->integer('user_info_id')->unsigned();
+			$table->foreign('user_info_id')->references('id')->on('users_info');
+            $table->string('registration_code');  
+            $table->string('registration_status');
+            $table->string('remember_token', 100);
+            $table->timestamps();
+        });
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('users');
+		Schema::drop('users_info');
+		Schema::drop('users_transaction_external');
+		Schema::drop('users_transaction_internal');
+		Schema::drop('user_roles');
+	}
+
+}
