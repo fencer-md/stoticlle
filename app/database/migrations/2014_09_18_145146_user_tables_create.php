@@ -18,13 +18,28 @@ class UserTablesCreate extends Migration {
             $table->string('role');
             $table->timestamps();
         });
-		Schema::create('users_transaction_internal', function($table)
+        Schema::create('users_info', function($table)
         {
             $table->increments('id');
-            $table->integer('ammount');
-            $table->date('date');
-            $table->string('transaction_id');
-            $table->string('message');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('gender')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('users', function($table)
+        {
+            $table->increments('id');
+            $table->string('email')->unique;
+            $table->string('password');
+            $table->string('role');
+            $table->integer('user_info_id')->unsigned();
+            $table->foreign('user_info_id')->references('id')->on('users_info');
+            $table->string('registration_code');  
+            $table->string('registration_status');
+            $table->string('remember_token', 100);
             $table->timestamps();
         });
 		Schema::create('users_transaction_external', function($table)
@@ -33,31 +48,22 @@ class UserTablesCreate extends Migration {
             $table->integer('ammount');
             $table->date('date');
             $table->string('payment_method');
+            $table->string('transaction_direction');
+            $table->string('transaction_type');   
             $table->string('transaction_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
-		Schema::create('users_info', function($table)
+        Schema::create('users_transaction_internal', function($table)
         {
             $table->increments('id');
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('sex')->nullable();
-            $table->date('birth_date')->nullable();
-            $table->string('city')->nullable();
-            $table->string('country')->nullable();
-            $table->timestamps();
-        });
-		Schema::create('users', function($table)
-        {
-            $table->increments('id');
-            $table->string('email')->unique;
-            $table->string('password');
-            $table->string('role');
-            $table->integer('user_info_id')->unsigned();
-			$table->foreign('user_info_id')->references('id')->on('users_info');
-            $table->string('registration_code');  
-            $table->string('registration_status');
-            $table->string('remember_token', 100);
+            $table->integer('ammount');
+            $table->date('date');
+            $table->string('transaction_direction');
+            $table->string('message');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
 	}

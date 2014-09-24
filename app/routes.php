@@ -13,12 +13,28 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return Auth::user();
 });
 
 Route::get('register', function()
 {
-	return View::make('register');
+	return View::make('user.register');
 });
+Route::get('login', function()
+{
+	return View::make('user.login');
+});
+Route::get('logout', 'SessionsController@destroy');
+
+Route::get('user/edit', 'UserController@editUserInfo');
+Route::post('user/edit/update', 'UserController@updateInfo');
+Route::get('user/confirm/{cc}', 'UserController@confirm');
+
+Route::get('user/transactions', 'TransactionsController@transactionsListUser');
+Route::post('user/transactions/invest', 'TransactionsController@investMoney');
+Route::post('user/transactions/addmoney', 'TransactionsController@addMoneyToAccount');
+Route::get('user/admin/transactions', 'UserController@usersList');
+Route::get('user/admin/transactions/{uid}', 'TransactionsController@userTransactions');
 
 Route::resource('user', 'UserController');
+Route::resource('session', 'SessionsController');
