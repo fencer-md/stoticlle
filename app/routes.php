@@ -13,7 +13,7 @@
 
 Route::get('/', function()
 {
-	return Auth::user();
+	return View::make('homepage');
 });
 
 Route::get('register', function()

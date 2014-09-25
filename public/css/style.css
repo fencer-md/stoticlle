@@ -1,0 +1,20 @@
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.content {
+    margin-top: 100px;
+}
+table {
+    border: 1px solid black;
+    border-spacing: inherit;
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 580px;
+}
+
+td {
+    border: 1px solid black;
+}
