@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('h', function()
+{
+	return View::make('home');
+});
 Route::get('/', function()
 {
 	return View::make('homepage');
