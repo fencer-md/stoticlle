@@ -5,7 +5,7 @@ class TransactionsController extends \BaseController {
     public function transactionsListUser()
     {
         $id = Auth::user()->id;
-        $transactions = Transaction::where('user_id', '=', $id)->select('id', 'transaction_direction', 'ammount', 'date')->get();
+        $transactions = Transaction::where('user_id', '=', $id)->get();
         $moneyAvailable = 0;
         foreach ($transactions as $transaction) {
         	if ( $transaction->transaction_direction == 'invest' )
@@ -22,7 +22,7 @@ class TransactionsController extends \BaseController {
     public function userTransactions($uid) 
     {
         $id = User::where('id', '=', $uid);
-        $transactions = Transaction::where('user_id', '=', $uid)->select('id', 'transaction_direction', 'ammount', 'date')->get();
+        $transactions = Transaction::where('user_id', '=', $uid)->get();
         $moneyAvailable = 0;
         foreach ($transactions as $transaction) {
         	if ( $transaction->transaction_direction == 'invest' )
