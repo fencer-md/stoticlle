@@ -129,79 +129,91 @@ class UserTransactionsSeeds extends Migration {
         	)
 		);
 
-		DB::table('users_transaction_internal')->insert(
+		DB::table('users_transaction')->insert(
 			array(
             	array(
                 	'ammount' => '10',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'to',
                 	'user_id' => '1',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '13',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'from',
                 	'user_id' => '1',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '25',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'to',
                 	'user_id' => '2',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '12',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'from',
                 	'user_id' => '2',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '41',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'to',
                 	'user_id' => '3',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '32',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'from',
                 	'user_id' => '3',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '111',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'to',
                 	'user_id' => '4',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '222',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'from',
                 	'user_id' => '4',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '553',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'to',
                 	'user_id' => '5',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '234',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'from',
                 	'user_id' => '5',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '23',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'to',
                 	'user_id' => '6',
+                    'transaction_type' => 'internal',
                 ),
             	array(
                 	'ammount' => '142',
                 	'date' => '2014-09-25',
                 	'transaction_direction' => 'from',
                 	'user_id' => '6',
+                    'transaction_type' => 'internal',
                 ),
 			)
 		);

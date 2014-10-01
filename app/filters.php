@@ -48,6 +48,12 @@ Route::filter('auth', function()
 	}
 });
 
+Route::filter('admin', function()
+{
+	if (Auth::user()->role == '2')
+		return print("You don't have enough rights to access this page");
+});
+
 
 Route::filter('auth.basic', function()
 {

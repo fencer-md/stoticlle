@@ -2,20 +2,19 @@
 
 class TransactionsController extends \BaseController {
 
-    public function transactionsListUser() 
+    public function transactionsListUser()
     {
         $id = Auth::user()->id;
-        $intTrans = TransactionInt::where('user_id', '=', $id)->select('id', 'transaction_direction', 'ammount', 'date')->get();
-        $extTrans = TransactionExt::where('user_id', '=', $id)->select('transaction_id', 'transaction_direction', 'ammount', 'date', 'payment_method')->get();
+        $transactions = Transaction::where('user_id', '=', $id)->select('id', 'transaction_direction', 'ammount', 'date')->get();
         $moneyAvailable = 0;
-        foreach ($intTrans as $transaction) {
+        foreach ($transactions as $transaction) {
         	if ( $transaction->transaction_direction == 'invest' )
 	        	$moneyAvailable -= $transaction->ammount;
 	        else
 	        	$moneyAvailable += $transaction->ammount;
         }
 
-        $data = ['transactions' => $intTrans, 'moneyAvailable' => $moneyAvailable];
+        $data = ['transactions' => $transactions, 'moneyAvailable' => $moneyAvailable];
 
         return View::make('user.transaction')->with('data', $data);
     }
@@ -23,16 +22,16 @@ class TransactionsController extends \BaseController {
     public function userTransactions($uid) 
     {
         $id = User::where('id', '=', $uid);
-        $intTrans = TransactionInt::where('user_id', '=', $uid)->select('id', 'transaction_direction', 'ammount', 'date')->get();
+        $transactions = Transaction::where('user_id', '=', $uid)->select('id', 'transaction_direction', 'ammount', 'date')->get();
         $moneyAvailable = 0;
-        foreach ($intTrans as $transaction) {
+        foreach ($transactions as $transaction) {
         	if ( $transaction->transaction_direction == 'invest' )
 	        	$moneyAvailable -= $transaction->ammount;
 	        else
 	        	$moneyAvailable += $transaction->ammount;
         }
 
-        $data = ['transactions' => $intTrans, 'moneyAvailable' => $moneyAvailable];
+        $data = ['transactions' => $transactions, 'moneyAvailable' => $moneyAvailable];
 
         return View::make('user.usertransactionslist')->with('data', $data);
     }
@@ -40,12 +39,12 @@ class TransactionsController extends \BaseController {
     public function receiveMoney()
     {
         $id = Auth::user()->id;
-        $intTrans = new TransactionInt;
-        $intTrans->ammount = Input::get('recieve_amount');
-        $intTrans->transaction_direction = 'recieved';
-        $intTrans->date = date('Y-m-d');
-        $intTrans->user_id = $id;
-        $intTrans->save();
+        $transaction = new Transaction;
+        $transaction->ammount = Input::get('recieve_amount');
+        $transaction->transaction_direction = 'recieved';
+        $transaction->date = date('Y-m-d');
+        $transaction->user_id = $id;
+        $transaction->save();
 
         return Redirect::back();
     }
@@ -53,12 +52,12 @@ class TransactionsController extends \BaseController {
     public function investMoney() 
     {
         $id = Auth::user()->id;
-        $intTrans = new TransactionInt;
-        $intTrans->ammount = Input::get('invest_amount');
-        $intTrans->transaction_direction = 'invested';
-        $intTrans->date = date('Y-m-d');
-        $intTrans->user_id = $id;
-        $intTrans->save();
+        $transaction = new Transaction;
+        $transaction->ammount = Input::get('invest_amount');
+        $transaction->transaction_direction = 'invested';
+        $transaction->date = date('Y-m-d');
+        $transaction->user_id = $id;
+        $transaction->save();
 
         return Redirect::back();
     }
@@ -66,14 +65,12 @@ class TransactionsController extends \BaseController {
     public function addMoneyToAccount() 
     {
         $id = Auth::user()->id;
-        //$intTrans = new TransactionExt;
-        //temporary until solve the union issue
-        $intTrans = new TransactionInt;
-        $intTrans->ammount = Input::get('add_money');
-        $intTrans->transaction_direction = 'added to account';
-        $intTrans->date = date('Y-m-d');
-        $intTrans->user_id = $id;
-        $intTrans->save();
+        $transaction = new Transaction;
+        $transaction->ammount = Input::get('add_money');
+        $transaction->transaction_direction = 'added to account';
+        $transaction->date = date('Y-m-d');
+        $transaction->user_id = $id;
+        $transaction->save();
 
         return Redirect::back();
     }

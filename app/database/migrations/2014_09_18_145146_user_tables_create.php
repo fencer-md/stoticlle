@@ -42,26 +42,15 @@ class UserTablesCreate extends Migration {
             $table->string('remember_token', 100);
             $table->timestamps();
         });
-		Schema::create('users_transaction_external', function($table)
+		Schema::create('users_transaction', function($table)
         {
             $table->increments('id');
             $table->integer('ammount');
             $table->date('date');
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();;
             $table->string('transaction_direction');
             $table->string('transaction_type');   
             $table->string('transaction_id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
-        });
-        Schema::create('users_transaction_internal', function($table)
-        {
-            $table->increments('id');
-            $table->integer('ammount');
-            $table->date('date');
-            $table->string('transaction_direction');
-            $table->string('message');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
@@ -75,11 +64,10 @@ class UserTablesCreate extends Migration {
 	 */
 	public function down()
 	{
+        Schema::drop('user_roles');
+        Schema::drop('users_info');
 		Schema::drop('users');
-		Schema::drop('users_info');
-		Schema::drop('users_transaction_external');
-		Schema::drop('users_transaction_internal');
-		Schema::drop('user_roles');
+		Schema::drop('users_transaction');
 	}
 
 }

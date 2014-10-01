@@ -30,15 +30,26 @@ Route::get('login', function()
 });
 Route::get('logout', 'SessionsController@destroy');
 
-Route::get('user/edit', 'UserController@editUserInfo');
-Route::post('user/edit/update', 'UserController@updateInfo');
+Route::post('user/store', 'UserController@store');
+
+Route::group(['before' => 'auth'], function()
+{
+	Route::group(['before' => 'admin'], function() {
+		Route::get('user/admin/transactions', 'UserController@usersList');
+		Route::get('user/admin/transactions/{uid}', 'TransactionsController@userTransactions');		
+	});
+
+	Route::get('user/edit', 'UserController@editUserInfo');
+	Route::post('user/edit/update', 'UserController@updateInfo');
+
+	Route::get('user/transactions', 'TransactionsController@transactionsListUser');
+	Route::post('user/transactions/invest', 'TransactionsController@investMoney');
+	Route::post('user/transactions/addmoney', 'TransactionsController@addMoneyToAccount');
+
+
+});
+
 Route::get('user/confirm/{cc}', 'UserController@confirm');
 
-Route::get('user/transactions', 'TransactionsController@transactionsListUser');
-Route::post('user/transactions/invest', 'TransactionsController@investMoney');
-Route::post('user/transactions/addmoney', 'TransactionsController@addMoneyToAccount');
-Route::get('user/admin/transactions', 'UserController@usersList');
-Route::get('user/admin/transactions/{uid}', 'TransactionsController@userTransactions');
-
-Route::resource('user', 'UserController');
 Route::resource('session', 'SessionsController');
+Route::resource('user', 'UserController');
