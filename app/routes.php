@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('m', function()
+{
+	return View::make('backend');
+});
 Route::get('h', function()
 {
 	return View::make('home');

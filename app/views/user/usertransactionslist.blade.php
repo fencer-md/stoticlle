@@ -1,15 +1,9 @@
-@extends('user.base')
+@extends('layouts.backend.base')
 
 @section('content')
-<div class="wrapper">
-    <div class="menu">
-        <a href="{{ URL::to('user/edit') }}">Edit profile</a>
-        <a href="{{ URL::to('user/transactions') }}">User transactions</a>
-        <a href="{{ URL::to('user/admin/transactions') }}">Admin transactions</a>
-        <a href="{{ URL::to('logout') }}">Logout</a>
-    </div>
-    <div class="content">
-        <table>
+    <h3 class="page-title">User transactions</h3>
+    <div class="row-fluid">
+        <table class="table table-striped table-hover">
             <thead>
                 <td>Transaction ID</td>
                 <td>Date</td>
@@ -37,5 +31,4 @@
             </tbody>
         </table>
     </div>
-</div>
 @stop

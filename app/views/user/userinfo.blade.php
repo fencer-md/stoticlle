@@ -1,46 +1,60 @@
-@extends('user.base')
+@extends('layouts.backend.base')
 
 @section('content')
-<div class="wrapper">
-    <div class="menu">
-        <a href="{{ URL::to('user/edit') }}">Edit profile</a>
-        <a href="{{ URL::to('user/transactions') }}">User transactions</a>
-        <a href="{{ URL::to('user/admin/transactions') }}">Admin transactions</a>
-        <a href="{{ URL::to('logout') }}">Logout</a>
-    </div>
-    <div class="content">
-        {{ Form::open(['action' => 'UserController@updateInfo', 'class' => '']) }}
-        	{{ Form::label('first_name', 'First name') }}
-            {{ Form::text('first_name', $user_info->first_name) }}
-            <p>
-        	{{ Form::label('last_name', 'Surname') }}
-            {{ Form::text('last_name', $user_info->last_name) }}
-            <p>
-        	{{ Form::label('gender', 'Gender') }}
-            {{ Form::label('gender', 'M') }}
-            @if ( $user_info->gender == 'male' )
-                {{ Form::radio('gender', 'male', true) }}
-            @else
-                {{ Form::radio('gender', 'male') }}        
-            @endif
-            {{ Form::label('gender', 'F') }}
-            @if ( $user_info->gender == 'female' )
-                {{ Form::radio('gender', 'female', true) }}
-            @else
-                {{ Form::radio('gender', 'female') }}        
-            @endif
-            <p>
-        	{{ Form::label('birth_date', 'Birth date') }}
-            {{ Form::text('birth_date', $user_info->birth_date, ['placeholder' => 'ex. 1990-01-01 ']) }}
-            <p>
-        	{{ Form::label('country', 'Country') }}
-            {{ Form::text('country', $user_info->country, ['placeholder' => '']) }}
-            <p>
-        	{{ Form::label('city', 'City') }}
-            {{ Form::text('city', $user_info->city, ['placeholder' => '']) }}
-            <p>
-            {{ Form::submit('Save') }}
+    <h3 class="page-title">Edit profile</h3>
+    <div class="row-fluid">
+        {{ Form::open(['action' => 'UserController@updateInfo', 'class' => 'form-horizontal']) }}
+            <div class="form-body col-md-3">
+                <div class="control-group">
+                    {{ Form::label('first_name', 'First name', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        {{ Form::text('first_name', $user_info->first_name, ['class' => 'm-wrap large']) }}
+                    </div>
+                </div>
+                <div class="control-group"> 
+                    {{ Form::label('last_name', 'Surname', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        {{ Form::text('last_name', $user_info->last_name, ['class' => 'm-wrap large']) }}
+                    </div>
+                </div>
+                <div class="control-group"> 
+                    {{ Form::label('gender', 'Gender', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        @if ( $user_info->gender == 'male' )
+                            <label class="radio"><div><span>{{ Form::radio('gender', 'male', true) }}</span></div>M</label>
+                        @else
+                            <label class="radio"><div><span>{{ Form::radio('gender', 'male') }}</span></div>M</label>
+                        @endif
+
+                        @if ( $user_info->gender == 'female' )
+                            <label class="radio"><div><span>{{ Form::radio('gender', 'female', true) }}</span></div>F</label>
+                        @else
+                            <label class="radio"><div><span>{{ Form::radio('gender', 'female') }}</span></div>F</label>
+                        @endif
+                    </div>
+                </div>
+                <div class="control-group"> 
+                    {{ Form::label('birth_date', 'Birth date', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        {{ Form::text('birth_date', $user_info->birth_date, ['placeholder' => 'ex. 1990-01-01 ', 'class' => 'm-wrap large']) }}
+                    </div>
+                </div>
+                <div class="control-group"> 
+                    {{ Form::label('country', 'Country', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        {{ Form::text('country', $user_info->country, ['class' => 'm-wrap large']) }}
+                    </div>
+                </div>
+                <div class="control-group"> 
+                    {{ Form::label('city', 'City', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        {{ Form::text('city', $user_info->city, ['class' => 'm-wrap large']) }}
+                    </div>
+                </div>
+                <div class="form-actions"> 
+                    {{ Form::submit('Save', ['class' => 'btn blue']) }}
+                </div>
+            </div>
         {{ Form::close() }}
     </div>
-</div>
 @stop

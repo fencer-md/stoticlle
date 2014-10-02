@@ -1,15 +1,9 @@
-@extends('user.base')
+@extends('layouts.backend.base')
 
 @section('content')
-<div class="wrapper">
-    <div class="menu">
-        <a href="{{ URL::to('user/edit') }}">Edit profile</a>
-        <a href="{{ URL::to('user/transactions') }}">User transactions</a>
-        <a href="{{ URL::to('user/admin/transactions') }}">Admin transactions</a>
-        <a href="{{ URL::to('logout') }}">Logout</a>
-    </div>
-    <div class="content">
-		<table>
+    <h3 class="page-title">User transactions</h3>
+    <div class="row-fluid">
+		<table class="table table-striped table-hover">
 			<thead>
                 <td>Transaction ID</td>
                 <td>Date</td>
@@ -39,11 +33,18 @@
 		<br>
 		<div>Available amount: {{ $data['moneyAvailable'] }}$</div>
 		<br>
-		{{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => '']) }}
-			{{ Form::label('add_money', 'Ammount to add') }}
-		    {{ Form::text('add_money') }}
-		    {{ Form::submit('Submit') }}	
+		{{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal']) }}
+            <div class="form-body col-md-3">
+                <div class="control-group">
+        			{{ Form::label('add_money', 'Ammount to add', ['class' => 'control-label']) }}
+                    <div class="controls">
+        		      {{ Form::text('add_money') }}
+                    </div>
+                    <div class="form-actions"> 
+        		      {{ Form::submit('Submit', ['class' => 'btn blue']) }}
+                    </div>
+                </div>
+            </div>	
 		{{ Form::close() }}
 	</div>
-</div>
 @stop

@@ -51,20 +51,15 @@ class UserController extends \BaseController {
 
 	public function editUserInfo()
 	{
-		if ( Auth::user()->role == '2' )
-		{
-			$id = Auth::user()->id;
-			$user = User::find($id);
-			$user_info = UserInfo::find($user->user_info_id);
-			if ( $user_info->birth_date == null )
-				$birth_date = null;
-			else
-				$birth_date = explode("-", $user_info->birth_date);
+		$id = Auth::user()->id;
+		$user = User::find($id);
+		$user_info = UserInfo::find($user->user_info_id);
+		if ( $user_info->birth_date == null )
+			$birth_date = null;
+		else
+			$birth_date = explode("-", $user_info->birth_date);
 
-			return View::make('user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
-		} else {
-			return 'You\'re not logged in';
-		}
+		return View::make('user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
 	}
 
  	public function updateInfo()
