@@ -8,7 +8,7 @@ class TransactionsController extends \BaseController {
         $transactions = Transaction::where('user_id', '=', $id)->get();
         $moneyAvailable = 0;
         foreach ($transactions as $transaction) {
-        	if ( $transaction->transaction_direction == 'invest' )
+        	if ( $transaction->transaction_direction == 'invested' )
 	        	$moneyAvailable -= $transaction->ammount;
 	        else
 	        	$moneyAvailable += $transaction->ammount;
@@ -16,7 +16,7 @@ class TransactionsController extends \BaseController {
 
         $data = ['transactions' => $transactions, 'moneyAvailable' => $moneyAvailable];
 
-        return View::make('user.transaction')->with('data', $data);
+        return View::make('backend.user.transaction')->with('data', $data);
     }
 
     public function userTransactions($uid) 
@@ -25,7 +25,7 @@ class TransactionsController extends \BaseController {
         $transactions = Transaction::where('user_id', '=', $uid)->get();
         $moneyAvailable = 0;
         foreach ($transactions as $transaction) {
-        	if ( $transaction->transaction_direction == 'invest' )
+        	if ( $transaction->transaction_direction == 'invested' )
 	        	$moneyAvailable -= $transaction->ammount;
 	        else
 	        	$moneyAvailable += $transaction->ammount;
@@ -33,7 +33,7 @@ class TransactionsController extends \BaseController {
 
         $data = ['transactions' => $transactions, 'moneyAvailable' => $moneyAvailable];
 
-        return View::make('user.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
     public function receiveMoney()
@@ -67,7 +67,7 @@ class TransactionsController extends \BaseController {
         $id = Auth::user()->id;
         $transaction = new Transaction;
         $transaction->ammount = Input::get('add_money');
-        $transaction->transaction_direction = 'added to account';
+        $transaction->transaction_direction = 'invested';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = $id;
         $transaction->save();

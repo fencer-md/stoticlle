@@ -19,7 +19,7 @@ class UserTransactionsSeeds extends Migration {
                 	'last_name' => 'Doe',
                 	'gender' => 'male',                	
                     'birth_date' => '1980-06-04',
-                    'city'  => 'Washington',
+                    'city'  => 'Washingaddedn',
                     'country' => 'USA',
                 ),
             	array(
@@ -68,7 +68,7 @@ class UserTransactionsSeeds extends Migration {
 		DB::table('user_roles')->insert(
             array(
                 array(
-                    'role' => 'administrator'
+                    'role' => 'administraaddedr'
                 ),
                 array(
                     'role' => 'user'
@@ -134,86 +134,86 @@ class UserTransactionsSeeds extends Migration {
             	array(
                 	'ammount' => '10',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'to',
+                	'transaction_direction' => 'added',
                 	'user_id' => '1',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '13',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'from',
+                	'transaction_direction' => 'extracted',
                 	'user_id' => '1',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '25',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'to',
+                	'transaction_direction' => 'added',
                 	'user_id' => '2',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '12',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'from',
+                	'transaction_direction' => 'extracted',
                 	'user_id' => '2',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '41',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'to',
+                	'transaction_direction' => 'added',
                 	'user_id' => '3',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '32',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'from',
+                	'transaction_direction' => 'extracted',
                 	'user_id' => '3',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '111',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'to',
+                	'transaction_direction' => 'added',
                 	'user_id' => '4',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '222',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'from',
+                	'transaction_direction' => 'extracted',
                 	'user_id' => '4',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '553',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'to',
+                	'transaction_direction' => 'added',
                 	'user_id' => '5',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '234',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'from',
+                	'transaction_direction' => 'extracted',
                 	'user_id' => '5',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '23',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'to',
+                	'transaction_direction' => 'added',
                 	'user_id' => '6',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
             	array(
                 	'ammount' => '142',
                 	'date' => '2014-09-25',
-                	'transaction_direction' => 'from',
+                	'transaction_direction' => 'extracted',
                 	'user_id' => '6',
-                    'transaction_type' => 'internal',
+                    'transaction_type' => 'external',
                 ),
 			)
 		);

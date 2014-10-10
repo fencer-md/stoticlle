@@ -59,7 +59,7 @@ class UserController extends \BaseController {
 		else
 			$birth_date = explode("-", $user_info->birth_date);
 
-		return View::make('user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
 	}
 
  	public function updateInfo()
@@ -86,7 +86,7 @@ class UserController extends \BaseController {
  	{
  		$users = User::select('id', 'email')->get();
  		
- 		return View::make('user.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
  	}
 
 }

@@ -12,7 +12,7 @@
 	   <link rel="shortcut icon" href="favicon.ico" />
 	</head>
 	<body class="page-header-fixed">
-		<div class="header navbar navbar-inverse navbar-fixed-top">
+		<div class="page-header navbar navbar-fixed-top	">
 		  <!-- BEGIN TOP NAVIGATION BAR -->
 		  <div class="navbar-inner">
 		    <div class="container-fluid">
@@ -21,16 +21,19 @@
 		  </div>
 		  <!-- END TOP NAVIGATION BAR -->
 		</div>
+		<div class="clearfix"></div>
 		<div class="page-container">
 			<!-- BEGIN SIDEBAR -->
-			<div class="page-sidebar nav-collapse collapse">
-				@include('layouts.backend.sidebar')
+			<div class="page-sidebar-wrapper">
+				<div class="page-sidebar navbar-collapse collapse">
+					@include('layouts.backend.sidebar')
+				</div>
 			</div>
 			<!-- END SIDEBAR -->
 			<!-- BEGIN PAGE -->
-			<div class="page-content">
+			<div class="page-content-wrapper">
 			  <!-- BEGIN PAGE CONTAINER-->
-			  <div class="container-fluid">
+			  <div class="page-content">
 			    <!-- BEGIN PAGE HEADER-->
 			    @yield('content')
 			    <!-- END PAGE HEADER-->
@@ -43,15 +46,11 @@
 		<!-- BEGIN FOOTER -->
 		<div class="footer">
 		   <div class="footer-inner">
-		      2013 &copy; Metronic by keenthemes.
 		   </div>
 		   <div class="footer-tools">
-		      <span class="go-top">
-		      <i class="icon-angle-up"></i>
-		      </span>
 		   </div>
 		</div>
 		<!-- END FOOTER -->
-		@include('includes.backend.styles')
+		@include('includes.backend.scripts')
 	</body>
 </html>
