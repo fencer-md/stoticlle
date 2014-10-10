@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title">Edit profile</h3>
-    <div class="row-fluid">
+    <div class="row">
         {{ Form::open(['action' => 'UserController@updateInfo', 'class' => 'form-horizontal']) }}
             <div class="form-body col-md-3">
                 <div class="form-group">

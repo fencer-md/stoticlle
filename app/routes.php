@@ -47,8 +47,17 @@ Route::group(['before' => 'auth'], function()
 	Route::post('user/edit/update', 'UserController@updateInfo');
 
 	Route::get('user/transactions', 'TransactionsController@transactionsListUser');
+	Route::get('user/invest', function()
+	{
+		return View::make('backend.user.invest');
+	});
 	Route::post('user/transactions/invest', 'TransactionsController@investMoney');
+	Route::get('user/addmoney', function()
+	{
+		return View::make('backend.user.addmoney');
+	});
 	Route::post('user/transactions/addmoney', 'TransactionsController@addMoneyToAccount');
+	Route::post('user/transactions/wonmoney', 'TransactionsController@moneyWon');
 
 
 });
@@ -57,3 +66,18 @@ Route::get('user/confirm/{cc}', 'UserController@confirm');
 
 Route::resource('session', 'SessionsController');
 Route::resource('user', 'UserController');
+
+View::composer('layouts.backend.base', function($view)
+{
+    $id = Auth::user()->id;
+    $transactions = Transaction::where('user_id', '=', $id)->get();
+    $moneyAvailable = 0;
+    foreach ($transactions as $transaction) {
+    	if ( $transaction->transaction_direction == 'invested' )
+        	$moneyAvailable -= $transaction->ammount;
+        else
+        	$moneyAvailable += $transaction->ammount;
+    }
+
+    $view->with('data', $moneyAvailable);
+});

@@ -1,8 +1,8 @@
 @extends('layouts.backend.base')
 
 @section('content')
-    <h3 class="page-title">User transactions</h3>
-    <div class="row-fluid">
+    <h3 class="page-title"><b>{{ $data['user']['email'] }}</b> transaction history</h3>
+    <div class="row">
         <table class="table table-striped table-hover">
             <thead>
                 <td>Transaction ID</td>
@@ -30,5 +30,18 @@
         @endforeach
             </tbody>
         </table>
-    </div>
+        {{ Form::open(['action' => 'TransactionsController@moneyWon', 'class' => 'form-horizontal']) }}
+            {{ Form::hidden('uid', $data['user']['id']) }}
+            <div class="form-body col-md-3">
+                <div class="form-group">
+                    {{ Form::label('return_money', 'Ammount of money won', ['class' => 'control-label']) }}
+                    <div class="controls">
+                        <div class="col-md-9">
+                          {{ Form::text('return_money', null, ['class' => 'form-control']) }}
+                        </div>
+                      {{ Form::submit('Submit', ['class' => 'btn blue']) }}
+                    </div>
+                </div>
+            </div>
+        {{ Form::close() }}
 @stop

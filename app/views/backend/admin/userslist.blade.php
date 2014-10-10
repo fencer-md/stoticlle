@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title">User list</h3>
-    <div class="row-fluid">
+    <div class="row">
 		<table class="table table-striped table-hover">
 			<thead>
 				<td>Email</td>

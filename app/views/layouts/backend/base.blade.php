@@ -14,10 +14,8 @@
 	<body class="page-header-fixed">
 		<div class="page-header navbar navbar-fixed-top	">
 		  <!-- BEGIN TOP NAVIGATION BAR -->
-		  <div class="navbar-inner">
-		    <div class="container-fluid">
-		    <!-- HEADER ELEMENTS GO HERE -->
-		    </div>
+		  <div class="page-header-inner">
+		  	@include('includes.backend.topnavigationbar')
 		  </div>
 		  <!-- END TOP NAVIGATION BAR -->
 		</div>

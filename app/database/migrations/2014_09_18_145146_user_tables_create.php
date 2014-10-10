@@ -46,7 +46,7 @@ class UserTablesCreate extends Migration {
         {
             $table->increments('id');
             $table->integer('ammount');
-            $table->date('date');
+            $table->timestamp('date');
             $table->string('payment_method')->nullable();;
             $table->string('transaction_direction');
             $table->string('transaction_type');   

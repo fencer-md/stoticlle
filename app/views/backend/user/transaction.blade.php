@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title">User transactions</h3>
-    <div class="row-fluid">
+    <div class="row">
 		<table class="table table-striped table-hover">
 			<thead>
                 <td>Transaction ID</td>
@@ -31,20 +31,5 @@
 			</tbody>
 		</table>
 		<br>
-		<div>Available amount: {{ $data['moneyAvailable'] }}$</div>
-		<br>
-		{{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal']) }}
-            <div class="form-body col-md-3">
-                <div class="control-group">
-        			{{ Form::label('add_money', 'Ammount to invest', ['class' => 'control-label']) }}
-                    <div class="controls">
-                        <div class="col-md-9">
-            		      {{ Form::text('add_money', null, ['class' => 'form-control']) }}
-                        </div>
-                      {{ Form::submit('Submit', ['class' => 'btn blue']) }}
-                    </div>
-                </div>
-            </div>	
-		{{ Form::close() }}
 	</div>
 @stop
