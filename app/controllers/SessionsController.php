@@ -12,7 +12,10 @@ class SessionsController extends \BaseController {
         $user = User::where('email', '=', Input::get('email'))->first();
         if ( Auth::attempt(Input::only('email','password')) && $user->registration_status == '1' )
         {
-            return Redirect::to('/');
+            if( Auth::user()->role == "1" )
+                return Redirect::to('/user/admin/transactions');
+            else
+                return Redirect::to('/user/transactions');
         }
         return 'Failed login attempt';
 

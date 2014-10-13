@@ -126,6 +126,14 @@ class UserTransactionsSeeds extends Migration {
                     'registration_code'  => '0',
                     'registration_status' => '1',
                 ),
+                array(
+                    'email' => 'admin@admin.com',
+                    'password' => Hash::make('admin'),
+                    'role' => '1',                  
+                    'user_info_id' => '6',
+                    'registration_code'  => '0',
+                    'registration_status' => '1',
+                ),
         	)
 		);
 

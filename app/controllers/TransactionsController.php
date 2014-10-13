@@ -42,6 +42,7 @@ class TransactionsController extends \BaseController {
         $transaction = new Transaction;
         $transaction->ammount = Input::get('recieve_amount');
         $transaction->transaction_direction = 'recieved';
+        $transaction->transaction_type = 'internal';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = $id;
         $transaction->save();
@@ -55,6 +56,7 @@ class TransactionsController extends \BaseController {
         $transaction = new Transaction;
         $transaction->ammount = Input::get('invest_amount');
         $transaction->transaction_direction = 'invested';
+        $transaction->transaction_type = 'internal';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = $id;
         $transaction->save();
@@ -69,6 +71,7 @@ class TransactionsController extends \BaseController {
         $transaction->ammount = Input::get('add_money');
         $transaction->payment_method = Input::get('add_method');
         $transaction->transaction_direction = 'added';
+        $transaction->transaction_type = 'external';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = $id;
         $transaction->save();
@@ -81,7 +84,8 @@ class TransactionsController extends \BaseController {
         $id = Auth::user()->id;
         $transaction = new Transaction;
         $transaction->ammount = Input::get('return_money');
-        $transaction->transaction_direction = 'won';
+        $transaction->transaction_direction = 'returned';
+        $transaction->transaction_type = 'internal';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = Input::get('uid');
         $transaction->save();

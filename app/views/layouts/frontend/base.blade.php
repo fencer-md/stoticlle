@@ -30,7 +30,7 @@
                   {{ Form::close() }}
                 </div>
                 <div class="register">
-                  Don't have an account? <a href="{{ URL::to('#') }}">Register</a>
+                  Don't have an account? <a href="{{ URL::to('register') }}">Register</a>
                 </div>
               @else
                 <div class="logout">

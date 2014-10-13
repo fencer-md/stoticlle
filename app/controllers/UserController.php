@@ -41,7 +41,7 @@ class UserController extends \BaseController {
 
 	public function confirm($cc)
 	{
-		$msg= 'Thank you for registration, you now can login and begin shopping';
+		$msg = 'Thank you for registration, you now can login and begin shopping';
 		$user = User::where('registration_code', '=', $cc)->first();
 		$user->registration_status = 1;
 		$user->registration_code = 0;
