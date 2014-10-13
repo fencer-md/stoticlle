@@ -35,8 +35,10 @@ Route::post('user/store', 'UserController@store');
 Route::group(['before' => 'auth'], function()
 {
 	Route::group(['before' => 'admin'], function() {
-		Route::get('user/admin/transactions', 'UserController@usersList');
-		Route::get('user/admin/transactions/{uid}', 'TransactionsController@userTransactions');		
+		Route::get('user/admin/userlist', 'UserController@usersList');
+		Route::get('user/admin/transactions/{uid}', 'TransactionsController@userTransactions');
+		Route::get('user/admin/investments/{uid}', 'TransactionsController@usersInvestedMoney');
+		Route::get('user/admin/earned/{uid}', 'TransactionsController@usersEarnedMoney');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
@@ -53,7 +55,7 @@ Route::group(['before' => 'auth'], function()
 		return View::make('backend.user.addmoney');
 	});
 	Route::post('user/transactions/addmoney', 'TransactionsController@addMoneyToAccount');
-	Route::post('user/transactions/wonmoney', 'TransactionsController@moneyWon');
+	Route::post('user/transactions/earnedmoney', 'TransactionsController@moneyEarned');
 
 
 });

@@ -30,7 +30,8 @@
         @endforeach
             </tbody>
         </table>
-        {{ Form::open(['action' => 'TransactionsController@moneyWon', 'class' => 'form-horizontal']) }}
+        @if ( Request::is('user/admin/transactions/*') )
+        {{ Form::open(['action' => 'TransactionsController@moneyEarned', 'class' => 'form-horizontal']) }}
             {{ Form::hidden('uid', $data['user']['id']) }}
             <div class="form-body col-md-3">
                 <div class="form-group">
@@ -44,4 +45,5 @@
                 </div>
             </div>
         {{ Form::close() }}
+        @endif
 @stop

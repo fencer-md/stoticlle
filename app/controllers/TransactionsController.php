@@ -2,38 +2,71 @@
 
 class TransactionsController extends \BaseController {
 
+    //---------------Admin---------------
+
+    public function userTransactions($uid) 
+    {
+        if ( $uid == "all")
+        {
+            $user = null;
+            $transactions = Transaction::all();
+        } else
+        {
+            $user = User::where('id', '=', $uid)->first();
+            $transactions = Transaction::where('user_id', '=', $uid)->get();
+        }
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+    }
+
+    public function usersInvestedMoney($uid)
+    {
+        if ( $uid == "all")
+        {
+            $user = null;
+            $transactions = Transaction::where('transaction_direction', '=', 'invested')->get();
+        } else
+        {
+            $user = User::where('id', '=', $uid)->first();
+            $transactions = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->get();
+        }
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);        
+    }
+
+    public function usersEarnedMoney($uid)
+    {
+        if ( $uid == "all")
+        {
+            $user = null;
+            $transactions = Transaction::where('transaction_direction', '=', 'earned')->get();
+        } else
+        {
+            $user = User::where('id', '=', $uid)->first();
+            $transactions = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'earned')->get();
+        }
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);        
+    }
+
+    //---------------End admin---------------
+
+    //---------------Users---------------
+
     public function transactionsListUser()
     {
         $id = Auth::user()->id;
         $transactions = Transaction::where('user_id', '=', $id)->get();
-        $moneyAvailable = 0;
-        foreach ($transactions as $transaction) {
-        	if ( $transaction->transaction_direction == 'invested' )
-	        	$moneyAvailable -= $transaction->ammount;
-	        else
-	        	$moneyAvailable += $transaction->ammount;
-        }
 
-        $data = ['transactions' => $transactions, 'moneyAvailable' => $moneyAvailable];
+        $data = ['transactions' => $transactions];
 
         return View::make('backend.user.transaction')->with('data', $data);
-    }
-
-    public function userTransactions($uid) 
-    {
-        $user = User::where('id', '=', $uid)->first();
-        $transactions = Transaction::where('user_id', '=', $uid)->get();
-        $moneyAvailable = 0;
-        foreach ($transactions as $transaction) {
-        	if ( $transaction->transaction_direction == 'invested' )
-	        	$moneyAvailable -= $transaction->ammount;
-	        else
-	        	$moneyAvailable += $transaction->ammount;
-        }
-
-        $data = ['transactions' => $transactions, 'moneyAvailable' => $moneyAvailable, 'user' => $user];
-
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
     public function receiveMoney()
@@ -61,6 +94,15 @@ class TransactionsController extends \BaseController {
         $transaction->user_id = $id;
         $transaction->save();
 
+        $email = Auth::user()->email;
+        $username = Auth::user()->userInfo->first_name;
+
+        $data = ['username' => $username, 'ammount' => $transaction->ammount];
+
+        Mail::send('emails.invested', $data, function($message) {
+            $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+        });
+
         return Redirect::back();
     }
 
@@ -76,15 +118,24 @@ class TransactionsController extends \BaseController {
         $transaction->user_id = $id;
         $transaction->save();
 
+        $email = Auth::user()->email;
+        $username = Auth::user()->userInfo->first_name;
+
+        $data = ['username' => $username, 'ammount' => $transaction->ammount];
+
+        Mail::send('emails.moneyadded', $data, function($message) {
+            $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+        });
+
         return Redirect::back();
     }
 
-    public function moneyWon() 
+    public function moneyEarned() 
     {        
         $id = Auth::user()->id;
         $transaction = new Transaction;
         $transaction->ammount = Input::get('return_money');
-        $transaction->transaction_direction = 'returned';
+        $transaction->transaction_direction = 'earned';
         $transaction->transaction_type = 'internal';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = Input::get('uid');
@@ -92,5 +143,7 @@ class TransactionsController extends \BaseController {
 
         return Redirect::back();
     }
+
+    //---------------End users---------------
 
 }

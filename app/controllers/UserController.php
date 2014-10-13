@@ -84,7 +84,7 @@ class UserController extends \BaseController {
 
  	public function usersList() 
  	{
- 		$users = User::select('id', 'email')->get();
+ 		$users = User::select('id', 'email')->where('role', '=', '2')->get();
  		
  		return View::make('backend.admin.userslist', ['users' => $users]);
  	}
