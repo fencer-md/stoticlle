@@ -69,7 +69,7 @@ class UserController extends \BaseController {
 			$id = Auth::user()->id;
 			$user = User::find($id);
 			$user_info = UserInfo::find($user->user_info_id);
-			$user->email = Input::get('email');
+			$user->password = Hash::make(Input::get('password'));
 			$user_info->first_name = Input::get('first_name');
 			$user_info->last_name = Input::get('last_name');
 			$user_info->gender = Input::get('gender');

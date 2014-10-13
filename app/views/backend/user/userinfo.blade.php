@@ -53,6 +53,12 @@
                         {{ Form::text('city', $user_info->city, ['class' => 'form-control']) }}
                     </div>
                 </div>
+                <div class="form-group"> 
+                    {{ Form::label('password', 'Password', ['class' => 'col-md-3 control-label']) }}
+                    <div class="col-md-9">
+                        {{ Form::password('password', ['class' => 'form-control']) }}
+                    </div>
+                </div>
                 <div class="form-actions"> 
                     {{ Form::submit('Save', ['class' => 'btn blue']) }}
                 </div>
