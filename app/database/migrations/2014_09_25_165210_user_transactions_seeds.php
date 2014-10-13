@@ -19,7 +19,7 @@ class UserTransactionsSeeds extends Migration {
                 	'last_name' => 'Doe',
                 	'gender' => 'male',                	
                     'birth_date' => '1980-06-04',
-                    'city'  => 'Washingaddedn',
+                    'city'  => 'Washington',
                     'country' => 'USA',
                 ),
             	array(
@@ -36,7 +36,7 @@ class UserTransactionsSeeds extends Migration {
 		DB::table('user_roles')->insert(
             array(
                 array(
-                    'role' => 'administraaddedr'
+                    'role' => 'administror'
                 ),
                 array(
                     'role' => 'user'
