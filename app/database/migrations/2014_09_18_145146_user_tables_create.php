@@ -36,8 +36,9 @@ class UserTablesCreate extends Migration {
             $table->string('password');
             $table->string('role');
             $table->string('investor');
-            $table->timestamp('invested_date');
             $table->string('awarded');
+            $table->string('awaiting_award');
+            $table->timestamp('invested_date')->nullable();
             $table->string('monitored');
             $table->integer('user_info_id')->unsigned();
             $table->foreign('user_info_id')->references('id')->on('users_info');
@@ -58,6 +59,18 @@ class UserTablesCreate extends Migration {
             $table->string('transaction_id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamps();
+        });
+        Schema::create('messages', function($table)
+        {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('body');
+            $table->string('mass_message');
+            $table->integer('author_id')->unsigned();
+            $table->foreign('author_id')->references('id')->on('users');
+            $table->integer('recipient_id')->unsigned();
+            $table->foreign('recipient_id')->references('id')->on('users');
             $table->timestamps();
         });
 	}

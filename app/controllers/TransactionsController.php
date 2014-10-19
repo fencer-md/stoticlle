@@ -31,14 +31,35 @@ class TransactionsController extends \BaseController {
         return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
-    public function cashOutRequestList() 
+    public function cashOutRequestList($status) 
     {
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'cash out')->where('confirmed', '=', '0')->get();
+        if ( $status == 'pending' )
+            $transactions = Transaction::where('transaction_direction', '=', 'cash out')->where('confirmed', '=', '0')->get();
+        else if ( $status == 'refused' )
+            $transactions = Transaction::where('transaction_direction', '=', 'cash out(failed)')->where('confirmed', '=', '0')->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
         return View::make('backend.admin.usertransactionslist')->with('data', $data);
+    }
+
+    public function cashOutRequestStatus() 
+    {
+        $transaction = Transaction::where('id', '=', Input::get('tid') )->first();
+        if ( Input::get('status') == '1' )
+        {   
+            $transaction->confirmed = 1;
+            $transaction->transaction_direction = "cash out(approved)";
+        } else
+        {
+            $transaction->confirmed = 0;
+            $transaction->transaction_direction = "cash out(failed)";            
+        }
+
+        $transaction->save();
+
+        return Redirect::back();
     }
 
     public function usersInvestedMoney($uid)
@@ -79,11 +100,15 @@ class TransactionsController extends \BaseController {
     {
         $user = User::where('id', '=', Input::get('uid'))->first();
         $user->awarded = 1;
+        $user->awaiting_award = 0;
+        $dateInvested = $user->invested_date;
+        $user->invested_date = null;
         $user->save();
 
-        $transactionInvested = Transaction::where('id', '=', Input::get('tid'))->first();
-        $transactionInvested->transaction_direction = 'invested(awarded)';
-        $transactionInvested->save();
+        $date = new DateTime($dateInvested);
+        $date->modify('-25 days');
+        $formatted_date = $date->format('Y-m-d H:i:s');
+        $transactions = DB::table('users_transaction')->where('created_at','>=',$formatted_date)->where('transaction_direction', '=', 'invested')->update(['transaction_direction'=>'invested(awarded)']);
 
         $transaction = new Transaction;
         $transaction->ammount = Input::get('return_money');
@@ -129,7 +154,13 @@ class TransactionsController extends \BaseController {
     {
         $id = Auth::user()->id;
         $user = User::where('id', '=', $id)->first();
-        $user->invested_date = date('Y-m-d H:i:s');
+        if ( $user->awaiting_award == 0 )
+        {
+            $user->awaiting_award = 1;
+            $user->investor = 1;
+            $user->invested_date = date('Y-m-d H:i:s');
+            $user->save();
+        }
 
         $transaction = new Transaction;
         $transaction->ammount = Input::get('invest_amount');

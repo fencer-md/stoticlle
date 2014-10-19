@@ -44,12 +44,14 @@ Route::group(['before' => 'auth'], function()
 		Route::get('user/admin/investments/{uid}', 'TransactionsController@usersInvestedMoney');
 		Route::get('user/admin/funds', 'TransactionsController@currentFunding');
 		Route::get('user/admin/earned/{uid}', 'TransactionsController@usersEarnedMoney');
-		Route::get('user/admin/cashoutlist', 'TransactionsController@cashOutRequestList');
+		Route::get('user/admin/cashoutlist/{status}', 'TransactionsController@cashOutRequestList');
+		Route::post('user/admin/cashout', 'TransactionsController@cashOutRequestStatus');
 		Route::get('user/admin/reward', function()
 		{
 			return View::make('includes.backend.rewarddialog');
 		});
 		Route::post('user/admin/reward/{uid}', 'TransactionsController@moneyEarned');
+		Route::get('user/admin/nonactiveusers', 'UserController@usersListAwaiting');
 		Route::get('user/admin/edituserlist', 'UserController@usersList');
 		Route::get('user/admin/edituser/{uid}', 'UserController@editUserInfoAdmin');
 	});

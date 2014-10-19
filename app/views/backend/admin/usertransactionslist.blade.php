@@ -11,8 +11,8 @@
                 <td>Payment method</td>
                 <td>Direction</td>
                 <td>Ammount</td>
-                @if ( Request::is('user/admin/investments/*') )
-                    <td>Reward</td>
+                @if ( Request::is('user/admin/cashoutlist') )
+                    <td>Approve</td>
                 @endif
             </thead>
             <tbody>
@@ -29,9 +29,20 @@
                     </td>
                     <td>{{ $transaction->transaction_direction }}</td>
                     <td>{{ $transaction->ammount }}</td>
-                    @if ( Request::is('user/admin/investments/*') )
-                        @if ( $transaction->transaction_direction == 'invested' )
-                            <td><a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/reward?uid='.$transaction->user_id.'&tid='.$transaction->id) }}" data-target="#modal"><i class="fa fa-edit"></i>Reward</a></td>
+                    @if ( Request::is('user/admin/cashoutlist') )
+                        @if ( $transaction->transaction_direction == 'cash out' )
+                            <td>
+                                {{ Form::open(['action' => 'TransactionsController@cashOutRequestStatus', 'class' => 'form-horizontal']) }}
+                                    {{ Form::hidden('tid', $transaction->id) }}
+                                    {{ Form::hidden('status', 1) }}
+                                    {{ Form::submit('Approve', ['class' => 'btn default btn-xs blue']) }}
+                                {{ Form::close() }}
+                                {{ Form::open(['action' => 'TransactionsController@cashOutRequestStatus', 'class' => 'form-horizontal']) }}
+                                    {{ Form::hidden('tid', $transaction->id) }}
+                                    {{ Form::hidden('status', 0) }}
+                                    {{ Form::submit('Not approved', ['class' => 'btn default btn-xs red']) }}
+                                {{ Form::close() }}
+                            </td>
                         @else
                             <td>-</td>
                         @endif
@@ -40,10 +51,4 @@
         @endforeach
             </tbody>
         </table>
-        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-            </div>
-          </div>
-        </div>
 @stop

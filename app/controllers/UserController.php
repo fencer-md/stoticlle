@@ -133,4 +133,11 @@ class UserController extends \BaseController {
  		return View::make('backend.admin.userslist', ['users' => $users]);
  	}
 
+ 	public function usersListAwaiting() 
+ 	{
+ 		$users = User::select('id', 'email')->where('awaiting_award', '=', '1')->get();
+ 		
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 	}
+
 }

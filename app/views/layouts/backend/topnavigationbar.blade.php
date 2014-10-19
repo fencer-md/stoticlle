@@ -86,17 +86,17 @@
 				</a>
 			</li>	
 			<li>
-				<a href="#">
+				<a href="{{ URL::to('user/admin/cashoutlist/pending') }}">
 					Cash out request
 				</a>
 			</li>	
 			<li>
-				<a href="#">
+				<a href="{{ URL::to('user/admin/cashoutlist/refused') }}">
 					Refused transactions
 				</a>
 			</li>	
 			<li>
-				<a href="#">
+				<a href="{{ URL::to('user/admin/nonactiveusers') }}">
 					Waiting for action
 				</a>
 			</li>	
