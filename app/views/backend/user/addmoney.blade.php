@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="page-title">Add money to your account</h3>
     <div class="row">
-		{{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal']) }}
+        {{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal']) }}
             <div class="form-body col-md-6">
                 <div class="form-group"> 
                     {{ Form::label('add_method', 'Add method', ['class' => 'col-md-2 control-label']) }}
@@ -26,5 +26,5 @@
                 </div>
             </div>  
         {{ Form::close() }}
-	</div>
+    </div>
 @stop

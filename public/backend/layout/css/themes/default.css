@@ -13,6 +13,8 @@ Page Header
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i {
   color: #999999;
+  position: relative;
+  top: 2px;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle .badge.badge-default {
   background-color: #d64635;

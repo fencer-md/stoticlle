@@ -24,7 +24,7 @@ class UserTablesCreate extends Migration {
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('gender')->nullable();
-            $table->date('birth_date')->nullable();
+            $table->timestamp('birth_date')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->timestamps();
@@ -35,6 +35,10 @@ class UserTablesCreate extends Migration {
             $table->string('email')->unique;
             $table->string('password');
             $table->string('role');
+            $table->string('investor');
+            $table->timestamp('invested_date');
+            $table->string('awarded');
+            $table->string('monitored');
             $table->integer('user_info_id')->unsigned();
             $table->foreign('user_info_id')->references('id')->on('users_info');
             $table->string('registration_code');  
@@ -47,7 +51,8 @@ class UserTablesCreate extends Migration {
             $table->increments('id');
             $table->integer('ammount');
             $table->timestamp('date');
-            $table->string('payment_method')->nullable();;
+            $table->string('payment_method')->nullable();
+            $table->integer('confirmed')->nullable();
             $table->string('transaction_direction');
             $table->string('transaction_type');   
             $table->string('transaction_id');

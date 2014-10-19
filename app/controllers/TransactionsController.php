@@ -21,21 +21,41 @@ class TransactionsController extends \BaseController {
         return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
+    public function currentFunding() 
+    {
+        $user = null;
+        $transactions = Transaction::where('transaction_direction', '=', 'invested')->get();
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+    }
+
+    public function cashOutRequestList() 
+    {
+        $user = null;
+        $transactions = Transaction::where('transaction_direction', '=', 'cash out')->where('confirmed', '=', '0')->get();
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+    }
+
     public function usersInvestedMoney($uid)
     {
         if ( $uid == "all")
         {
             $user = null;
-            $transactions = Transaction::where('transaction_direction', '=', 'invested')->get();
+            $transactions = Transaction::where('transaction_direction', '=', 'invested')->orWhere('transaction_direction', '=', 'invested(awarded)')->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
-            $transactions = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->get();
+            $transactions = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('transaction_direction', '=', 'invested(awarded)')->get();
         }
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);        
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
     public function usersEarnedMoney($uid)
@@ -53,6 +73,27 @@ class TransactionsController extends \BaseController {
         $data = ['transactions' => $transactions, 'user' => $user];
 
         return View::make('backend.admin.usertransactionslist')->with('data', $data);        
+    }
+
+    public function moneyEarned() 
+    {
+        $user = User::where('id', '=', Input::get('uid'))->first();
+        $user->awarded = 1;
+        $user->save();
+
+        $transactionInvested = Transaction::where('id', '=', Input::get('tid'))->first();
+        $transactionInvested->transaction_direction = 'invested(awarded)';
+        $transactionInvested->save();
+
+        $transaction = new Transaction;
+        $transaction->ammount = Input::get('return_money');
+        $transaction->transaction_direction = 'earned';
+        $transaction->transaction_type = 'internal';
+        $transaction->date = date('Y-m-d');
+        $transaction->user_id = Input::get('uid');
+        $transaction->save();
+
+        return Redirect::back();
     }
 
     //---------------End admin---------------
@@ -75,8 +116,9 @@ class TransactionsController extends \BaseController {
         $transaction = new Transaction;
         $transaction->ammount = Input::get('recieve_amount');
         $transaction->transaction_direction = 'recieved';
+        $transaction->confirmed = 1;
         $transaction->transaction_type = 'internal';
-        $transaction->date = date('Y-m-d');
+        $transaction->date = date('Y-m-d H:i:s');
         $transaction->user_id = $id;
         $transaction->save();
 
@@ -86,11 +128,15 @@ class TransactionsController extends \BaseController {
     public function investMoney() 
     {
         $id = Auth::user()->id;
+        $user = User::where('id', '=', $id)->first();
+        $user->invested_date = date('Y-m-d H:i:s');
+
         $transaction = new Transaction;
         $transaction->ammount = Input::get('invest_amount');
         $transaction->transaction_direction = 'invested';
+        $transaction->confirmed = 1;
         $transaction->transaction_type = 'internal';
-        $transaction->date = date('Y-m-d');
+        $transaction->date = date('Y-m-d H:i:s');
         $transaction->user_id = $id;
         $transaction->save();
 
@@ -113,8 +159,9 @@ class TransactionsController extends \BaseController {
         $transaction->ammount = Input::get('add_money');
         $transaction->payment_method = Input::get('add_method');
         $transaction->transaction_direction = 'added';
+        $transaction->confirmed = 1;
         $transaction->transaction_type = 'external';
-        $transaction->date = date('Y-m-d');
+        $transaction->date = date('Y-m-d H:i:s');
         $transaction->user_id = $id;
         $transaction->save();
 
@@ -130,19 +177,20 @@ class TransactionsController extends \BaseController {
         return Redirect::back();
     }
 
-    public function moneyEarned() 
-    {        
+    public function cashOutRequest()
+    {
         $id = Auth::user()->id;
         $transaction = new Transaction;
-        $transaction->ammount = Input::get('return_money');
-        $transaction->transaction_direction = 'earned';
-        $transaction->transaction_type = 'internal';
-        $transaction->date = date('Y-m-d');
-        $transaction->user_id = Input::get('uid');
+        $transaction->ammount = Input::get('cash_out_ammount');
+        $transaction->transaction_direction = 'cash out';
+        $transaction->confirmed = 0;
+        $transaction->transaction_type = 'external';
+        $transaction->date = date('Y-m-d H:i:s');
+        $transaction->user_id = $id;
         $transaction->save();
 
         return Redirect::back();
-    }
+    } 
 
     //---------------End users---------------
 

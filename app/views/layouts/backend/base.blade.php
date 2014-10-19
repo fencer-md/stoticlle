@@ -15,7 +15,12 @@
 		<div class="page-header navbar navbar-fixed-top	">
 		  <!-- BEGIN TOP NAVIGATION BAR -->
 		  <div class="page-header-inner">
-		  	@include('includes.backend.topnavigationbar')
+		  	<div class="page-logo"></div>
+		  	<div class="top-menu">
+		  	  <ul class="nav navbar-nav pull-right">
+		  	    @include('layouts.backend.topnavigationbar')
+		  	  </ul>	  		
+		  	</div>
 		  </div>
 		  <!-- END TOP NAVIGATION BAR -->
 		</div>

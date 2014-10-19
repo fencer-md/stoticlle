@@ -8,11 +8,15 @@
 				<td>Email</td>
 			</thead>
 			<tbody>
-		@foreach ( $users as $user )
+			@foreach ( $users as $user )
 				<tr>
-					<td><a href="{{ URL::to('user/admin/transactions/'.$user->id) }}">{{ $user->email }}</a></td>
+					@if ( Request::is('user/admin/edituserlist') )
+						<td><a href="{{ URL::to('user/admin/edituser/'.$user->id) }}">{{ $user->email }}</a></td>
+					@else
+						<td><a href="{{ URL::to('user/admin/transactions/'.$user->id) }}">{{ $user->email }}</a></td>
+					@endif
 				</tr>
-		@endforeach
+			@endforeach
 			</tbody>
 		</table>
 	</div>

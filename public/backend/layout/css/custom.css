@@ -61,3 +61,12 @@ Change Quick Sidebar Width
 .page-header .profile {
   color: #fff;
 }
+.page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle.simple-link {
+    padding-right: 10px;
+}
+.row.dialog {
+    margin: 0;
+}
+.form-horizontal .control-label.dialog {
+    padding-left: 15px;
+}

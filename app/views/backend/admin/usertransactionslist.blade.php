@@ -11,6 +11,9 @@
                 <td>Payment method</td>
                 <td>Direction</td>
                 <td>Ammount</td>
+                @if ( Request::is('user/admin/investments/*') )
+                    <td>Reward</td>
+                @endif
             </thead>
             <tbody>
         @foreach ( $data['transactions'] as $transaction )
@@ -26,24 +29,21 @@
                     </td>
                     <td>{{ $transaction->transaction_direction }}</td>
                     <td>{{ $transaction->ammount }}</td>
+                    @if ( Request::is('user/admin/investments/*') )
+                        @if ( $transaction->transaction_direction == 'invested' )
+                            <td><a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/reward?uid='.$transaction->user_id.'&tid='.$transaction->id) }}" data-target="#modal"><i class="fa fa-edit"></i>Reward</a></td>
+                        @else
+                            <td>-</td>
+                        @endif
+                    @endif
                 </tr>
         @endforeach
             </tbody>
         </table>
-        @if ( Request::is('user/admin/transactions/*') )
-        {{ Form::open(['action' => 'TransactionsController@moneyEarned', 'class' => 'form-horizontal']) }}
-            {{ Form::hidden('uid', $data['user']['id']) }}
-            <div class="form-body col-md-3">
-                <div class="form-group">
-                    {{ Form::label('return_money', 'Ammount of money won', ['class' => 'control-label']) }}
-                    <div class="controls">
-                        <div class="col-md-9">
-                          {{ Form::text('return_money', null, ['class' => 'form-control']) }}
-                        </div>
-                      {{ Form::submit('Submit', ['class' => 'btn blue']) }}
-                    </div>
-                </div>
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
             </div>
-        {{ Form::close() }}
-        @endif
+          </div>
+        </div>
 @stop

@@ -62,6 +62,18 @@ class UserController extends \BaseController {
 		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
 	}
 
+	public function editUserInfoAdmin($uid)
+	{
+		$user = User::find($uid);
+		$user_info = UserInfo::find($user->user_info_id);
+		if ( $user_info->birth_date == null )
+			$birth_date = null;
+		else
+			$birth_date = explode("-", $user_info->birth_date);
+
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
+	}
+
  	public function updateInfo()
  	{
 		if ( Auth::user()->role == '2' )
@@ -85,6 +97,38 @@ class UserController extends \BaseController {
  	public function usersList() 
  	{
  		$users = User::select('id', 'email')->where('role', '=', '2')->get();
+ 		
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 	}
+
+ 	public function usersListNew() 
+ 	{
+ 		$users = User::select('id', 'email')->where('role', '=', '2')->get();
+ 		$date = new DateTime;
+		$date->modify('-5 days');
+		$formatted_date = $date->format('Y-m-d H:i:s');
+ 		
+ 		$users = DB::table('users')->select('id', 'email')->where('created_at','>=',$formatted_date)->get();
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 	}
+
+ 	public function usersListInvestors() 
+ 	{
+ 		$users = User::select('id', 'email')->where('investor', '=', '1')->get();
+ 		
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 	}
+
+ 	public function usersListAwarded() 
+ 	{
+ 		$users = User::select('id', 'email')->where('awarded', '=', '1')->get();
+ 		
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 	}
+
+ 	public function usersListMonitored() 
+ 	{
+ 		$users = User::select('id', 'email')->where('monitored', '=', '1')->get();
  		
  		return View::make('backend.admin.userslist', ['users' => $users]);
  	}

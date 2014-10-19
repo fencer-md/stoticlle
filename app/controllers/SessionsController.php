@@ -13,7 +13,7 @@ class SessionsController extends \BaseController {
         if ( Auth::attempt(Input::only('email','password')) && $user->registration_status == '1' )
         {
             if( Auth::user()->role == "1" )
-                return Redirect::to('/user/admin/transactions');
+                return Redirect::to('/user/admin/transactions/all');
             else
                 return Redirect::to('/user/transactions');
         }
