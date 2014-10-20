@@ -88,6 +88,7 @@ class UserController extends \BaseController {
 			$user_info->birth_date = Input::get('birth_date');
 			$user_info->country = Input::get('country');
 			$user_info->city = Input::get('city');
+			$user_info->links = Input::get('facebook');
 			$user->save();
 			$user_info->save();
 			return Redirect::back()->with(['message' => 'updated']);
@@ -135,7 +136,14 @@ class UserController extends \BaseController {
 
  	public function usersListAwaiting() 
  	{
- 		$users = User::select('id', 'email')->where('awaiting_award', '=', '1')->get();
+ 		$users = User::select('id', 'email')->where('awaiting_award', '=', '0')->get();
+ 		
+ 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 	}
+
+ 	public function usersListNext() 
+ 	{
+ 		$users = User::select('id', 'email')->where('awaiting_award', '=', '1')->where('invested_date', '<=', DB::raw('NOW() - INTERVAL 20 DAY'))->get();
  		
  		return View::make('backend.admin.userslist', ['users' => $users]);
  	}

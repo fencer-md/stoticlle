@@ -29,7 +29,7 @@
                     </td>
                     <td>{{ $transaction->transaction_direction }}</td>
                     <td>{{ $transaction->ammount }}</td>
-                    @if ( Request::is('user/admin/cashoutlist') )
+                    @if ( Request::is('user/admin/cashoutlist/pending') )
                         @if ( $transaction->transaction_direction == 'cash out' )
                             <td>
                                 {{ Form::open(['action' => 'TransactionsController@cashOutRequestStatus', 'class' => 'form-horizontal']) }}

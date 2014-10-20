@@ -51,19 +51,27 @@ Route::group(['before' => 'auth'], function()
 			return View::make('includes.backend.rewarddialog');
 		});
 		Route::post('user/admin/reward/{uid}', 'TransactionsController@moneyEarned');
+		Route::get('user/admin/offer', function()
+		{
+			return View::make('includes.backend.offerdialog');
+		});
+		Route::post('user/admin/offer/{uid}', 'OfferController@create');
 		Route::get('user/admin/nonactiveusers', 'UserController@usersListAwaiting');
+		Route::get('user/admin/nextstepusers', 'UserController@usersListNext');
 		Route::get('user/admin/edituserlist', 'UserController@usersList');
 		Route::get('user/admin/edituser/{uid}', 'UserController@editUserInfoAdmin');
+		Route::get('user/messages/create', function()
+		{
+			return View::make('backend.admin.messagecreate');
+		});
+		Route::post('user/messages/create', 'MessageController@create');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
 	Route::post('user/edit/update', 'UserController@updateInfo');
 
 	Route::get('user/transactions', 'TransactionsController@transactionsListUser');
-	Route::get('user/invest', function()
-	{
-		return View::make('backend.user.invest');
-	});
+	Route::get('user/invest', 'TransactionsController@investMoneyPage');
 	Route::post('user/transactions/invest', 'TransactionsController@investMoney');
 	Route::get('user/addmoney', function()
 	{
@@ -75,6 +83,7 @@ Route::group(['before' => 'auth'], function()
 		return View::make('backend.user.cashout');		
 	});
 	Route::post('user/transactions/cashout', 'TransactionsController@cashOutRequest');
+	Route::get('user/messages', 'MessageController@messageList');
 });
 
 Route::get('user/confirm/{cc}', 'UserController@confirm');

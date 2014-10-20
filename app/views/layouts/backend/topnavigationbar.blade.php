@@ -1,13 +1,14 @@
-{{-- <div class="profile">
-	<div class="name">Hello {{ Auth::user()->userInfo->first_name }}</div>
-	@if ( Auth::user()->role == '2' )
-		<div class="avlb-amount">Available amount: {{ $data }}$</div>
-	@endif
-</div> --}}
 <li class="dropdown">
   <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link">
   	<span class="menu-title">
   		Profile
+  	</span>
+  </a>
+</li>
+<li class="dropdown">
+  <a href="{{ URL::to('user/messages') }}" class="dropdown-toggle simple-link">
+  	<span class="menu-title">
+  		Messaging
   	</span>
   </a>
 </li>
@@ -41,7 +42,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="{{ URL::to('user/admin/nextstepusers') }}">
 					Next step users
 				</a>
 			</li>

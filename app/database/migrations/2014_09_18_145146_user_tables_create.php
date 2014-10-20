@@ -24,9 +24,10 @@ class UserTablesCreate extends Migration {
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('gender')->nullable();
-            $table->timestamp('birth_date')->nullable();
+            $table->date('birth_date')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
+            $table->string('links')->nullable();
             $table->timestamps();
         });
         Schema::create('users', function($table)
@@ -66,9 +67,18 @@ class UserTablesCreate extends Migration {
             $table->increments('id');
             $table->string('title');
             $table->text('body');
-            $table->string('mass_message');
+            $table->string('mass_message')->nullable;
             $table->integer('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('users');
+            $table->integer('recipient_id')->unsigned();
+            $table->foreign('recipient_id')->references('id')->on('users');
+            $table->timestamps();
+        });
+        Schema::create('offers', function($table)
+        {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('body');
             $table->integer('recipient_id')->unsigned();
             $table->foreign('recipient_id')->references('id')->on('users');
             $table->timestamps();

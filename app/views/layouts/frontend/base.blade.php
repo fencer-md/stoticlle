@@ -30,7 +30,13 @@
                   {{ Form::close() }}
                 </div>
                 <div class="register">
-                  Don't have an account? <a href="{{ URL::to('register') }}">Register</a>
+                  Don't have an account? <a href="#">Register</a>
+                  <div class="register-form">
+                    {{ Form::open(['route' => 'user.store', 'class' => 'form-signin']) }}
+                        {{ Form::text('email', null, ['placeholder' => 'E-mail']) }}
+                        {{ Form::submit('Submit') }}
+                    {{ Form::close() }}
+                  </div>
                 </div>
               @else
                 <div class="logout">
@@ -97,6 +103,18 @@
       </div>
     </footer>
 
-    @yield('includes.frontend.styles')
+    @include('includes.frontend.scripts')
+    <script type="text/javascript">
+      $('html').click(function() {
+        $('.register-form').hide();        
+      });
+      $('body > header > div > div > div.col-md-10 > div.register > a').click(function(e) {
+        e.stopPropagation();
+        $('.register-form').show();
+      });
+      $('.register-form').click(function(e) {
+        e.stopPropagation();
+      });
+    </script>
   </body>
 </html>

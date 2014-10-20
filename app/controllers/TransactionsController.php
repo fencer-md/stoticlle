@@ -121,6 +121,11 @@ class TransactionsController extends \BaseController {
         return Redirect::back();
     }
 
+    public function offer()
+    {
+        echo 'qwe';
+    }
+
     //---------------End admin---------------
 
     //---------------Users---------------
@@ -150,7 +155,7 @@ class TransactionsController extends \BaseController {
         return Redirect::back();
     }
 
-    public function investMoney() 
+    public function investMoney()
     {
         $id = Auth::user()->id;
         $user = User::where('id', '=', $id)->first();
@@ -181,6 +186,14 @@ class TransactionsController extends \BaseController {
         });
 
         return Redirect::back();
+    }
+
+    public function investMoneyPage()
+    {
+        $id = Auth::user()->id;
+        $data = Offer::orderBy('id','desc')->where('recipient_id', '=', $id)->first();
+
+        return View::make('backend.user.invest')->with('data', $data);
     }
 
     public function addMoneyToAccount() 
