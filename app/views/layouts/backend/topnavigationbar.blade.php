@@ -1,18 +1,29 @@
-<li class="dropdown">
-  <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link">
-  	<span class="menu-title">
-  		Profile
-  	</span>
-  </a>
-</li>
-<li class="dropdown">
-  <a href="{{ URL::to('user/messages') }}" class="dropdown-toggle simple-link">
-  	<span class="menu-title">
-  		Messaging
-  	</span>
-  </a>
-</li>
 @if ( Auth::user()->role == "1" )
+	<li class="dropdown">
+	  	<a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+		  	<span class="menu-title">
+		  		Actions
+		  	</span>
+		  	<i class="fa fa-angle-down"></i>
+	  	</a>
+	  	<ul class="dropdown-menu">
+			<li>
+				<a href="{{ URL::to('user/admin/userlist') }}">
+					Request for funding
+				</a>
+			</li>
+			<li>
+				<a href="{{ URL::to('user/admin/userlist') }}">
+					Money recieved
+				</a>
+			</li>
+			<li>
+				<a href="{{ URL::to('user/admin/userlist') }}">
+					Withdraw request
+				</a>
+			</li>
+		</ul>
+	</li>
 	<li class="dropdown">
 	  <a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 	  	<span class="menu-title">
@@ -36,6 +47,11 @@
 					Investors
 				</a>
 			</li>
+			<li>
+				<a href="{{ URL::to('user/admin/nonactiveusers') }}">
+					Didn't invest
+				</a>
+			</li>	
 			<li>
 				<a href="{{ URL::to('user/admin/awarded') }}">
 					Awarded
@@ -95,12 +111,7 @@
 				<a href="{{ URL::to('user/admin/cashoutlist/refused') }}">
 					Refused transactions
 				</a>
-			</li>	
-			<li>
-				<a href="{{ URL::to('user/admin/nonactiveusers') }}">
-					Waiting for action
-				</a>
-			</li>	
+			</li>
 	  </ul>
 	</li>
 @endif
@@ -116,13 +127,6 @@
 	  <a href="{{ URL::to('user/transactions') }}" class="dropdown-toggle simple-link">
 	  	<span class="menu-title">
 	  		Transactions
-	  	</span>
-	  </a>
-	</li>
-	<li class="dropdown">
-	  <a href="{{ URL::to('user/invest') }}" class="dropdown-toggle simple-link">
-	  	<span class="menu-title">
-	  		Invest
 	  	</span>
 	  </a>
 	</li>

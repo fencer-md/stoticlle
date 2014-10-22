@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('m', function()
-{
-	return View::make('backend');
-});
 Route::get('/', function()
 {
 	return View::make('homepage');
@@ -65,14 +61,15 @@ Route::group(['before' => 'auth'], function()
 			return View::make('backend.admin.messagecreate');
 		});
 		Route::post('user/messages/create', 'MessageController@create');
+		Route::get('user/admin/addmoneyrequest', 'UserController@usersAddMoney');
+		Route::get('user/admin/edituser/withdrawrequest', 'UserController@usersWithdrawMoney');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
 	Route::post('user/edit/update', 'UserController@updateInfo');
 
 	Route::get('user/transactions', 'TransactionsController@transactionsListUser');
-	Route::get('user/invest', 'TransactionsController@investMoneyPage');
-	Route::post('user/transactions/invest', 'TransactionsController@investMoney');
+	Route::post('user/invest', 'TransactionsController@investMoney');
 	Route::get('user/addmoney', function()
 	{
 		return View::make('backend.user.addmoney');
@@ -91,17 +88,47 @@ Route::get('user/confirm/{cc}', 'UserController@confirm');
 Route::resource('session', 'SessionsController');
 Route::resource('user', 'UserController');
 
-View::composer('layouts.backend.base', function($view)
+View::creator('layouts.backend.base', function($view)
 {
     $id = Auth::user()->id;
     $transactions = Transaction::where('user_id', '=', $id)->get();
-    $moneyAvailable = 0;
-    foreach ($transactions as $transaction) {
-    	if ( $transaction->transaction_direction == 'invested' )
-        	$moneyAvailable -= $transaction->ammount;
+    $users = User::where('role', '=', '2')->get();
+    $userMoneyAvailable = 0;
+    foreach ( $transactions as $transaction ) {
+    	if ( $transaction->transaction_direction == 'invested' ) {
+        	$userMoneyAvailable -= $transaction->ammount;
+    	}
         else
-        	$moneyAvailable += $transaction->ammount;
-    }
+        	$userMoneyAvailable += $transaction->ammount;    
+	}
 
-    $view->with('data', $moneyAvailable);
+    $transactions = Transaction::all();
+    $adminUsersRegistered = count($users);
+    $adminTotalSum = 0;
+    $adminTotalInvestedSum = 0;
+    $adminTotalRewardedSum = 0;
+    $adminCyclesFinished = 0;
+    foreach ( $transactions as $transaction ) {
+    	if ( $transaction->transaction_direction == 'invested' ) {
+        	$adminTotalInvestedSum += $transaction->ammount;
+    	}
+        elseif ( $transaction->transaction_direction == 'added' ) {
+        	$adminTotalSum += $transaction->ammount;
+        } 
+        elseif ( $transaction->transaction_direction == 'reward' ) {
+        	$adminTotalRewardedSum += $transaction->ammount;
+        	$adminCyclesFinished += 1;
+        }
+	}
+
+	$data = [ 
+		'userMoneyAvailable' => $userMoneyAvailable,
+		'adminUsersRegistered' => $adminUsersRegistered,
+		'adminTotalSum' => $adminTotalSum,
+		'adminTotalInvestedSum' => $adminTotalInvestedSum,
+		'adminTotalRewardedSum' => $adminTotalRewardedSum,
+		'adminCyclesFinished' => $adminCyclesFinished
+		];
+
+	$view->with('data', $data);
 });

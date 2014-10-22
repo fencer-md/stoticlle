@@ -70,3 +70,7 @@ Change Quick Sidebar Width
 .form-horizontal .control-label.dialog {
     padding-left: 15px;
 }
+li.avlb-amount {
+    color: #fff;
+    font-size: 16px;
+}

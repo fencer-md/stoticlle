@@ -7,9 +7,8 @@
             <thead>
                 <td>Transaction ID</td>
                 <td>Date</td>
-                <td>Transaction type</td>
-                <td>Payment method</td>
                 <td>Direction</td>
+                <td>Payment method</td>
                 <td>Ammount</td>
                 @if ( Request::is('user/admin/cashoutlist') )
                     <td>Approve</td>
@@ -20,14 +19,13 @@
                 <tr>
                     <td>{{ $transaction->id }}</td>
                     <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->transaction_type }}</td>
+                    <td>{{ $transaction->transaction_direction }}</td>
                     <td>@if ( $transaction->payment_method == NULL )
                             System
                         @else
                             {{ $transaction->payment_method }}
                         @endif
                     </td>
-                    <td>{{ $transaction->transaction_direction }}</td>
                     <td>{{ $transaction->ammount }}</td>
                     @if ( Request::is('user/admin/cashoutlist/pending') )
                         @if ( $transaction->transaction_direction == 'cash out' )

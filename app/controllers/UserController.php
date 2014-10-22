@@ -98,8 +98,35 @@ class UserController extends \BaseController {
  	public function usersList() 
  	{
  		$users = User::select('id', 'email')->where('role', '=', '2')->get();
- 		
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		$usersArray = [];
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+ 			foreach ($user->userTransaction as $transaction) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes 
+ 				];
+ 			$i++;
+ 		}
+
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]); 		
  	}
 
  	public function usersListNew() 
@@ -108,44 +135,222 @@ class UserController extends \BaseController {
  		$date = new DateTime;
 		$date->modify('-5 days');
 		$formatted_date = $date->format('Y-m-d H:i:s');
+
+ 		$usersArray = [];
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+ 			foreach ($user->userTransaction as $transaction) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes 
+ 				];
+ 			$i++;
+ 		}
  		
  		$users = DB::table('users')->select('id', 'email')->where('created_at','>=',$formatted_date)->get();
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
  	}
 
  	public function usersListInvestors() 
  	{
  		$users = User::select('id', 'email')->where('investor', '=', '1')->get();
+ 		$usersArray = [];
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+ 			foreach ($user->userTransaction as $transaction) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes 
+ 				];
+ 			$i++;
+ 		}
  		
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
  	}
 
  	public function usersListAwarded() 
  	{
  		$users = User::select('id', 'email')->where('awarded', '=', '1')->get();
+ 		$usersArray = [];
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+	 		$investedAmmount = 0;
+	 		$awardedAmmount = 0;
+ 			foreach ( $user->userTransaction as $transaction ) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 				$investedAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'awarded' ) {
+	 				$awardedAmmount += $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes,
+ 				'investedAmmount' => $investedAmmount,
+ 				'awardedAmmount' => $awardedAmmount
+ 				];
+ 			$i++;
+ 		}
  		
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
  	}
 
  	public function usersListMonitored() 
  	{
  		$users = User::select('id', 'email')->where('monitored', '=', '1')->get();
+ 		$usersArray = [];
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+ 			foreach ($user->userTransaction as $transaction) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes 
+ 				];
+ 			$i++;
+ 		}
  		
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
  	}
 
  	public function usersListAwaiting() 
  	{
- 		$users = User::select('id', 'email')->where('awaiting_award', '=', '0')->get();
+ 		$users = User::select('id', 'email')->where('investor', '=', '0')->where('role', '=', '2')->get();
+ 		$usersArray = [];
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+ 			foreach ($user->userTransaction as $transaction) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes 
+ 				];
+ 			$i++;
+ 		}
  		
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
  	}
 
  	public function usersListNext() 
  	{
  		$users = User::select('id', 'email')->where('awaiting_award', '=', '1')->where('invested_date', '<=', DB::raw('NOW() - INTERVAL 20 DAY'))->get();
+ 		$i = 0;
+
+ 		foreach ($users as $user) {
+	 		$ammountAdded = 0;
+	 		$currentAmmount = 0;
+	 		$investedTimes = 0;
+	 		$investedAmmount = 0;
+	 		$awardedAmmount = 0;
+ 			foreach ( $user->userTransaction as $transaction ) {
+	 			if ( $transaction->transaction_direction == 'added' ) {
+	 				$ammountAdded += $transaction->ammount;
+	 				$currentAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 				$investedAmmount += $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'awarded' ) {
+	 				$awardedAmmount += $transaction->ammount;
+	 			}
+	 			var_dump($ammountAdded);
+ 			}
+
+ 			$usersArray[$i] = [ 
+ 				'user' => $user, 
+ 				'ammountAdded' => $ammountAdded, 
+ 				'currentAmmount' => $currentAmmount, 
+ 				'investedTimes' => $investedTimes,
+ 				'investedAmmount' => $investedAmmount,
+ 				'awardedAmmount' => $awardedAmmount
+ 				];
+ 			$i++;
+ 		}
  		
- 		return View::make('backend.admin.userslist', ['users' => $users]);
+ 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
  	}
 
 }

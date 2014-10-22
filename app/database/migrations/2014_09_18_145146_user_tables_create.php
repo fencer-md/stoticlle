@@ -43,6 +43,7 @@ class UserTablesCreate extends Migration {
             $table->string('monitored');
             $table->integer('user_info_id')->unsigned();
             $table->foreign('user_info_id')->references('id')->on('users_info');
+            $table->timestamp('last_login')->nullable();
             $table->string('registration_code');  
             $table->string('registration_status');
             $table->string('remember_token', 100);
@@ -62,18 +63,6 @@ class UserTablesCreate extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
-        Schema::create('messages', function($table)
-        {
-            $table->increments('id');
-            $table->string('title');
-            $table->text('body');
-            $table->string('mass_message')->nullable;
-            $table->integer('author_id')->unsigned();
-            $table->foreign('author_id')->references('id')->on('users');
-            $table->integer('recipient_id')->unsigned();
-            $table->foreign('recipient_id')->references('id')->on('users');
-            $table->timestamps();
-        });
         Schema::create('offers', function($table)
         {
             $table->increments('id');
@@ -81,6 +70,15 @@ class UserTablesCreate extends Migration {
             $table->text('body');
             $table->integer('recipient_id')->unsigned();
             $table->foreign('recipient_id')->references('id')->on('users');
+            $table->timestamps();
+        });
+        Schema::create('payment_methods', function($table)
+        {
+            $table->increments('id');
+            $table->string('title');
+            $table->string('account_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
 	}
