@@ -66,8 +66,9 @@ class UserTablesCreate extends Migration {
         Schema::create('offers', function($table)
         {
             $table->increments('id');
-            $table->string('title');
             $table->text('body');
+            $table->timestamp('offer_ends');
+            $table->float('rate');
             $table->integer('recipient_id')->unsigned();
             $table->foreign('recipient_id')->references('id')->on('users');
             $table->timestamps();

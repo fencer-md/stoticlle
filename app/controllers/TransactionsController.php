@@ -96,20 +96,30 @@ class TransactionsController extends \BaseController {
         return View::make('backend.admin.usertransactionslist')->with('data', $data);        
     }
 
-    public function usersAddMoney($uid)
+    public function usersAddMoney()
     {
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'added(request)')->get();
+        $transactions = Transaction::where('transaction_direction', '=', 'added(request)')->where('confirmed', '=', '0')->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
         return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
-    public function usersWithdrawMoney($uid)
+    public function usersAddMoneyPending()
     {
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'withdraw(request)')->get();
+        $transactions = Transaction::where('transaction_direction', '=', 'added(pending)')->where('confirmed', '=', '0')->get();
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+    }
+
+    public function usersWithdrawMoney()
+    {
+        $user = null;
+        $transactions = Transaction::where('transaction_direction', '=', 'withdraw')->where('confirmed', '=', '0')->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
@@ -140,6 +150,69 @@ class TransactionsController extends \BaseController {
         return Redirect::back();
     }
 
+    public function usersWithdrawMoneyConfirm() 
+    {
+        $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
+        $transaction->confirmed = 1;
+        $transaction->save();
+
+        $user = User::where('id', '=', Input::get('uid'))->first();
+
+        $email = $user->email;
+        $username = $user->userInfo->first_name;
+
+        $data = ['username' => $username, 'ammount' => Input::get('ammount')];
+
+        Mail::send('emails.withdrawconfirm', $data, function($message) {
+            $message->to(Auth::user()->email, 'test')->subject('Withdraw!');
+        });
+
+        return Redirect::back();
+    }
+
+    public function addMoneyRequestStatus() 
+    {
+        $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
+        $transaction->transaction_id = Input::get('credentials');
+        $transaction->transaction_direction = 'added(pending)';
+        $transaction->save();
+
+        $user = User::where('id', '=', Input::get('uid'))->first();
+
+        $email = $user->email;
+        $username = $user->userInfo->first_name;
+
+        $data = ['username' => $username, 'credentials' => Input::get('credentials')];
+
+        Mail::send('emails.addmoneycredentials', $data, function($message) {
+            $message->to(Auth::user()->email, 'test')->subject('credentials!');
+        });
+
+        return Redirect::back();
+    }
+
+    public function addMoneyRequestConfirm() 
+    {
+        $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
+        $transaction->transaction_direction = 'added';
+        $transaction->confirmed = 1;
+
+        $user = User::where('id', '=', Input::get('uid'))->first();
+
+        $email = $user->email;
+        $username = $user->userInfo->first_name;
+
+        $data = ['username' => $username, 'ammount' => $transaction->ammount];
+
+        $transaction->save();
+
+        Mail::send('emails.addmoneyconfirmation', $data, function($message) {
+            $message->to(Auth::user()->email, 'test')->subject('Success!');
+        });
+
+        return Redirect::back();
+    }
+
     //---------------End admin---------------
 
     //---------------Users---------------
@@ -147,7 +220,7 @@ class TransactionsController extends \BaseController {
     public function transactionsListUser()
     {
         $id = Auth::user()->id;
-        $transactions = Transaction::where('user_id', '=', $id)->get();
+        $transactions = Transaction::where('user_id', '=', $id)->where('confirmed', '=', '1')->get();
 
         $data = ['transactions' => $transactions];
 
@@ -173,18 +246,14 @@ class TransactionsController extends \BaseController {
     {
         $id = Auth::user()->id;
         $user = User::where('id', '=', $id)->first();
-        if ( $user->awaiting_award == 0 )
-        {
-            $user->awaiting_award = 1;
-            $user->investor = 1;
-            $user->invested_date = date('Y-m-d H:i:s');
-            $user->save();
-        }
+        $user->awaiting_award = 1;
+        $user->investor = 1;
+        $user->invested_date = date('Y-m-d H:i:s');
+        $user->save();
 
         $transaction = new Transaction;
-        $transaction->ammount = Input::get('invest_amount');
+        $transaction->ammount = Input::get('ammount');
         $transaction->transaction_direction = 'invested';
-        $transaction->investor = 1;
         $transaction->confirmed = 1;
         $transaction->transaction_type = 'internal';
         $transaction->date = date('Y-m-d H:i:s');
@@ -210,7 +279,7 @@ class TransactionsController extends \BaseController {
         $transaction->ammount = Input::get('add_money');
         $transaction->payment_method = Input::get('add_method');
         $transaction->transaction_direction = 'added(request)';
-        $transaction->confirmed = 1;
+        $transaction->confirmed = 0;
         $transaction->transaction_type = 'external';
         $transaction->date = date('Y-m-d H:i:s');
         $transaction->user_id = $id;
@@ -228,12 +297,19 @@ class TransactionsController extends \BaseController {
         return Redirect::back();
     }
 
+    public function withdraw()
+    {
+
+        return View::make('backend.user.withdraw');
+    }
+
+
     public function withdrawRequest()
     {
         $id = Auth::user()->id;
         $transaction = new Transaction;
-        $transaction->ammount = Input::get('cash_out_ammount');
-        $transaction->transaction_direction = 'withdraw(request)';
+        $transaction->ammount = Input::get('ammount');
+        $transaction->transaction_direction = 'withdraw';
         $transaction->confirmed = 0;
         $transaction->transaction_type = 'external';
         $transaction->date = date('Y-m-d H:i:s');
@@ -241,7 +317,7 @@ class TransactionsController extends \BaseController {
         $transaction->save();
 
         return Redirect::back();
-    } 
+    }
 
     //---------------End users---------------
 

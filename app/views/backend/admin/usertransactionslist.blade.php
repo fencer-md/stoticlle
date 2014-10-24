@@ -12,6 +12,8 @@
                 <td>Ammount</td>
                 @if ( Request::is('user/admin/cashoutlist') )
                     <td>Approve</td>
+                @elseif ( Request::is('user/admin/addmoneyrequests') )
+                    <td>Confirm</td>
                 @endif
             </thead>
             <tbody>
@@ -44,9 +46,36 @@
                         @else
                             <td>-</td>
                         @endif
+                    @elseif ( Request::is('user/admin/addmoneyrequests') )
+                        <td>
+                            <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id) }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Offer</a>
+                        </td>
+                    @elseif ( Request::is('user/admin/moneyrecieved') )
+                        <td>
+                            {{ Form::open(['action' => 'TransactionsController@addMoneyRequestConfirm', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
+                            {{ Form::close() }}
+                        </td>       
+                    @elseif ( Request::is('user/admin/withdrawrequest') )
+                        <td>
+                            {{ Form::open(['action' => 'TransactionsController@usersWithdrawMoneyConfirm', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('ammount', $transaction->ammount) }}
+                                {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
+                            {{ Form::close() }}
+                        </td>               
                     @endif
                 </tr>
         @endforeach
             </tbody>
         </table>
+        <div class="modal fade" id="info-dialog" tabindex="-1" role="dialog" aria-labelledby="award" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div>
 @stop

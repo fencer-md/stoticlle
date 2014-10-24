@@ -8,17 +8,17 @@
 	  	</a>
 	  	<ul class="dropdown-menu">
 			<li>
-				<a href="{{ URL::to('user/admin/userlist') }}">
+				<a href="{{ URL::to('user/admin/addmoneyrequests') }}">
 					Request for funding
 				</a>
 			</li>
 			<li>
-				<a href="{{ URL::to('user/admin/userlist') }}">
+				<a href="{{ URL::to('user/admin/moneyrecieved') }}">
 					Money recieved
 				</a>
 			</li>
 			<li>
-				<a href="{{ URL::to('user/admin/userlist') }}">
+				<a href="{{ URL::to('user/admin/withdrawrequest') }}">
 					Withdraw request
 				</a>
 			</li>
