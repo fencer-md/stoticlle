@@ -246,7 +246,7 @@ class TransactionsController extends \BaseController {
     {
         if ( Input::get('ammount') > Input::get('moneyAvailable')  )
         {
-            return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money.');
+            return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money to invest.');
         } else
         {
             $id = Auth::user()->id;
@@ -372,17 +372,23 @@ class TransactionsController extends \BaseController {
 
     public function withdrawRequest()
     {
-        $id = Auth::user()->id;
-        $transaction = new Transaction;
-        $transaction->ammount = Input::get('ammount');
-        $transaction->transaction_direction = 'withdraw';
-        $transaction->confirmed = 0;
-        $transaction->transaction_type = 'external';
-        $transaction->date = date('Y-m-d H:i:s');
-        $transaction->user_id = $id;
-        $transaction->save();
+        if ( Input::get('ammount') > Input::get('moneyAvailable')  )
+        {
+            return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money to withdraw.');
+        } else
+        {
+            $id = Auth::user()->id;
+            $transaction = new Transaction;
+            $transaction->ammount = Input::get('ammount');
+            $transaction->transaction_direction = 'withdraw';
+            $transaction->confirmed = 0;
+            $transaction->transaction_type = 'external';
+            $transaction->date = date('Y-m-d H:i:s');
+            $transaction->user_id = $id;
+            $transaction->save();
 
-        return Redirect::back();
+            return Redirect::back();
+        }
     }
 
     //---------------End users---------------

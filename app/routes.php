@@ -198,3 +198,21 @@ View::creator('includes.backend.newoffer', function($view)
 
 	$view->with('data', $data)->with('moneyAvailable', $userMoneyAvailable);
 });
+
+View::creator('backend.user.withdraw', function($view)
+{
+	$uid = Auth::user()->id;
+
+    $transactions = Transaction::where('user_id', '=', $uid)->get();
+    $userMoneyAvailable = 0;
+    foreach ( $transactions as $transaction ) {
+    	if ( $transaction->transaction_direction == 'invested' ) {
+        	$userMoneyAvailable -= $transaction->ammount;
+    	}
+        else
+        	$userMoneyAvailable += $transaction->ammount;    
+	}
+
+	$view->with('moneyAvailable', $userMoneyAvailable);
+
+});

@@ -137,6 +137,13 @@
 	  	</span>
 	  </a>
 	</li>
+	<li class="dropdown">
+	  <a href="{{ URL::to('user/withdraw') }}" class="dropdown-toggle simple-link">
+	  	<span class="menu-title">
+	  		Withdraw money
+	  	</span>
+	  </a>
+	</li>
 @endif
 <li class="dropdown">
   <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link">

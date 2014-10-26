@@ -4,6 +4,7 @@
     <h3 class="page-title">Withdraw money</h3>
     <div class="row">
 		{{ Form::open(['action' => 'TransactionsController@withdrawRequest', 'class' => 'form-horizontal']) }}
+            {{ Form::hidden('moneyAvailable', $moneyAvailable) }}
             <div class="form-body col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
