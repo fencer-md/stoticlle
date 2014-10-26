@@ -60,15 +60,28 @@
                                 {{ Form::password('password', ['class' => 'form-control']) }}
                             </div>
                         </div>
+                        <div class="form-group"> 
+                            {{ Form::label('re-password', 'Retype password', ['class' => 'col-md-3 control-label']) }}
+                            <div class="col-md-9">
+                                {{ Form::password('re-password', ['class' => 'form-control']) }}
+                            </div>
+                        </div>
                         <div class="form-actions"> 
                             {{ Form::submit('Save', ['class' => 'btn blue']) }}
                         </div>
                     </div>
                     <div class="col-md-6">
+                        {{ Form::hidden('links', 2) }}
                         <div class="form-group"> 
                             {{ Form::label('facebook', 'Facebook link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('facebook', $user_info->link, ['class' => 'form-control']) }}
+                                {{ Form::text('link-1', $links[0], ['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            {{ Form::label('twitter', 'Twitter link', ['class' => 'col-md-3 control-label']) }}
+                            <div class="col-md-9">
+                                {{ Form::text('link-2', $links[1], ['class' => 'form-control']) }}
                             </div>
                         </div>
                     </div>

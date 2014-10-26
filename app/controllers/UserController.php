@@ -58,8 +58,9 @@ class UserController extends \BaseController {
 			$birth_date = null;
 		else
 			$birth_date = explode("-", $user_info->birth_date);
+		$links = json_decode($user_info->links);
 
-		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links]);
 	}
 
 	public function editUserInfoAdmin($uid)
@@ -76,23 +77,27 @@ class UserController extends \BaseController {
 
  	public function updateInfo()
  	{
-		if ( Auth::user()->role == '2' )
-		{
-			$id = Auth::user()->id;
-			$user = User::find($id);
-			$user_info = UserInfo::find($user->user_info_id);
-			$user->password = Hash::make(Input::get('password'));
-			$user_info->first_name = Input::get('first_name');
-			$user_info->last_name = Input::get('last_name');
-			$user_info->gender = Input::get('gender');
-			$user_info->birth_date = Input::get('birth_date');
-			$user_info->country = Input::get('country');
-			$user_info->city = Input::get('city');
-			$user_info->links = Input::get('facebook');
-			$user->save();
-			$user_info->save();
-			return Redirect::back()->with(['message' => 'updated']);
+ 		$linksArray = [];
+ 		for ($i=0; $i < Input::get('links'); $i++) {
+ 			$temp = $i + 1;
+ 			$linksArray[$i] = Input::get('link-'.$temp);
  		}
+ 		$linksArray = json_encode($linksArray);
+
+		$id = Auth::user()->id;
+		$user = User::find($id);
+		$user_info = UserInfo::find($user->user_info_id);
+		$user->password = Hash::make(Input::get('re-password'));
+		$user_info->first_name = Input::get('first_name');
+		$user_info->last_name = Input::get('last_name');
+		$user_info->gender = Input::get('gender');
+		$user_info->birth_date = Input::get('birth_date');
+		$user_info->country = Input::get('country');
+		$user_info->city = Input::get('city');
+		$user_info->links = $linksArray;
+		$user->save();
+		$user_info->save();
+		return Redirect::back()->with(['message' => 'updated']);
  	}
 
  	public function usersList() 

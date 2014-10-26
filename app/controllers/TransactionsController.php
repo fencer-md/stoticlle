@@ -244,37 +244,66 @@ class TransactionsController extends \BaseController {
 
     public function investMoney()
     {
-        $id = Auth::user()->id;
-        $user = User::where('id', '=', $id)->first();
-        $user->awaiting_award = 1;
-        $user->investor = 1;
-        $user->invested_date = date('Y-m-d H:i:s');
-        $user->save();
+        if ( Input::get('ammount') > Input::get('moneyAvailable')  )
+        {
+            return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money.');
+        } else
+        {
+            $id = Auth::user()->id;
+            $user = User::where('id', '=', $id)->first();
+            $user->awaiting_award = 1;
+            $user->investor = 1;
+            $user->invested_date = date('Y-m-d H:i:s');
+            $user->save();
 
-        $transaction = new Transaction;
-        $transaction->ammount = Input::get('ammount');
-        $transaction->transaction_direction = 'invested';
-        $transaction->confirmed = 1;
-        $transaction->transaction_type = 'internal';
-        $transaction->date = date('Y-m-d H:i:s');
-        $transaction->user_id = $id;
-        $transaction->save();
+            $transaction = new Transaction;
+            $transaction->ammount = Input::get('ammount');
+            $transaction->transaction_direction = 'invested';
+            $transaction->confirmed = 1;
+            $transaction->transaction_type = 'internal';
+            $transaction->date = date('Y-m-d H:i:s');
+            $transaction->user_id = $id;
+            $transaction->save();
 
-        $email = Auth::user()->email;
-        $username = Auth::user()->userInfo->first_name;
+            $email = Auth::user()->email;
+            $username = Auth::user()->userInfo->first_name;
 
-        $data = ['username' => $username, 'ammount' => $transaction->ammount];
+            $data = ['username' => $username, 'ammount' => $transaction->ammount];
 
-        Mail::send('emails.invested', $data, function($message) {
-            $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
-        });
+            Mail::send('emails.invested', $data, function($message) {
+                $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+            });
 
-        return Redirect::back();
+            return Redirect::back();
+        }
+    }
+
+    public function addMoneyPage()
+    {
+        $uid = Auth::user()->id;
+        $payments = PaymentMethod::where('user_id', '=', $uid)->get();
+        $wallets = [
+            'webmoney' => null,
+            'paypal' => null,
+            'cards' => null,
+        ];
+
+        foreach ($payments as $payment) {
+            if ( $payment->title == 'webmoney' )
+                $wallets['webmoney'] = $payment->account_id;
+            elseif ( $payment->title == 'paypal' )
+                $wallets['paypal'] = $payment->account_id;
+            elseif ( $payment->title == 'cards' )
+                $wallets['cards'] = $payment->account_id;
+        }
+
+        return View::make('backend.user.addmoney')->with('wallets', $wallets);
+
     }
 
     public function addMoneyToAccount() 
     {        
-        $id = Auth::user()->id;
+        $uid = Auth::user()->id;
         $transaction = new Transaction;
         $transaction->ammount = Input::get('add_money');
         $transaction->payment_method = Input::get('add_method');
@@ -282,8 +311,45 @@ class TransactionsController extends \BaseController {
         $transaction->confirmed = 0;
         $transaction->transaction_type = 'external';
         $transaction->date = date('Y-m-d H:i:s');
-        $transaction->user_id = $id;
+        $transaction->user_id = $uid;
         $transaction->save();
+
+        if ( Input::get('add_method') == 'webmoney' && Input::get('webmoney') == null )
+        {
+            $payment = new PaymentMethod;
+            $payment->title = 'webmoney';
+            $payment->account_id = Input::get('credentials');
+            $payment->user_id = $uid;
+            $payment->save();
+        } elseif ( Input::get('add_method') == 'webmoney' && Input::get('webmoney') != null ) 
+        {
+            $payment = PaymentMethod::where('user_id', '=', $uid)->where('title', '=', 'webmoney')->first();
+            $payment->account_id = Input::get('credentials');
+            $payment->save();
+        } elseif ( Input::get('add_method') == 'paypal' && Input::get('paypal') == null )
+        {
+            $payment = new PaymentMethod;
+            $payment->title = 'paypal';
+            $payment->account_id = Input::get('credentials');
+            $payment->user_id = $uid;
+            $payment->save();
+        } elseif ( Input::get('add_method') == 'paypal' && Input::get('paypal') != null ) 
+        {
+            $payment = PaymentMethod::where('user_id', '=', $uid)->where('title', '=', 'paypal')->first();
+            $payment->account_id = Input::get('credentials');
+            $payment->save();
+        } elseif ( Input::get('add_method') == 'cards' && Input::get('cards') == null ) 
+        {
+            $payment = new PaymentMethod;
+            $payment->title = 'cards';
+            $payment->account_id = Input::get('credentials');
+            $payment->user_id = $uid;
+            $payment->save();
+        } elseif ( Input::get('add_method') == 'cards' && Input::get('cards') != null ) {
+            $payment = PaymentMethod::where('user_id', '=', $uid)->where('title', '=', 'cards')->first();
+            $payment->account_id = Input::get('credentials');
+            $payment->save();
+        }
 
         $email = Auth::user()->email;
         $username = Auth::user()->userInfo->first_name;
