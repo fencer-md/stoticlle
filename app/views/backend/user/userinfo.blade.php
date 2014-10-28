@@ -84,6 +84,12 @@
                                 {{ Form::text('link-2', $links[1], ['class' => 'form-control']) }}
                             </div>
                         </div>
+                        <div class="form-group"> 
+                            {{ Form::label('pinterest', 'Pinterest link', ['class' => 'col-md-3 control-label']) }}
+                            <div class="col-md-9">
+                                {{ Form::text('link-2', $links[1], ['class' => 'form-control']) }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             {{ Form::close() }}

@@ -8,7 +8,7 @@ class OfferController extends \BaseController {
         $offer = new Offer;
         $offer->body = Input::get('body');
         $offer->recipient_id = Input::get('uid');
-        $offer->rate = Input::get('rate');
+        $offer->rate = Input::get('rate') / 100;
         $offer->offer_ends = Input::get('end_date');
         $offer->save();            
 

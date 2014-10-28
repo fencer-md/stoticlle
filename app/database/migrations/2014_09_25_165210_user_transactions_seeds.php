@@ -65,32 +65,6 @@ class UserTransactionsSeeds extends Migration {
         	)
 		);
 
-		DB::table('users_transaction')->insert(
-			array(
-            	array(
-                	'ammount' => '10',
-                	'date' => '2014-10-10',
-                	'transaction_direction' => 'added',
-                	'user_id' => '1',
-                    'transaction_type' => 'external',
-                ),
-            	array(
-                	'ammount' => '6',
-                	'date' => '2014-10-10',
-                	'transaction_direction' => 'extracted',
-                	'user_id' => '1',
-                    'transaction_type' => 'external',
-                ),
-                array(
-                    'ammount' => '2',
-                    'date' => '2014-10-10',
-                    'transaction_direction' => 'invested',
-                    'user_id' => '1',
-                    'transaction_type' => 'internal',
-                ),
-            )
-		);
-
 	}
 
 	/**

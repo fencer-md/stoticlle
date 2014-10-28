@@ -1,3 +1,3 @@
 @if ($data != null)
-	{{ $data }}$
+	{{ round($data, 2) }}$
 @endif

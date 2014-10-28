@@ -119,7 +119,6 @@ class UserController extends \BaseController {
 	 				$investedTimes++;
 	 				$currentAmmount -= $transaction->ammount;
 	 			}
-	 			var_dump($ammountAdded);
  			}
 
  			$usersArray[$i] = [ 
@@ -319,8 +318,7 @@ class UserController extends \BaseController {
 
  	public function usersListNext() 
  	{
- 		//$users = User::select('id', 'email')->where('awaiting_award', '=', '1')->where('invested_date', '<=', DB::raw('NOW() - INTERVAL 20 DAY'))->get();
- 		$users = User::where('awaiting_award', '=', '0')->where('role', '=', '2')->get();
+ 		$users = User::where('investor', '=', 1)->where('role', '=', 2)->get();
  		$i = 0;
  		$usersArray = null;
 

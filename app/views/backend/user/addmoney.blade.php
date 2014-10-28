@@ -13,9 +13,9 @@
                         {{ Form::label('add_method', 'Add method', ['class' => 'col-md-2 control-label']) }}
                         <div class="col-md-9">
                             <div class="radio-list">
-                                <div><label class="radio"><span>{{ Form::radio('add_method', 'webmoney', ['selected'=>'selected']) }}</span><img src="{{ URL::asset('images/payments/webmoney.png') }}"><div class="credentials">{{ Form::hidden('webmoney', $wallets['webmoney']) }}{{ $wallets['webmoney'] }}</div></label></div> 
-                                <div><label class="radio"><span>{{ Form::radio('add_method', 'paypal') }}</span><img src="{{ URL::asset('images/payments/paypal.png') }}"><div class="credentials">{{ Form::hidden('paypal', $wallets['paypal']) }}{{ $wallets['paypal'] }}</div></label></div>
-                                <div><label class="radio"><span>{{ Form::radio('add_method', 'cards') }}</span><img src="{{ URL::asset('images/payments/cards.png') }}"><div class="credentials">{{ Form::hidden('cards', $wallets['cards']) }}{{ $wallets['cards'] }}</div></label></div>
+                                <div><label class="radio"><span>{{ Form::radio('add_method', 'webmoney', ['selected'=>'selected']) }}</span><img src="{{ URL::asset('images/payments/webmoney.png') }}"></label></div> 
+                                <div><label class="radio"><span>{{ Form::radio('add_method', 'paypal') }}</span><img src="{{ URL::asset('images/payments/paypal.png') }}"></label></div>
+                                <div><label class="radio"><span>{{ Form::radio('add_method', 'cards') }}</span><img src="{{ URL::asset('images/payments/cards.png') }}"></label></div>
                             </div>
                         </div>
                     </div>

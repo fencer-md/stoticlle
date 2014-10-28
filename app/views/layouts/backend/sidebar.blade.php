@@ -8,7 +8,10 @@
 	@endif
     @if ( Auth::user()->role == "2" )
 		<li class="name">Hello {{ Auth::user()->userInfo->first_name }}</li>
-		<li class="avlb-amount">Available amount: {{ $data['userMoneyAvailable'] }}$</li>
+		<li class="avlb-amount">Available amount: {{ $data['adminTotalSum'] }}$</li>
+		<li class="total-invested">Total invested: {{ $data['adminTotalInvestedSum'] }}$</li>
+		<li class="total-rewarded">Total rewarded: {{ $data['adminTotalRewardedSum'] }}$</li>
+		<li class="current-invested">Current invested: {{ $data['lastInvestedAmmount'] }}$</li>
     	@if ( Auth::user()->awaiting_award == "1" )
 			<li class="cycle-end">At the end of the cycle you will recieve: @include('includes.backend.cycles')</li>
 		@endif

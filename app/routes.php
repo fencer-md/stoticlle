@@ -69,9 +69,8 @@ Route::group(['before' => 'auth'], function()
 		});
 		Route::post('user/admin/addmoneyrequest', 'TransactionsController@addMoneyRequestStatus');
 		Route::get('user/admin/moneyrecieved', 'TransactionsController@usersAddMoneyPending');
-		Route::get('user/admin/moneyrecieved', 'TransactionsController@usersAddMoneyPending');
 		Route::post('user/admin/moneyrecieved', 'TransactionsController@addMoneyRequestConfirm');
-		Route::get('user/admin/withdrawRequestst', 'TransactionsController@usersWithdrawMoney');
+		Route::get('user/admin/withdrawrequests', 'TransactionsController@usersWithdrawMoney');
 		Route::post('user/admin/withdrawrequest', 'TransactionsController@usersWithdrawMoneyConfirm');
 	});
 
@@ -99,32 +98,36 @@ Route::resource('user', 'UserController');
 
 View::creator('layouts.backend.base', function($view)
 {
-    $id = Auth::user()->id;
-    $transactions = Transaction::where('user_id', '=', $id)->get();
-    $users = User::where('role', '=', '2')->get();
-    $userMoneyAvailable = 0;
-    foreach ( $transactions as $transaction ) {
-    	if ( $transaction->transaction_direction == 'invested' ) {
-        	$userMoneyAvailable -= $transaction->ammount;
-    	}
-        else
-        	$userMoneyAvailable += $transaction->ammount;    
+	if ( Auth::user()->role == '1' ) {
+	    $transactions = Transaction::all();
+    	$users = User::where('role', '=', '2')->get();
+    	$adminUsersRegistered = count($users);
+		$lastInvestedAmmount = 0;
+	} elseif ( Auth::user()->role == '2' ) {
+    	$lastInvestedAmmount = 0;
+	    $uid = Auth::user()->id;
+	    $transactions = Transaction::where('user_id', '=', $uid)->get();
+		$lastInvestedAmmount = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->orderBy('created_at', 'DESC')->first();
+		if ( count($lastInvestedAmmount) == 0 )
+			$lastInvestedAmmount = 0;
+		else
+			$lastInvestedAmmount = $lastInvestedAmmount->ammount;
+		$adminUsersRegistered = 0;
 	}
 
     $transactions = Transaction::all();
-    $adminUsersRegistered = count($users);
     $adminTotalSum = 0;
     $adminTotalInvestedSum = 0;
     $adminTotalRewardedSum = 0;
     $adminCyclesFinished = 0;
+    $investedTimes = 0;
     foreach ( $transactions as $transaction ) {
     	if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == '1' ) {
         	$adminTotalInvestedSum += $transaction->ammount;
-    	}
-        elseif ( $transaction->transaction_direction == 'added' && $transaction->confirmed == '1' ) {
+        	$investedTimes++;
+    	} elseif ( $transaction->transaction_direction == 'added' && $transaction->confirmed == '1' ) {
         	$adminTotalSum += $transaction->ammount;
-        } 
-        elseif ( $transaction->transaction_direction == 'reward' && $transaction->confirmed == '1' ) {
+        } elseif ( $transaction->transaction_direction == 'reward' && $transaction->confirmed == '1' ) {
         	$adminTotalRewardedSum += $transaction->ammount;
         	$adminCyclesFinished += 1;
         } elseif ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == '1' ) {
@@ -133,12 +136,12 @@ View::creator('layouts.backend.base', function($view)
 	}
 
 	$data = [ 
-		'userMoneyAvailable' => $userMoneyAvailable,
 		'adminUsersRegistered' => $adminUsersRegistered,
 		'adminTotalSum' => $adminTotalSum,
 		'adminTotalInvestedSum' => $adminTotalInvestedSum,
 		'adminTotalRewardedSum' => $adminTotalRewardedSum,
-		'adminCyclesFinished' => $adminCyclesFinished
+		'adminCyclesFinished' => $adminCyclesFinished,
+		'lastInvestedAmmount' => $lastInvestedAmmount,
 		];
 
 	$view->with('data', $data);
@@ -157,9 +160,12 @@ View::creator('includes.backend.cycles', function($view)
 	if ( Auth::user()->awaiting_award == 1 && $ammount <= 1000 ) 
 	{
 	    $data = Helper::reward($ammount, 0.02);
-	} elseif ( Auth::user()->awaiting_award == 1 && $ammount >= 1000 ) {
+	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
 		$offer = Offer::where('recipient_id', '=', $id)->orderBy('id','DESC')->first();
-		$rate = $offer->rate;
+		if ( $offer != null )
+			$rate = $offer->rate;
+		else
+			$rate = 0.02;
 	    $data = Helper::reward($ammount, $rate);
 	}
 
@@ -183,18 +189,25 @@ View::creator('includes.backend.newoffer', function($view)
 	$offers = Auth::user()->userOffer;
 	$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 	$offer = count($offers);
-	$offer = $offers[$offer-1];
-	$currentDate = date(('Y-m-d H:i:s'));
+	if ( $offer > 0 && Auth::user()->investor == 1 ) {
+		$offer = $offers[$offer-1];
 
-	if ( Auth::user()->awaiting_award == 0 
-		 && $currentDate >= $offer->offer_ends
-		 && $lastInvest != NULL
-		 && $lastInvest->ammount >= 1000 )
-	{
-		$data['body'] = $offer->body;
-		$data['offer_ends'] = $offer->offer_ends;
-		$data['rate'] = $offer->rate;
-	} else $data = null;
+		$currentDate = date(('Y-m-d H:i:s'));
+
+		if ( Auth::user()->awaiting_award == 0
+			 && $currentDate <= $offer->offer_ends
+			 && $lastInvest != NULL
+			 && $lastInvest->ammount >= 1000 )
+		{
+			$data['body'] = $offer->body;
+			$data['offer_ends'] = $offer->offer_ends;
+			$data['rate'] = $offer->rate;
+			$data['offers'] = count($offers);
+		} else $data = null;
+	}
+	else {
+		$data = null;
+	}
 
 	$view->with('data', $data)->with('moneyAvailable', $userMoneyAvailable);
 });
@@ -206,11 +219,11 @@ View::creator('backend.user.withdraw', function($view)
     $transactions = Transaction::where('user_id', '=', $uid)->get();
     $userMoneyAvailable = 0;
     foreach ( $transactions as $transaction ) {
-    	if ( $transaction->transaction_direction == 'invested' ) {
-        	$userMoneyAvailable -= $transaction->ammount;
+    	if ( $transaction->transaction_direction == 'added' || $transaction->transaction_direction == 'reward' && $transaction->confirmed == 1 ) {
+        	$userMoneyAvailable += $transaction->ammount;
     	}
         else
-        	$userMoneyAvailable += $transaction->ammount;    
+        	$userMoneyAvailable -= $transaction->ammount;
 	}
 
 	$view->with('moneyAvailable', $userMoneyAvailable);

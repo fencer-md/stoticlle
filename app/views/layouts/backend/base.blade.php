@@ -55,5 +55,6 @@
 		</div>
 		<!-- END FOOTER -->
 		@include('includes.backend.scripts')
+		@yield('custom_scripts')
 	</body>
 </html>

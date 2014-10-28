@@ -49,16 +49,11 @@ class UserTablesCreate extends Migration {
             $table->string('remember_token', 100);
             $table->timestamps();
         });
-		Schema::create('users_transaction', function($table)
+        Schema::create('payment_methods', function($table)
         {
             $table->increments('id');
-            $table->integer('ammount');
-            $table->timestamp('date');
-            $table->string('payment_method')->nullable();
-            $table->integer('confirmed')->nullable();
-            $table->string('transaction_direction');
-            $table->string('transaction_type');   
-            $table->string('transaction_id');
+            $table->string('title');
+            $table->string('account_id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
@@ -73,11 +68,18 @@ class UserTablesCreate extends Migration {
             $table->foreign('recipient_id')->references('id')->on('users');
             $table->timestamps();
         });
-        Schema::create('payment_methods', function($table)
+		Schema::create('users_transaction', function($table)
         {
             $table->increments('id');
-            $table->string('title');
-            $table->string('account_id');
+            $table->integer('ammount');
+            $table->timestamp('date');
+            $table->string('payment_system')->nullable();
+            $table->integer('confirmed')->nullable();
+            $table->string('transaction_direction');
+            $table->string('comments');
+            $table->integer('from_credentials')->unsigned();
+            $table->foreign('from_credentials')->references('id')->on('payment_methods');
+            $table->string('to_credentials');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

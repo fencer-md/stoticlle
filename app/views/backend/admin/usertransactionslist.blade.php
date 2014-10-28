@@ -6,13 +6,18 @@
         <table class="table table-striped table-hover">
             <thead>
                 <td>Transaction ID</td>
+                <td>Email</td>
                 <td>Date</td>
-                <td>Direction</td>
-                <td>Payment method</td>
+                <td>Type</td>
                 <td>Ammount</td>
                 @if ( Request::is('user/admin/cashoutlist') )
                     <td>Approve</td>
-                @elseif ( Request::is('user/admin/addmoneyrequests') )
+                @elseif ( Request::is('user/admin/addmoneyrequests') || Request::is('user/admin/withdrawrequests') )
+                    <td>Credentials from</td>
+                    <td>Confirm</td>
+                @elseif ( Request::is('user/admin/moneyrecieved') )
+                    <td>Credentials from</td>
+                    <td>Credentials to</td>
                     <td>Confirm</td>
                 @endif
             </thead>
@@ -20,8 +25,8 @@
         @foreach ( $data['transactions'] as $transaction )
                 <tr>
                     <td>{{ $transaction->id }}</td>
+                    <td>{{ $transaction->user->email }}</td>
                     <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->transaction_direction }}</td>
                     <td>@if ( $transaction->payment_method == NULL )
                             System
                         @else
@@ -47,10 +52,22 @@
                             <td>-</td>
                         @endif
                     @elseif ( Request::is('user/admin/addmoneyrequests') )
+                        <td>{{ $transaction->transactionFrom->account_id }}</td>
                         <td>
-                            <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id) }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Offer</a>
+                            <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id) }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Approve</a>
+                        </td>
+                    @elseif ( Request::is('user/admin/withdrawrequests') )
+                        <td>{{ $transaction->transactionFrom->account_id }}</td>
+                        <td>
+                            {{ Form::open(['action' => 'TransactionsController@usersWithdrawMoneyConfirm', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
+                            {{ Form::close() }}
                         </td>
                     @elseif ( Request::is('user/admin/moneyrecieved') )
+                        <td>{{ $transaction->transactionFrom->account_id }}</td>
+                        <td>{{ $transaction->to_credentials }}</td>
                         <td>
                             {{ Form::open(['action' => 'TransactionsController@addMoneyRequestConfirm', 'class' => 'form-horizontal']) }}
                                 {{ Form::hidden('tid', $transaction->id) }}

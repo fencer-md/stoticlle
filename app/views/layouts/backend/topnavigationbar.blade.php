@@ -18,7 +18,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ URL::to('user/admin/withdrawrequest') }}">
+				<a href="{{ URL::to('user/admin/withdrawrequests') }}">
 					Withdraw request
 				</a>
 			</li>

@@ -99,7 +99,7 @@ class TransactionsController extends \BaseController {
     public function usersAddMoney()
     {
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'added(request)')->where('confirmed', '=', '0')->get();
+        $transactions = Transaction::where('transaction_direction', '=', 'added')->where('confirmed', '=', '0')->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
@@ -142,7 +142,7 @@ class TransactionsController extends \BaseController {
         $transaction = new Transaction;
         $transaction->ammount = Input::get('return_money');
         $transaction->transaction_direction = 'reward';
-        $transaction->transaction_type = 'internal';
+        $transaction->comment = '';
         $transaction->date = date('Y-m-d');
         $transaction->user_id = Input::get('uid');
         $transaction->save();
@@ -173,8 +173,9 @@ class TransactionsController extends \BaseController {
     public function addMoneyRequestStatus() 
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
-        $transaction->transaction_id = Input::get('credentials');
+        $transaction->to_credentials = Input::get('credentials');
         $transaction->transaction_direction = 'added(pending)';
+        $transaction->confirmed = 0;
         $transaction->save();
 
         $user = User::where('id', '=', Input::get('uid'))->first();
@@ -252,7 +253,6 @@ class TransactionsController extends \BaseController {
             $id = Auth::user()->id;
             $user = User::where('id', '=', $id)->first();
             $user->awaiting_award = 1;
-            $user->investor = 1;
             $user->invested_date = date('Y-m-d H:i:s');
             $user->save();
 
@@ -304,52 +304,43 @@ class TransactionsController extends \BaseController {
     public function addMoneyToAccount() 
     {        
         $uid = Auth::user()->id;
-        $transaction = new Transaction;
-        $transaction->ammount = Input::get('add_money');
-        $transaction->payment_method = Input::get('add_method');
-        $transaction->transaction_direction = 'added(request)';
-        $transaction->confirmed = 0;
-        $transaction->transaction_type = 'external';
-        $transaction->date = date('Y-m-d H:i:s');
-        $transaction->user_id = $uid;
-        $transaction->save();
 
-        if ( Input::get('add_method') == 'webmoney' && Input::get('webmoney') == null )
+        if ( Input::get('add_method') == 'webmoney' )
         {
             $payment = new PaymentMethod;
             $payment->title = 'webmoney';
             $payment->account_id = Input::get('credentials');
             $payment->user_id = $uid;
             $payment->save();
-        } elseif ( Input::get('add_method') == 'webmoney' && Input::get('webmoney') != null ) 
-        {
-            $payment = PaymentMethod::where('user_id', '=', $uid)->where('title', '=', 'webmoney')->first();
-            $payment->account_id = Input::get('credentials');
-            $payment->save();
-        } elseif ( Input::get('add_method') == 'paypal' && Input::get('paypal') == null )
+        } elseif ( Input::get('add_method') == 'paypal' )
         {
             $payment = new PaymentMethod;
             $payment->title = 'paypal';
             $payment->account_id = Input::get('credentials');
             $payment->user_id = $uid;
             $payment->save();
-        } elseif ( Input::get('add_method') == 'paypal' && Input::get('paypal') != null ) 
-        {
-            $payment = PaymentMethod::where('user_id', '=', $uid)->where('title', '=', 'paypal')->first();
-            $payment->account_id = Input::get('credentials');
-            $payment->save();
-        } elseif ( Input::get('add_method') == 'cards' && Input::get('cards') == null ) 
+        } elseif ( Input::get('add_method') == 'cards' ) 
         {
             $payment = new PaymentMethod;
             $payment->title = 'cards';
             $payment->account_id = Input::get('credentials');
             $payment->user_id = $uid;
             $payment->save();
-        } elseif ( Input::get('add_method') == 'cards' && Input::get('cards') != null ) {
-            $payment = PaymentMethod::where('user_id', '=', $uid)->where('title', '=', 'cards')->first();
-            $payment->account_id = Input::get('credentials');
-            $payment->save();
         }
+
+        $transaction = new Transaction;
+        $transaction->ammount = Input::get('add_money');
+        $transaction->payment_system = Input::get('add_method');
+        $transaction->transaction_direction = 'added';
+        $transaction->confirmed = 0;
+        $transaction->date = date('Y-m-d H:i:s');
+        $transaction->user_id = $uid;
+
+        $wallet = PaymentMethod::where('user_id', '=', $uid)->orderBy('created_at', 'DESC')->first();
+        $transaction->from_credentials = $wallet->id;
+
+        $transaction->save();
+
 
         $email = Auth::user()->email;
         $username = Auth::user()->userInfo->first_name;
@@ -365,8 +356,10 @@ class TransactionsController extends \BaseController {
 
     public function withdraw()
     {
+        $uid = Auth::user()->id;
+        $payments = PaymentMethod::where('user_id', '=', $uid)->get();
 
-        return View::make('backend.user.withdraw');
+        return View::make('backend.user.withdraw')->with('payments', $payments);
     }
 
 
@@ -377,14 +370,20 @@ class TransactionsController extends \BaseController {
             return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money to withdraw.');
         } else
         {
-            $id = Auth::user()->id;
+            $uid = Auth::user()->id;
+
+            $user = User::where('id', '=', $uid)->first();
+            $user->investor = 1;
+            $user->save();
+
             $transaction = new Transaction;
             $transaction->ammount = Input::get('ammount');
+            $transaction->payment_system = Input::get('withdraw_method');
             $transaction->transaction_direction = 'withdraw';
+            $transaction->from_credentials = Input::get('payment_method_id');
             $transaction->confirmed = 0;
-            $transaction->transaction_type = 'external';
             $transaction->date = date('Y-m-d H:i:s');
-            $transaction->user_id = $id;
+            $transaction->user_id = $uid;
             $transaction->save();
 
             return Redirect::back();
