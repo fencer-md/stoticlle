@@ -2,6 +2,21 @@
 
 @section('content')
     <h3 class="page-title"><b>{{ $data['user']['email'] }}</b> transaction history</h3>
+    @if ( Request::is('user/admin/transactions/*') )
+        <div class="row user-info">
+            <div class="name">{{ $data['user']['userInfo']['first_name'] }} {{ $data['user']['userInfo']['last_name'] }}</div>
+            <div class="birth-date">{{ $data['user']['userInfo']['birth_date'] }}</div>
+            <div class="country">{{ $data['user']['userInfo']['country'] }}</div>
+            <div class="city">{{ $data['user']['userInfo']['city'] }}</div>
+            <div class="commentary">
+                {{ Form::open(['action' => 'UserController@updateCommentary', 'class' => 'form-horizontal']) }}
+                    {{ Form::hidden('uid', $data['user']['id']) }}
+                    {{ Form::textarea('user_commentary', $data['user']['commentary']) }}
+                    {{ Form::submit('Save', ['class' => 'btn default btn-xs blue']) }}
+                {{ Form::close() }}
+            </div>
+        </div>
+    @endif
     <div class="row">
         <table class="table table-striped table-hover">
             <thead>
@@ -9,6 +24,10 @@
                 <td>Email</td>
                 <td>Date</td>
                 <td>Type</td>
+                <td>Wallet</td>
+                @if ( Request::is('user/admin/transactions/*') )
+                    <td>Credentials</td>
+                @endif
                 <td>Ammount</td>
                 @if ( Request::is('user/admin/cashoutlist') )
                     <td>Approve</td>
@@ -27,34 +46,27 @@
                     <td>{{ $transaction->id }}</td>
                     <td>{{ $transaction->user->email }}</td>
                     <td>{{ $transaction->date }}</td>
-                    <td>@if ( $transaction->payment_method == NULL )
+                    <td>{{ $transaction->transaction_direction }}</td>
+                    <td>@if ( $transaction->payment_system == NULL )
                             System
                         @else
-                            {{ $transaction->payment_method }}
+                            {{ $transaction->payment_system }}
                         @endif
                     </td>
-                    <td>{{ $transaction->ammount }}</td>
-                    @if ( Request::is('user/admin/cashoutlist/pending') )
-                        @if ( $transaction->transaction_direction == 'cash out' )
-                            <td>
-                                {{ Form::open(['action' => 'TransactionsController@cashOutRequestStatus', 'class' => 'form-horizontal']) }}
-                                    {{ Form::hidden('tid', $transaction->id) }}
-                                    {{ Form::hidden('status', 1) }}
-                                    {{ Form::submit('Approve', ['class' => 'btn default btn-xs blue']) }}
-                                {{ Form::close() }}
-                                {{ Form::open(['action' => 'TransactionsController@cashOutRequestStatus', 'class' => 'form-horizontal']) }}
-                                    {{ Form::hidden('tid', $transaction->id) }}
-                                    {{ Form::hidden('status', 0) }}
-                                    {{ Form::submit('Not approved', ['class' => 'btn default btn-xs red']) }}
-                                {{ Form::close() }}
-                            </td>
-                        @else
-                            <td>-</td>
-                        @endif
-                    @elseif ( Request::is('user/admin/addmoneyrequests') )
+                    @if ( Request::is('user/admin/transactions/*') && $transaction->transactionFrom != null )
+                        <td>{{ $transaction->transactionFrom->account_id }}</td>
+                    @endif
+                    <td>{{ $transaction->ammount }}$</td>
+                    @if ( Request::is('user/admin/addmoneyrequests') )
                         <td>{{ $transaction->transactionFrom->account_id }}</td>
                         <td>
                             <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id) }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Approve</a>
+                            {{ Form::open(['action' => 'TransactionsController@addMoneyRequestStatus', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('status', 'deny') }}
+                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
+                            {{ Form::close() }}
                         </td>
                     @elseif ( Request::is('user/admin/withdrawrequests') )
                         <td>{{ $transaction->transactionFrom->account_id }}</td>
@@ -62,7 +74,14 @@
                             {{ Form::open(['action' => 'TransactionsController@usersWithdrawMoneyConfirm', 'class' => 'form-horizontal']) }}
                                 {{ Form::hidden('tid', $transaction->id) }}
                                 {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('status', 'allow') }}
                                 {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
+                            {{ Form::close() }}
+                            {{ Form::open(['action' => 'TransactionsController@usersWithdrawMoneyConfirm', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('status', 'deny') }}
+                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
                             {{ Form::close() }}
                         </td>
                     @elseif ( Request::is('user/admin/moneyrecieved') )
@@ -72,7 +91,14 @@
                             {{ Form::open(['action' => 'TransactionsController@addMoneyRequestConfirm', 'class' => 'form-horizontal']) }}
                                 {{ Form::hidden('tid', $transaction->id) }}
                                 {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('status', 'allow') }}
                                 {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
+                            {{ Form::close() }}
+                            {{ Form::open(['action' => 'TransactionsController@addMoneyRequestConfirm', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('status', 'deny') }}
+                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
                             {{ Form::close() }}
                         </td>       
                     @elseif ( Request::is('user/admin/withdrawrequest') )
@@ -81,7 +107,15 @@
                                 {{ Form::hidden('tid', $transaction->id) }}
                                 {{ Form::hidden('uid', $transaction->user_id) }}
                                 {{ Form::hidden('ammount', $transaction->ammount) }}
+                                {{ Form::hidden('status', 'allow') }}
                                 {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
+                            {{ Form::close() }}
+                            {{ Form::open(['action' => 'TransactionsController@usersWithdrawMoneyConfirm', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('tid', $transaction->id) }}
+                                {{ Form::hidden('uid', $transaction->user_id) }}
+                                {{ Form::hidden('ammount', $transaction->ammount) }}
+                                {{ Form::hidden('status', 'deny') }}
+                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
                             {{ Form::close() }}
                         </td>               
                     @endif

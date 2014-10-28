@@ -18,7 +18,7 @@
                 </div>
                 {{ Form::label('end_date', 'Offer ends on', ['class' => 'control-label dialog']) }}
                 <div class="controls">
-                      {{ Form::text('end_date', null, ['class' => 'form-control']) }}
+                      {{ Form::text('end_date', null, ['class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'data-date-viewmode' => 'years']) }}
                 </div>
                 {{ Form::submit('Submit', ['class' => 'btn blue']) }}
             </div>

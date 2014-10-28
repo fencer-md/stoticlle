@@ -16,7 +16,9 @@
                 @elseif ( Request::is('user/admin/awarded') )
                     <td>Ammount invested</td>
                     <td>Awards recieved</td>
+                    <td>Ammount awarded</td>
                 @endif
+                <td>Last login</td>
 			</thead>
 			<tbody>
             @if ( $users != null )
@@ -25,21 +27,21 @@
                         <td>{{ $user['user']->id }}</td>
     					@if ( Request::is('user/admin/edituserlist') )
     						<td><a href="{{ URL::to('user/admin/edituser/'.$user['user']->id) }}">{{ $user['user']->email }}</a></td>
-    					@elseif ( Request::is('user/admin/userlist') )
+    					@else
     						<td><a href="{{ URL::to('user/admin/transactions/'.$user['user']->id) }}">{{ $user['user']->email }}</a></td>
-                        @elseif ( Request::is('user/admin/userlist') )
-
-                        @elseif ( Request::is('user/admin/addmoneyrequest') )
-
     					@endif
-                        <td>Last login</td>
                         <td>{{ $user['ammountAdded'] }}$</td>
                         <td>{{ $user['currentAmmount'] }}$</td>
                         <td>{{ $user['investedTimes'] }}</td>
-                        @if ( Request::is('user/admin/awarded') || Request::is('user/admin/nextstepusers') )
+                        @if ( Request::is('user/admin/awarded') )
                             <td>{{ $user['investedAmmount'] }}</td>
+                            <td>{{ $user['awardedTimes'] }}</td>
                             <td>{{ $user['awardedAmmount'] }}</td>
                         @endif
+                        @if ( Request::is('user/admin/nextstepusers') )
+                            <td>{{ $user['investedAmmount'] }}</td>
+                        @endif
+                        <td>{{ $user['user']->last_login }}</td>
                         @if ( Request::is('user/admin/nextstepusers') )
                             <td>
                                 <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/offer?uid='.$user['user']->id) }}" data-target="#offer-dialog"><i class="fa fa-edit"></i>Offer</a>

@@ -21,45 +21,27 @@ class TransactionsController extends \BaseController {
         return View::make('backend.admin.usertransactionslist')->with('data', $data);
     }
 
+    public function userRefusedTransactions() 
+    {
+        $user = null;
+        $transactions = Transaction::where('transaction_direction', '=', 'added(denied)')
+                                   ->orWhere('transaction_direction', '=', 'invested(denied)')
+                                   ->orWhere('transaction_direction', '=', 'withdraw(denied)')
+                                   ->get();
+
+        $data = ['transactions' => $transactions, 'user' => $user];
+
+        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+    }
+
     public function currentFunding() 
     {
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'invested')->get();
+        $transactions = Transaction::where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
         return View::make('backend.admin.usertransactionslist')->with('data', $data);
-    }
-
-    public function cashOutRequestList($status) 
-    {
-        $user = null;
-        if ( $status == 'pending' )
-            $transactions = Transaction::where('transaction_direction', '=', 'withdraw')->where('confirmed', '=', '0')->get();
-        else if ( $status == 'refused' )
-            $transactions = Transaction::where('transaction_direction', '=', 'withdraw(failed)')->where('confirmed', '=', '0')->get();
-
-        $data = ['transactions' => $transactions, 'user' => $user];
-
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
-    }
-
-    public function cashOutRequestStatus() 
-    {
-        $transaction = Transaction::where('id', '=', Input::get('tid') )->first();
-        if ( Input::get('status') == '1' )
-        {   
-            $transaction->confirmed = 1;
-            $transaction->transaction_direction = "cash out(approved)";
-        } else
-        {
-            $transaction->confirmed = 0;
-            $transaction->transaction_direction = "cash out(failed)";            
-        }
-
-        $transaction->save();
-
-        return Redirect::back();
     }
 
     public function usersInvestedMoney($uid)
@@ -153,7 +135,10 @@ class TransactionsController extends \BaseController {
     public function usersWithdrawMoneyConfirm() 
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
-        $transaction->confirmed = 1;
+        if ( Input::get('status') == 'deny' )
+            $transaction->transaction_direction = 'withdraw(denied)';
+        else
+            $transaction->confirmed = 1;
         $transaction->save();
 
         $user = User::where('id', '=', Input::get('uid'))->first();
@@ -174,8 +159,10 @@ class TransactionsController extends \BaseController {
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
         $transaction->to_credentials = Input::get('credentials');
-        $transaction->transaction_direction = 'added(pending)';
-        $transaction->confirmed = 0;
+        if ( Input::get('status') == 'deny' )
+            $transaction->transaction_direction = 'added(denied)';
+        else
+            $transaction->transaction_direction = 'added(pending)';
         $transaction->save();
 
         $user = User::where('id', '=', Input::get('uid'))->first();
@@ -195,7 +182,10 @@ class TransactionsController extends \BaseController {
     public function addMoneyRequestConfirm() 
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
-        $transaction->transaction_direction = 'added';
+        if ( Input::get('status') == 'deny' )
+            $transaction->transaction_direction = 'added(denied)';
+        else
+            $transaction->transaction_direction = 'added';
         $transaction->confirmed = 1;
 
         $user = User::where('id', '=', Input::get('uid'))->first();
@@ -235,7 +225,6 @@ class TransactionsController extends \BaseController {
         $transaction->ammount = Input::get('recieve_amount');
         $transaction->transaction_direction = 'recieved';
         $transaction->confirmed = 1;
-        $transaction->transaction_type = 'internal';
         $transaction->date = date('Y-m-d H:i:s');
         $transaction->user_id = $id;
         $transaction->save();
@@ -251,19 +240,19 @@ class TransactionsController extends \BaseController {
         } else
         {
             $id = Auth::user()->id;
-            $user = User::where('id', '=', $id)->first();
-            $user->awaiting_award = 1;
-            $user->invested_date = date('Y-m-d H:i:s');
-            $user->save();
 
             $transaction = new Transaction;
             $transaction->ammount = Input::get('ammount');
             $transaction->transaction_direction = 'invested';
             $transaction->confirmed = 1;
-            $transaction->transaction_type = 'internal';
             $transaction->date = date('Y-m-d H:i:s');
             $transaction->user_id = $id;
             $transaction->save();
+            
+            $user = User::where('id', '=', $id)->first();
+            $user->awaiting_award = 1;
+            $user->invested_date = date('Y-m-d H:i:s');
+            $user->save();
 
             $email = Auth::user()->email;
             $username = Auth::user()->userInfo->first_name;

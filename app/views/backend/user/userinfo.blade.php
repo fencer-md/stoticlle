@@ -93,6 +93,18 @@
                     </div>
                 </div>
             {{ Form::close() }}
+                @if ( Request::is('user/admin/edituser/*') )
+                    <div class="col-md-12">
+                        <h4>Commentary</h4>
+                        <div class="commentary">
+                            {{ Form::open(['action' => 'UserController@updateCommentary', 'class' => 'form-horizontal']) }}
+                                {{ Form::hidden('uid', $user->id) }}
+                                {{ Form::textarea('user_commentary', $user->commentary) }}
+                                {{ Form::submit('Save', ['class' => 'btn default btn-xs blue']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                @endif
         </div>
     </div>
 @stop

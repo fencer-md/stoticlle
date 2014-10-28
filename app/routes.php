@@ -40,8 +40,6 @@ Route::group(['before' => 'auth'], function()
 		Route::get('user/admin/investments/{uid}', 'TransactionsController@usersInvestedMoney');
 		Route::get('user/admin/funds', 'TransactionsController@currentFunding');
 		Route::get('user/admin/earned/{uid}', 'TransactionsController@usersEarnedMoney');
-		Route::get('user/admin/cashoutlist/{status}', 'TransactionsController@cashOutRequestList');
-		Route::post('user/admin/cashout', 'TransactionsController@cashOutRequestStatus');
 		Route::get('user/admin/reward', function()
 		{
 			return View::make('includes.backend.rewarddialog');
@@ -72,6 +70,8 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/moneyrecieved', 'TransactionsController@addMoneyRequestConfirm');
 		Route::get('user/admin/withdrawrequests', 'TransactionsController@usersWithdrawMoney');
 		Route::post('user/admin/withdrawrequest', 'TransactionsController@usersWithdrawMoneyConfirm');
+		Route::post('user/admin/comment', 'UserController@updateCommentary');
+		Route::get('user/admin/denied', 'TransactionsController@userRefusedTransactions');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
@@ -124,6 +124,7 @@ View::creator('layouts.backend.base', function($view)
     foreach ( $transactions as $transaction ) {
     	if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == '1' ) {
         	$adminTotalInvestedSum += $transaction->ammount;
+        	$adminTotalSum -= $transaction->ammount;
         	$investedTimes++;
     	} elseif ( $transaction->transaction_direction == 'added' && $transaction->confirmed == '1' ) {
         	$adminTotalSum += $transaction->ammount;
@@ -203,6 +204,7 @@ View::creator('includes.backend.newoffer', function($view)
 			$data['offer_ends'] = $offer->offer_ends;
 			$data['rate'] = $offer->rate;
 			$data['offers'] = count($offers);
+			$data['lastInvest'] = $lastInvest->ammount;
 		} else $data = null;
 	}
 	else {

@@ -101,12 +101,7 @@
 				<a href="{{ URL::to('user/admin/earned/all') }}">
 					Earned money
 				</a>
-			</li>	
-			<li>
-				<a href="{{ URL::to('user/admin/cashoutlist/pending') }}">
-					Cash out request
-				</a>
-			</li>	
+			</li>
 			<li>
 				<a href="{{ URL::to('user/admin/cashoutlist/refused') }}">
 					Refused transactions

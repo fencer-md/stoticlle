@@ -7,9 +7,9 @@
 			<thead>
                 <td>Transaction ID</td>
                 <td>Date</td>
-                <td>Transaction type</td>
                 <td>Payment method</td>
                 <td>Direction</td>
+                <td>Credentials</td>
                 <td>Ammount</td>
 			</thead>
 			<tbody>
@@ -17,14 +17,14 @@
 				<tr>
                     <td>{{ $transaction->id }}</td>
                     <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->transaction_type }}</td>
-                    <td>@if ( $transaction->payment_method == NULL )
+                    <td>@if ( $transaction->payment_system == NULL )
                             System
                         @else
-                            {{ $transaction->payment_method }}
+                            {{ $transaction->payment_system }}
                         @endif
                     </td>
                     <td>{{ $transaction->transaction_direction }}</td>
+                    <td>{{ $transaction->transactionFrom->account_id }}</td>
                     <td>{{ $transaction->ammount }}</td>
 				</tr>
 		@endforeach

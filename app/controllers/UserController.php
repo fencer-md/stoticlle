@@ -63,6 +63,16 @@ class UserController extends \BaseController {
 		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links]);
 	}
 
+	public function updateCommentary()
+	{
+		$uid = Input::get('uid');
+		$user = User::find($uid);
+		$user->commentary = Input::get('user_commentary');
+		$user->save();
+
+		return Redirect::back();
+	}
+
 	public function editUserInfoAdmin($uid)
 	{
 		$user = User::find($uid);
@@ -71,8 +81,9 @@ class UserController extends \BaseController {
 			$birth_date = null;
 		else
 			$birth_date = explode("-", $user_info->birth_date);
+		$links = json_decode($user_info->links);
 
-		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date]);
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links]);
 	}
 
  	public function updateInfo()
@@ -102,7 +113,7 @@ class UserController extends \BaseController {
 
  	public function usersList() 
  	{
- 		$users = User::select('id', 'email')->where('role', '=', '2')->get();
+ 		$users = User::where('role', '=', '2')->get();
  		$usersArray = [];
  		$i = 0;
 
@@ -111,12 +122,15 @@ class UserController extends \BaseController {
 	 		$currentAmmount = 0;
 	 		$investedTimes = 0;
  			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' ) {
+	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
 	 				$ammountAdded += $transaction->ammount;
 	 				$currentAmmount += $transaction->ammount;
 	 			}
-	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
 	 				$investedTimes++;
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
+	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
 	 				$currentAmmount -= $transaction->ammount;
 	 			}
  			}
@@ -125,7 +139,7 @@ class UserController extends \BaseController {
  				'user' => $user, 
  				'ammountAdded' => $ammountAdded, 
  				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes 
+ 				'investedTimes' => $investedTimes,
  				];
  			$i++;
  		}
@@ -135,7 +149,7 @@ class UserController extends \BaseController {
 
  	public function usersListNew() 
  	{
- 		$users = User::select('id', 'email')->where('role', '=', '2')->get();
+ 		$users = User::where('role', '=', '2')->get();
  		$date = new DateTime;
 		$date->modify('-5 days');
 		$formatted_date = $date->format('Y-m-d H:i:s');
@@ -148,15 +162,17 @@ class UserController extends \BaseController {
 	 		$currentAmmount = 0;
 	 		$investedTimes = 0;
  			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' ) {
+	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
 	 				$ammountAdded += $transaction->ammount;
 	 				$currentAmmount += $transaction->ammount;
 	 			}
-	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
 	 				$investedTimes++;
 	 				$currentAmmount -= $transaction->ammount;
 	 			}
-	 			var_dump($ammountAdded);
+	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
  			}
 
  			$usersArray[$i] = [ 
@@ -174,7 +190,7 @@ class UserController extends \BaseController {
 
  	public function usersListInvestors() 
  	{
- 		$users = User::select('id', 'email')->where('investor', '=', '1')->get();
+ 		$users = User::whereNotNull('invested_date')->get();
  		$usersArray = [];
  		$i = 0;
 
@@ -183,15 +199,17 @@ class UserController extends \BaseController {
 	 		$currentAmmount = 0;
 	 		$investedTimes = 0;
  			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' ) {
+	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
 	 				$ammountAdded += $transaction->ammount;
 	 				$currentAmmount += $transaction->ammount;
 	 			}
-	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
 	 				$investedTimes++;
 	 				$currentAmmount -= $transaction->ammount;
 	 			}
-	 			var_dump($ammountAdded);
+	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
  			}
 
  			$usersArray[$i] = [ 
@@ -208,7 +226,7 @@ class UserController extends \BaseController {
 
  	public function usersListAwarded() 
  	{
- 		$users = User::select('id', 'email')->where('awarded', '=', '1')->get();
+ 		$users = User::where('awarded', '=', '1')->get();
  		$usersArray = [];
  		$i = 0;
 
@@ -218,20 +236,20 @@ class UserController extends \BaseController {
 	 		$investedTimes = 0;
 	 		$investedAmmount = 0;
 	 		$awardedAmmount = 0;
- 			foreach ( $user->userTransaction as $transaction ) {
-	 			if ( $transaction->transaction_direction == 'added' ) {
+	 		$awardedTimes = 0;
+ 			foreach ($user->userTransaction as $transaction) {
+	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
 	 				$ammountAdded += $transaction->ammount;
 	 				$currentAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 			} elseif ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
 	 				$investedTimes++;
 	 				$currentAmmount -= $transaction->ammount;
-	 				$investedAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'awarded' ) {
+	 			} elseif ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
+	 				$currentAmmount -= $transaction->ammount;
+	 			} elseif ( $transaction->transaction_direction == 'awarded' && $transaction->confirmed == 1 ) {
 	 				$awardedAmmount += $transaction->ammount;
+	 				$awardedTimes++;
 	 			}
-	 			var_dump($ammountAdded);
  			}
 
  			$usersArray[$i] = [ 
@@ -240,7 +258,8 @@ class UserController extends \BaseController {
  				'currentAmmount' => $currentAmmount, 
  				'investedTimes' => $investedTimes,
  				'investedAmmount' => $investedAmmount,
- 				'awardedAmmount' => $awardedAmmount
+ 				'awardedAmmount' => $awardedAmmount,
+ 				'awardedTimes' => $awardedTimes,
  				];
  			$i++;
  		}
@@ -284,7 +303,7 @@ class UserController extends \BaseController {
 
  	public function usersListAwaiting() 
  	{
- 		$users = User::select('id', 'email')->where('investor', '=', '0')->where('role', '=', '2')->get();
+ 		$users = User::whereNull('invested_date')->where('role', '=', '2')->get();
  		$usersArray = [];
  		$i = 0;
 
@@ -293,15 +312,17 @@ class UserController extends \BaseController {
 	 		$currentAmmount = 0;
 	 		$investedTimes = 0;
  			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' ) {
+	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
 	 				$ammountAdded += $transaction->ammount;
 	 				$currentAmmount += $transaction->ammount;
 	 			}
-	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
 	 				$investedTimes++;
 	 				$currentAmmount -= $transaction->ammount;
 	 			}
-	 			var_dump($ammountAdded);
+	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
+	 				$currentAmmount -= $transaction->ammount;
+	 			}
  			}
 
  			$usersArray[$i] = [ 
