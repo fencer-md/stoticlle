@@ -24,6 +24,7 @@ class UserController extends \BaseController {
 			$user->user_info_id = $userInfo->id;
 			$user->email = Input::get('email');
 			$user->role = '2';
+			$user->awaiting_award = '0';
 			$user->registration_code = str_random(64);
 			$password = str_random(12);
 			$user->password = Hash::make($password);

@@ -115,7 +115,6 @@ View::creator('layouts.backend.base', function($view)
 		$adminUsersRegistered = 0;
 	}
 
-    $transactions = Transaction::all();
     $adminTotalSum = 0;
     $adminTotalInvestedSum = 0;
     $adminTotalRewardedSum = 0;
@@ -151,6 +150,7 @@ View::creator('layouts.backend.base', function($view)
 View::creator('includes.backend.cycles', function($view)
 {
 	$id = Auth::user()->id;
+	
 	$transactions = Transaction::where('user_id', '=', $id)->where('transaction_direction', '=', 'invested')->get();
 	$transactionsCount = count($transactions);
 	if ( count($transactions) == 0 )

@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title"><b>{{ $data['user']['email'] }}</b> transaction history</h3>
-    @if ( Request::is('user/admin/transactions/*') )
+    @if ( Request::is('user/admin/transactions/*') && !Request::is('user/admin/transactions/all') )
         <div class="row user-info">
             <div class="name">{{ $data['user']['userInfo']['first_name'] }} {{ $data['user']['userInfo']['last_name'] }}</div>
             <div class="birth-date">{{ $data['user']['userInfo']['birth_date'] }}</div>

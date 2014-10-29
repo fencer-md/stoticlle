@@ -46,7 +46,7 @@ class RewardUsers extends Command {
 			$formattedDate = $dateInvested->format('Y-m-d H:i:s');
 			$currentDate = date(('Y-m-d H:i:s'));
 			if ( $formattedDate <= $currentDate  )
-				echo $formattedDate;
+				echo "string";
 		}
 	}
 
