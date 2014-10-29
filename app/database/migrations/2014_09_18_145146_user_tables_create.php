@@ -78,7 +78,7 @@ class UserTablesCreate extends Migration {
             $table->integer('confirmed')->nullable();
             $table->string('transaction_direction');
             $table->string('comments');
-            $table->integer('from_credentials')->unsigned();
+            $table->integer('from_credentials')->unsigned()->nullable();
             $table->foreign('from_credentials')->references('id')->on('payment_methods');
             $table->string('to_credentials');
             $table->integer('user_id')->unsigned();
