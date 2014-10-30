@@ -39,7 +39,7 @@ class UserTablesCreate extends Migration {
             $table->string('role');
             $table->string('investor');
             $table->string('awarded');
-            $table->string('awaiting_award');
+            $table->integer('awaiting_award');
             $table->timestamp('invested_date')->nullable();
             $table->string('monitored');
             $table->integer('user_info_id')->unsigned();

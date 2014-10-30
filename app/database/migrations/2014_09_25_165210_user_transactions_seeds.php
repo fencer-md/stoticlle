@@ -62,6 +62,7 @@ class UserTransactionsSeeds extends Migration {
                     'user_info_id' => '2',
                     'registration_code'  => '0',
                     'registration_status' => '1',
+                    'awaiting_award' => '0',
                 ),
         	)
 		);

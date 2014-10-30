@@ -238,7 +238,7 @@ class TransactionsController extends \BaseController {
     {
         $uid = Auth::user()->id;
         $lastTransaction = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->first();
-        if ( $lastTransaction->confirmed == 0 ) 
+        if ( $lastTransaction != null && $lastTransaction->confirmed == 0 ) 
         {
             $lastTransaction->ammount = Input::get('ammount');
             $lastTransaction->confirmed = 1;

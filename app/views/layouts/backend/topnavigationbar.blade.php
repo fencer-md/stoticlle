@@ -103,7 +103,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ URL::to('user/admin/cashoutlist/refused') }}">
+				<a href="{{ URL::to('user/admin/denied') }}">
 					Refused transactions
 				</a>
 			</li>

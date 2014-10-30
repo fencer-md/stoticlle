@@ -158,7 +158,7 @@ View::creator('includes.backend.cycles', function($view)
 	else
 		$ammount = $transactions[$transactionsCount-1]->ammount;
 
-	if ( Auth::user()->awaiting_award == 1 && $ammount <= 999 ) 
+	if ( Auth::user()->awaiting_award == 1 && Auth::user()->investor != 1 && $ammount <= 1000 )
 	{
 	    $data = Helper::reward($ammount, 0.02);
 	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
