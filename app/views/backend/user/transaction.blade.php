@@ -24,7 +24,11 @@
                         @endif
                     </td>
                     <td>{{ $transaction->transaction_direction }}</td>
-                    <td>{{ $transaction->transactionFrom->account_id }}</td>
+                    @if ( $transaction->transactionFrom != null )
+                        <td>{{ $transaction->transactionFrom->account_id }}</td>
+                    @else
+                        <td>-</td>
+                    @endif
                     <td>{{ $transaction->ammount }}</td>
 				</tr>
 		@endforeach

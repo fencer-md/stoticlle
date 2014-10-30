@@ -158,7 +158,7 @@ View::creator('includes.backend.cycles', function($view)
 	else
 		$ammount = $transactions[$transactionsCount-1]->ammount;
 
-	if ( Auth::user()->awaiting_award == 1 && $ammount <= 1000 ) 
+	if ( Auth::user()->awaiting_award == 1 && $ammount <= 999 ) 
 	{
 	    $data = Helper::reward($ammount, 0.02);
 	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
@@ -180,10 +180,10 @@ View::creator('includes.backend.newoffer', function($view)
     $transactions = Transaction::where('user_id', '=', $uid)->get();
     $userMoneyAvailable = 0;
     foreach ( $transactions as $transaction ) {
-    	if ( $transaction->transaction_direction == 'invested' ) {
+    	if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
         	$userMoneyAvailable -= $transaction->ammount;
     	}
-        else
+        elseif ( ($transaction->transaction_direction == 'added' || $transaction->transaction_direction == 'reward') && $transaction->confirmed == 1 )
         	$userMoneyAvailable += $transaction->ammount;    
 	}
 
@@ -204,14 +204,14 @@ View::creator('includes.backend.newoffer', function($view)
 			$data['offer_ends'] = $offer->offer_ends;
 			$data['rate'] = $offer->rate;
 			$data['offers'] = count($offers);
-			$data['lastInvest'] = $lastInvest->ammount;
+			$data['lastInvest'] = $lastInvest;
 		} else $data = null;
 	}
 	else {
 		$data = null;
 	}
 
-	$view->with('data', $data)->with('moneyAvailable', $userMoneyAvailable);
+	$view->with('data', $data)->with('moneyAvailable', $userMoneyAvailable)->with('lastInvest', $lastInvest);
 });
 
 View::creator('backend.user.withdraw', function($view)
@@ -221,13 +221,13 @@ View::creator('backend.user.withdraw', function($view)
     $transactions = Transaction::where('user_id', '=', $uid)->get();
     $userMoneyAvailable = 0;
     foreach ( $transactions as $transaction ) {
-    	if ( $transaction->transaction_direction == 'added' || $transaction->transaction_direction == 'reward' && $transaction->confirmed == 1 ) {
+    	if ( ($transaction->transaction_direction == 'added' || $transaction->transaction_direction == 'reward') && $transaction->confirmed == 1 ) {
         	$userMoneyAvailable += $transaction->ammount;
     	}
-        else
+        elseif ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 )
         	$userMoneyAvailable -= $transaction->ammount;
 	}
-
+	
 	$view->with('moneyAvailable', $userMoneyAvailable);
 
 });

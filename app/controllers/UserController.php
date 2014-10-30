@@ -279,11 +279,11 @@ class UserController extends \BaseController {
 	 		$currentAmmount = 0;
 	 		$investedTimes = 0;
  			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' ) {
+	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
 	 				$ammountAdded += $transaction->ammount;
 	 				$currentAmmount += $transaction->ammount;
 	 			}
-	 			if ( $transaction->transaction_direction == 'invested' ) {
+	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
 	 				$investedTimes++;
 	 				$currentAmmount -= $transaction->ammount;
 	 			}
@@ -345,46 +345,50 @@ class UserController extends \BaseController {
  		$usersArray = null;
 
  		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
-	 		$investedAmmount = 0;
-	 		$awardedAmmount = 0;
-	 		$lastTransaction = Transaction::where('user_id', '=', $user->id)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->get();
-	 		$lastOffer = count($user->userOffer);
-	 		if ( $lastOffer == 0 )
-	 			$lastOffer = null;
-	 		else
-	 			$lastOffer = $user->userOffer[$lastOffer-1]->offer_ends;
-	 		$currentDate = date(('Y-m-d H:i:s'));
+	 		$lastTransaction = Transaction::where('user_id', '=', $user->id)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->first();
+	 		
+	 		if ( $lastTransaction->ammount >= 1000 && $lastTransaction->confirmed != 1 )
+	 		{
+		 		$ammountAdded = 0;
+		 		$currentAmmount = 0;
+		 		$investedTimes = 0;
+		 		$investedAmmount = 0;
+		 		$awardedAmmount = 0;
+		 		$lastOffer = count($user->userOffer);
+		 		if ( $lastOffer == 0 )
+		 			$lastOffer = null;
+		 		else
+		 			$lastOffer = $user->userOffer[$lastOffer-1]->offer_ends;
+		 		$currentDate = date(('Y-m-d H:i:s'));
 
-	 		if ( $lastTransaction->count() != 0
-	 			 && ( $lastOffer == null || $currentDate >= $lastOffer ) ) {
-	 			foreach ( $user->userTransaction as $transaction ) {
-		 			if ( $transaction->transaction_direction == 'added' ) {
-		 				$ammountAdded += $transaction->ammount;
-		 				$currentAmmount += $transaction->ammount;
+		 		if ( $lastTransaction->count() != 0
+		 			 && ( $lastOffer == null || $currentDate >= $lastOffer ) ) {
+		 			foreach ( $user->userTransaction as $transaction ) {
+			 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
+			 				$ammountAdded += $transaction->ammount;
+			 				$currentAmmount += $transaction->ammount;
+			 			}
+			 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
+			 				$investedTimes++;
+			 				$currentAmmount -= $transaction->ammount;
+			 				$investedAmmount += $transaction->ammount;
+			 			}
+			 			if ( $transaction->transaction_direction == 'awarded' && $transaction->confirmed == 1 ) {
+			 				$awardedAmmount += $transaction->ammount;
+			 			}
 		 			}
-		 			if ( $transaction->transaction_direction == 'invested' ) {
-		 				$investedTimes++;
-		 				$currentAmmount -= $transaction->ammount;
-		 				$investedAmmount += $transaction->ammount;
-		 			}
-		 			if ( $transaction->transaction_direction == 'awarded' ) {
-		 				$awardedAmmount += $transaction->ammount;
-		 			}
-	 			}
 
-	 			$usersArray[$i] = [ 
-	 				'user' => $user, 
-	 				'ammountAdded' => $ammountAdded, 
-	 				'currentAmmount' => $currentAmmount, 
-	 				'investedTimes' => $investedTimes,
-	 				'investedAmmount' => $investedAmmount,
-	 				'awardedAmmount' => $awardedAmmount
-	 				];
-	 			$i++;
- 			}
+		 			$usersArray[$i] = [ 
+		 				'user' => $user, 
+		 				'ammountAdded' => $ammountAdded, 
+		 				'currentAmmount' => $currentAmmount, 
+		 				'investedTimes' => $investedTimes,
+		 				'investedAmmount' => $investedAmmount,
+		 				'awardedAmmount' => $awardedAmmount
+		 				];
+		 			$i++;
+	 			}	 			
+	 		}
  		}
  		return View::make('backend.admin.userslist', ['users' => $usersArray]);
 

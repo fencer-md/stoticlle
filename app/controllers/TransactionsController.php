@@ -9,11 +9,11 @@ class TransactionsController extends \BaseController {
         if ( $uid == "all")
         {
             $user = null;
-            $transactions = Transaction::all();
+            $transactions = Transaction::where('confirmed', '=', 1)->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
-            $transactions = Transaction::where('user_id', '=', $uid)->get();
+            $transactions = Transaction::where('user_id', '=', $uid)->where('confirmed', '=', 1)->get();
         }
 
         $data = ['transactions' => $transactions, 'user' => $user];
@@ -135,8 +135,10 @@ class TransactionsController extends \BaseController {
     public function usersWithdrawMoneyConfirm() 
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
-        if ( Input::get('status') == 'deny' )
+        if ( Input::get('status') == 'deny' ) {
             $transaction->transaction_direction = 'withdraw(denied)';
+            $transaction->confirmed = 1;
+        }
         else
             $transaction->confirmed = 1;
         $transaction->save();
@@ -234,25 +236,55 @@ class TransactionsController extends \BaseController {
 
     public function investMoney()
     {
-        if ( Input::get('ammount') > Input::get('moneyAvailable')  )
+        $uid = Auth::user()->id;
+        $lastTransaction = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->first();
+        if ( $lastTransaction->confirmed == 0 ) 
+        {
+            $lastTransaction->ammount = Input::get('ammount');
+            $lastTransaction->confirmed = 1;
+            $lastTransaction->date = date('Y-m-d H:i:s');            
+            $user = User::where('id', '=', $uid)->first();
+            $user->awaiting_award = 1;
+            $user->invested_date = date('Y-m-d H:i:s');
+            $user->save();
+            $lastTransaction->user_id = $uid;
+            $lastTransaction->save();
+
+            $email = Auth::user()->email;
+            $username = Auth::user()->userInfo->first_name;
+
+            $data = ['username' => $username, 'ammount' => $lastTransaction->ammount];
+
+            Mail::send('emails.invested', $data, function($message) {
+                $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+            });
+
+            return Redirect::back();
+        } elseif ( Input::get('ammount') > Input::get('moneyAvailable')  )
         {
             return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money to invest.');
         } else
         {
-            $id = Auth::user()->id;
-
             $transaction = new Transaction;
             $transaction->ammount = Input::get('ammount');
             $transaction->transaction_direction = 'invested';
-            $transaction->confirmed = 1;
-            $transaction->date = date('Y-m-d H:i:s');
-            $transaction->user_id = $id;
+            if ( Input::get('ammount') >= 1000
+                 && Auth::user()->investor == 1 ) 
+            {
+                $transaction->confirmed = 0;
+
+            }
+            else 
+            {
+                $transaction->confirmed = 1;
+                $transaction->date = date('Y-m-d H:i:s');            
+                $user = User::where('id', '=', $uid)->first();
+                $user->awaiting_award = 1;
+                $user->invested_date = date('Y-m-d H:i:s');
+                $user->save();
+            }
+            $transaction->user_id = $uid;
             $transaction->save();
-            
-            $user = User::where('id', '=', $id)->first();
-            $user->awaiting_award = 1;
-            $user->invested_date = date('Y-m-d H:i:s');
-            $user->save();
 
             $email = Auth::user()->email;
             $username = Auth::user()->userInfo->first_name;
