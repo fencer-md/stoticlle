@@ -53,6 +53,7 @@ class UserTransactionsSeeds extends Migration {
                     'user_info_id' => '1',
                     'registration_code'  => '0',
                     'registration_status' => '1',
+                    'awaiting_award' => '0',
                 ),
                 array(
                     'email' => 'admin@admin.com',
