@@ -8,5 +8,6 @@
 <div>
 	Hello {{ $username }}!
 	You've succesufully added {{ $ammount }}
+	{{ $text }}
 </div>
 @stop

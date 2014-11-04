@@ -56,12 +56,13 @@ class UserTablesCreate extends Migration {
             $table->integer('awaiting_award');
             $table->timestamp('invested_date')->nullable();
             $table->string('monitored');
+            $table->string('blocked');
             $table->integer('user_info_id')->unsigned();
             $table->foreign('user_info_id')->references('id')->on('users_info');
             $table->integer('user_money_id')->unsigned();
             $table->foreign('user_money_id')->references('id')->on('user_money_info');
             $table->timestamp('last_login')->nullable();
-            $table->string('registration_code');  
+            $table->string('registration_code');
             $table->string('registration_status');
             $table->string('remember_token', 100);
             $table->timestamps();

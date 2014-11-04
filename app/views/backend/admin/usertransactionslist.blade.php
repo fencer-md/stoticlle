@@ -4,16 +4,34 @@
     @if ( Request::is('user/admin/transactions/*') && !Request::is('user/admin/transactions/all') )
         <h3 class="page-title"><b>{{ $user->email }}</b> transaction history</h3>
         <div class="row user-info">
-            <div class="name">{{ $data['user']['userInfo']['first_name'] }} {{ $data['user']['userInfo']['last_name'] }}</div>
-            <div class="birth-date">{{ $data['user']['userInfo']['birth_date'] }}</div>
-            <div class="country">{{ $data['user']['userInfo']['country'] }}</div>
-            <div class="city">{{ $data['user']['userInfo']['city'] }}</div>
-            <div class="commentary">
-                {{ Form::open(['action' => 'UserController@updateCommentary', 'class' => 'form-horizontal']) }}
-                    {{ Form::hidden('uid', $data['user']['id']) }}
-                    {{ Form::textarea('user_commentary', $data['user']['commentary']) }}
-                    {{ Form::submit('Save', ['class' => 'btn default btn-xs blue']) }}
-                {{ Form::close() }}
+            <div class="col-md-6">
+                <div class="name">{{ $user->first_name }} {{ $user->last_name }}</div>
+                <div class="birth-date">{{ $user->birth_date }}</div>
+                <div class="country">{{ $user->country }}</div>
+                <div class="city">{{ $user->city }}</div>
+                <div class="commentary">
+                    {{ Form::open(['action' => 'UserController@updateCommentary', 'class' => 'form-horizontal']) }}
+                        {{ Form::hidden('uid', $user->id) }}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="icheck-list">
+                                    @if ( $user->monitored == 'true' )
+                                        <label>{{ Form::checkbox('monitored', 'true', ['checked']) }}Monitor</label>
+                                    @elseif ( $user->monitored != 'true' )
+                                        <label>{{ Form::checkbox('monitored', 'true', []) }}Monitor</label>
+                                    @endif
+                                    @if ( $user->blocked == 'true' )
+                                        <label>{{ Form::checkbox('blocked', 'true', ['checked']) }}Block</label>
+                                    @elseif ( $user->blocked != 'true' )
+                                        <label>{{ Form::checkbox('blocked', 'true', []) }}Block</label>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>                    
+                        {{ Form::textarea('user_commentary', $user->commentary) }}
+                        {{ Form::submit('Save', ['class' => 'btn default btn-xs blue']) }}
+                    {{ Form::close() }}
+                </div>
             </div>
         </div>
     @endif
@@ -117,7 +135,7 @@
                         @if ( $transaction->transactionFrom == null )
                             <td>-</td>
                         @else
-                            <td>{{ $transaction->account_id }}</td>
+                            <td>{{ $transaction->transactionFrom->account_id }}</td>
                         @endif
                     @endif
                     <td>{{ $transaction->ammount }}$</td>
@@ -125,12 +143,7 @@
                         <td>{{ $transaction->transactionFrom->account_id }}</td>
                         <td>
                             <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id) }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Approve</a>
-                            {{ Form::open(['action' => 'TransactionsController@addMoneyRequestStatus', 'class' => 'form-horizontal']) }}
-                                {{ Form::hidden('tid', $transaction->id) }}
-                                {{ Form::hidden('uid', $transaction->user_id) }}
-                                {{ Form::hidden('status', 'deny') }}
-                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
-                            {{ Form::close() }}
+                            <a class="btn default btn-xs red" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id.'&status=deny') }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Deny</a>
                         </td>
                     @elseif ( Request::is('user/admin/withdrawrequests') )
                         <td>{{ $transaction->transactionFrom->account_id }}</td>
@@ -141,12 +154,7 @@
                                 {{ Form::hidden('status', 'allow') }}
                                 {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
                             {{ Form::close() }}
-                            {{ Form::open(['action' => 'TransactionsController@usersWithdrawMoneyConfirm', 'class' => 'form-horizontal']) }}
-                                {{ Form::hidden('tid', $transaction->id) }}
-                                {{ Form::hidden('uid', $transaction->user_id) }}
-                                {{ Form::hidden('status', 'deny') }}
-                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
-                            {{ Form::close() }}
+                            <a class="btn default btn-xs red" data-toggle="modal" href="{{ URL::to('user/admin/withdrawrequest?tid='.$transaction->id.'&uid='.$transaction->user_id.'&status=deny') }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Deny</a>
                         </td>
                     @elseif ( Request::is('user/admin/moneyrecieved') )
                         <td>{{ $transaction->transactionFrom->account_id }}</td>
@@ -157,13 +165,8 @@
                                 {{ Form::hidden('uid', $transaction->user_id) }}
                                 {{ Form::hidden('status', 'allow') }}
                                 {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
-                            {{ Form::close() }}
-                            {{ Form::open(['action' => 'TransactionsController@addMoneyRequestConfirm', 'class' => 'form-horizontal']) }}
-                                {{ Form::hidden('tid', $transaction->id) }}
-                                {{ Form::hidden('uid', $transaction->user_id) }}
-                                {{ Form::hidden('status', 'deny') }}
-                                {{ Form::submit('Deny', ['class' => 'btn default btn-xs red']) }}
-                            {{ Form::close() }}
+                            {{ Form::close() }}                            
+                            <a class="btn default btn-xs red" data-toggle="modal" href="{{ URL::to('user/admin/addmoneyrequest?tid='.$transaction->id.'&uid='.$transaction->user_id.'&status=deny') }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Deny</a>
                         </td>       
                     @elseif ( Request::is('user/admin/withdrawrequest') )
                         <td>
@@ -193,4 +196,12 @@
             </div>
           </div>
         </div>
+@stop
+
+@section('custom_scripts')
+    <script>
+        $('#info-dialog').on('hidden.bs.modal', function() {
+            $(this).removeData('bs.modal');
+        });
+    </script>
 @stop

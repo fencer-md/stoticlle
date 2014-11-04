@@ -161,32 +161,53 @@ class TransactionsController extends \BaseController {
 
     public function usersAddMoney()
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'added')->where('confirmed', '=', '0')->get();
+        $uid = null;
+        $controller = 'usersAddMoney';
 
-        $data = ['transactions' => $transactions, 'user' => $user];
+        $transactions = Transaction::select('users_transaction.id as id', 'user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                     ->where('transaction_direction', '=', 'added')
+                                     ->where('confirmed', '=', '0')
+                                     ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                     ->get();
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function usersAddMoneyPending()
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'added(pending)')->where('confirmed', '=', '0')->get();
+        $uid = null;
+        $controller = 'usersAddMoneyPending';
 
-        $data = ['transactions' => $transactions, 'user' => $user];
+        $transactions = Transaction::select('users_transaction.id as id', 'user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                     ->where('transaction_direction', '=', 'added(pending)')
+                                     ->where('confirmed', '=', '0')
+                                     ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                     ->get();
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function usersWithdrawMoney()
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'withdraw')->where('confirmed', '=', '0')->get();
+        $uid = null;
+        $controller = 'usersWithdrawMoney';
 
-        $data = ['transactions' => $transactions, 'user' => $user];
+        $transactions = Transaction::select('users_transaction.id as id', 'user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                     ->where('transaction_direction', '=', 'withdraw')
+                                     ->where('confirmed', '=', '0')
+                                     ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                     ->get();
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function moneyEarned() 
@@ -237,10 +258,12 @@ class TransactionsController extends \BaseController {
         $email = $user->email;
         $username = $user->userInfo->first_name;
 
-        $data = ['username' => $username, 'ammount' => Input::get('ammount')];
+        $data = ['username' => $username, 'ammount' => Input::get('ammount'), 'text' => Input::get('text')];
 
-        Mail::send('emails.withdrawconfirm', $data, function($message) {
-            $message->to(Auth::user()->email, 'test')->subject('Withdraw!');
+        Mail::send('emails.addmoneycredentials', $data, function($message) {
+            $user = User::where('id', '=', Input::get('uid'))->first();
+            $email = $user->email;
+            $message->to($email, 'test')->subject('Add money request info');
         });
 
         $user->save();
@@ -263,10 +286,12 @@ class TransactionsController extends \BaseController {
         $email = $user->email;
         $username = $user->userInfo->first_name;
 
-        $data = ['username' => $username, 'credentials' => Input::get('credentials')];
+        $data = ['username' => $username, 'credentials' => Input::get('credentials'), 'text' => Input::get('text')];
 
         Mail::send('emails.addmoneycredentials', $data, function($message) {
-            $message->to(Auth::user()->email, 'test')->subject('credentials!');
+            $user = User::where('id', '=', Input::get('uid'))->first();
+            $email = $user->email;
+            $message->to($email, 'test')->subject('Add money request info');
         });
 
         return Redirect::back();
@@ -290,11 +315,14 @@ class TransactionsController extends \BaseController {
 
         $email = $user->email;
         $username = $user->userInfo->first_name;
+        $text = 'You successfuly added '.$transaction->ammount.'$';
 
-        $data = ['username' => $username, 'ammount' => $transaction->ammount];
+        $data = ['username' => $username, 'ammount' => $transaction->ammount, 'text' => $text];
 
-        Mail::send('emails.addmoneyconfirmation', $data, function($message) {
-            $message->to(Auth::user()->email, 'test')->subject('Success!');
+        Mail::send('emails.addmoneycredentials', $data, function($message) {
+            $user = User::where('id', '=', Input::get('uid'))->first();
+            $email = $user->email;
+            $message->to($email, 'test')->subject('Add money request info');
         });
 
         return Redirect::back();
@@ -366,8 +394,7 @@ class TransactionsController extends \BaseController {
             $transaction = new Transaction;
             $transaction->ammount = Input::get('ammount');
             $transaction->transaction_direction = 'invested';
-            if ( Input::get('ammount') >= 1000
-                 && Auth::user()->investor == 1 ) 
+            if ( Auth::user()->investor == 1 ) 
             {
                 $transaction->confirmed = 0;
             }
@@ -375,8 +402,8 @@ class TransactionsController extends \BaseController {
             {
                 $user = User::where('id', '=', $uid)->first();
                 $transaction->confirmed = 1;
-                $user->userMoney->ammount_invested += $transaction->ammount;
-                $user->userMoney->current_available -= $lastTransaction->ammount;
+                $user->userMoney->ammount_invested += Input::get('ammount');
+                $user->userMoney->current_available -= Input::get('ammount');
                 $user->userMoney->times_invested++;
                 $user->userMoney->save();
                 $transaction->date = date('Y-m-d H:i:s');            

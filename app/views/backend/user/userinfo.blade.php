@@ -9,13 +9,13 @@
                         <div class="form-group">
                             {{ Form::label('first_name', 'First name', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('first_name', $user_info->first_name, ['class' => 'form-control']) }}
+                                {{ Form::text('first_name', $user_info->first_name, ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('last_name', 'Surname', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('last_name', $user_info->last_name, ['class' => 'form-control']) }}
+                                {{ Form::text('last_name', $user_info->last_name, ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
@@ -23,15 +23,15 @@
                             <div class="col-md-9">
                                 <div class="radio-list">
                                     @if ( $user_info->gender == 'male' )
-                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'male', true) }}</span></div>M</label>
+                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'male', true, [$disabled]) }}</span></div>M</label>
                                     @else
-                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'male') }}</span></div>M</label>
+                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'male', null, [$disabled]) }}</span></div>M</label>
                                     @endif
 
                                     @if ( $user_info->gender == 'female' )
-                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'female', true) }}</span></div>F</label>
+                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'female', true, [$disabled]) }}</span></div>F</label>
                                     @else
-                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'female') }}</span></div>F</label>
+                                        <label class="radio-inline"><div><span>{{ Form::radio('gender', 'female', null, [$disabled]) }}</span></div>F</label>
                                     @endif
                                 </div>
                             </div>
@@ -39,31 +39,31 @@
                         <div class="form-group"> 
                             {{ Form::label('birth_date', 'Birth date', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('birth_date', $user_info->birth_date, ['placeholder' => 'ex. 1990-01-01 ', 'class' => 'form-control']) }}
+                                {{ Form::text('birth_date', $user_info->birth_date, ['placeholder' => 'ex. 1990-01-01 ', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('country', 'Country', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('country', $user_info->country, ['class' => 'form-control']) }}
+                                {{ Form::text('country', $user_info->country, ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('city', 'City', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('city', $user_info->city, ['class' => 'form-control']) }}
+                                {{ Form::text('city', $user_info->city, ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('password', 'Password', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::password('password', ['class' => 'form-control']) }}
+                                {{ Form::password('password', ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('re-password', 'Retype password', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::password('re-password', ['class' => 'form-control']) }}
+                                {{ Form::password('re-password', ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-actions"> 
@@ -75,19 +75,19 @@
                         <div class="form-group"> 
                             {{ Form::label('facebook', 'Facebook link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('link-1', $links[0], ['class' => 'form-control']) }}
+                                {{ Form::text('link-1', $links[0], ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('twitter', 'Twitter link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('link-2', $links[1], ['class' => 'form-control']) }}
+                                {{ Form::text('link-2', $links[1], ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('pinterest', 'Pinterest link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('link-2', $links[1], ['class' => 'form-control']) }}
+                                {{ Form::text('link-2', $links[1], ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                     </div>

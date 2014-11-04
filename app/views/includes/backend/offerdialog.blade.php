@@ -26,3 +26,11 @@
     {{ Form::close() }}
    </div>
 </div>
+<script>
+   jQuery(document).ready(function() {    
+      Metronic.init(); // init metronic core components
+      Layout.init(); // init current layout
+      QuickSidebar.init(); // init quick sidebar
+      ComponentsPickers.init();
+   });
+</script>

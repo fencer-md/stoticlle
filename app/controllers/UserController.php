@@ -62,9 +62,11 @@ class UserController extends \BaseController {
 			$birth_date = null;
 		else
 			$birth_date = explode("-", $user_info->birth_date);
+
+		$disabled = null;
 		$links = json_decode($user_info->links);
 
-		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links]);
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links, 'disabled' => $disabled]);
 	}
 
 	public function updateCommentary()
@@ -72,6 +74,7 @@ class UserController extends \BaseController {
 		$uid = Input::get('uid');
 		$user = User::find($uid);
 		$user->commentary = Input::get('user_commentary');
+		$user->monitored = Input::get('monitored');
 		$user->save();
 
 		return Redirect::back();
@@ -85,9 +88,11 @@ class UserController extends \BaseController {
 			$birth_date = null;
 		else
 			$birth_date = explode("-", $user_info->birth_date);
+
+		$disabled = 'disabled';
 		$links = json_decode($user_info->links);
 
-		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links]);
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links, 'disabled' => $disabled]);
 	}
 
  	public function updateInfo()
@@ -205,12 +210,12 @@ class UserController extends \BaseController {
  		$controller = 'usersListMonitored';
 
  		if ( $sortby && $order ) 			
- 			$users = User::where('monitored', '=', '1')
+ 			$users = User::where('monitored', '=', 'true')
  						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
  						   ->orderBy($sortby, $order)
  						   ->get();
  		else
- 			$users = User::where('monitored', '=', '1')
+ 			$users = User::where('monitored', '=', 'true')
  						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
  						   ->get();
  		
@@ -245,21 +250,25 @@ class UserController extends \BaseController {
  		$order = Input::get('order');
  		$controller = 'usersListNext';
 
- 		if ( $sortby && $order ) 			
+ 		if ( $sortby && $order )
  			$users = User::where('users.investor', '=', 1)
  						   ->where('users.role', '=', 2)
+ 						   ->where('users.investor', '=', 1)
+ 						   ->where('users.awaiting_award', '=', 0)
  						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
  						   ->orderBy($sortby, $order)
  						   ->get();
  		else
  			$users = User::where('users.investor', '=', 1)
  						   ->where('users.role', '=', 2)
+ 						   ->where('users.investor', '=', 1)
+ 						   ->where('users.awaiting_award', '=', 0)
  						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
  						   ->get();
 
  		foreach ($users as $key => $user) {
 	 		$lastTransaction = Transaction::where('user_id', '=', $user->id)->where('ammount', '>=', '1000')->where('confirmed', '=', 0)->where('transaction_direction', '=', 'invested')->first();
-	 		
+
 	 		$lastOffer = count($user->userOffer);
 	 		if ( $lastOffer == 0 )
 	 			$lastOffer = null;
@@ -268,14 +277,14 @@ class UserController extends \BaseController {
 
 	 		$currentDate = date(('Y-m-d H:i:s'));
 
-	 		if ( $lastTransaction == null ){
+	 		if ( $lastTransaction == null
+	 			 && ( $lastOffer == null || $currentDate < $lastOffer ) ){
 	 			unset($users[$key]);
 	 		}
 
-	 		if ( $lastTransaction != null
-	 			 && ( $lastOffer == null || $currentDate < $lastOffer ) ) {
-	 				unset($users[$key]);
- 			}
+	 		if ( $lastOffer != null && $currentDate < $lastOffer ){
+	 			unset($users[$key]);
+	 		}
  		}
 
  		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);

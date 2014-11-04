@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'idontneedthisemail123@gmail.com', 'name' => 'Stoticlle'),
+	'from' => array('address' => 'production@plusplus.md', 'name' => 'Stoticlle'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'idontneedthisemail123@gmail.com',
+	'username' => 'production@plusplus.md',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'q1werty23',
+	'password' => 'str787ef!',
 
 	/*
 	|--------------------------------------------------------------------------

@@ -7,6 +7,6 @@
 @section('content')
 <div>
 	Hello {{ $username }}!
-	{{ $credentials }}
+	{{ $text }}
 </div>
 @stop

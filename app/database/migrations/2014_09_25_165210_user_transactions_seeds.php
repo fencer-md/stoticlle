@@ -72,7 +72,7 @@ class UserTransactionsSeeds extends Migration {
 		DB::table('users')->insert(
         	array(
             	array(
-                	'email' => 'user@mail.com',
+                	'email' => 'user@user.com',
                 	'password' => Hash::make('user'),
                 	'role' => '2',                	
                     'user_info_id' => '1',

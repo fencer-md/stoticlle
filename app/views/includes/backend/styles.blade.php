@@ -8,7 +8,7 @@
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL STYLES --> 
 <link href="{{ URL::asset('backend/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" type="text/css"/>
-<link href="{{ URL::asset('backend/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('backend/plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('backend/plugins/fullcalendar/fullcalendar/fullcalendar.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ URL::asset('backend/plugins/jqvmap/jqvmap/jqvmap.css') }}" rel="stylesheet" type="text/css" media="screen"/>
 <!-- END PAGE LEVEL STYLES -->
