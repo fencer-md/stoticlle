@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('homepage');
-});
+Route::get('/', 'MapController@output');
 
 Route::get('register', function()
 {
@@ -99,50 +96,57 @@ Route::resource('user', 'UserController');
 View::creator('layouts.backend.base', function($view)
 {
 	if ( Auth::user()->role == '1' ) {
-	    $transactions = Transaction::all();
     	$users = User::where('role', '=', '2')->get();
-    	$adminUsersRegistered = count($users);
-		$lastInvestedAmmount = 0;
+
+    	$usersRegistered = count($users);
+	    $currentAmmount = 0;
+	    $totalAdded = 0;
+	    $totalInvested = 0;
+	    $totalRewarded = 0;
+	    $totalWithdrawn = 0;
+	    $totalCycles = 0;
+
+		foreach ($users as $user) {
+		    $totalAdded += $user->userMoney->ammount_added;
+		    $totalInvested += $user->userMoney->ammount_invested;
+		    $totalRewarded += $user->userMoney->ammount_won;
+		    $totalWithdrawn += $user->userMoney->ammount_withdrawn;
+	    	$currentAmmount += ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
+	    	$totalCycles = $user->userMoney->times_won;
+		}
+
+		$data = [
+			'usersRegistered' => $usersRegistered,
+			'currentAmmount' => $currentAmmount,
+			'totalInvested' => $totalInvested,
+			'totalRewarded' => $totalRewarded,
+			'totalCycles' => $totalCycles,
+			];
+
 	} elseif ( Auth::user()->role == '2' ) {
-    	$lastInvestedAmmount = 0;
 	    $uid = Auth::user()->id;
-	    $transactions = Transaction::where('user_id', '=', $uid)->get();
+	    $user = User::where('id', '=', $uid)->first();
+
+	    $totalAdded = $user->userMoney->ammount_added;
+	    $totalInvested = $user->userMoney->ammount_invested;
+	    $totalRewarded = $user->userMoney->ammount_won;
+	    $totalWithdrawn = $user->userMoney->ammount_withdrawn;
+	    $currentAmmount = ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
+
 		$lastInvestedAmmount = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->orderBy('created_at', 'DESC')->first();
 		if ( count($lastInvestedAmmount) == 0 )
 			$lastInvestedAmmount = 0;
 		else
 			$lastInvestedAmmount = $lastInvestedAmmount->ammount;
 		$adminUsersRegistered = 0;
-	}
 
-    $adminTotalSum = 0;
-    $adminTotalInvestedSum = 0;
-    $adminTotalRewardedSum = 0;
-    $adminCyclesFinished = 0;
-    $investedTimes = 0;
-    foreach ( $transactions as $transaction ) {
-    	if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == '1' ) {
-        	$adminTotalInvestedSum += $transaction->ammount;
-        	$adminTotalSum -= $transaction->ammount;
-        	$investedTimes++;
-    	} elseif ( $transaction->transaction_direction == 'added' && $transaction->confirmed == '1' ) {
-        	$adminTotalSum += $transaction->ammount;
-        } elseif ( $transaction->transaction_direction == 'reward' && $transaction->confirmed == '1' ) {
-        	$adminTotalRewardedSum += $transaction->ammount;
-        	$adminCyclesFinished += 1;
-        } elseif ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == '1' ) {
-        	$adminTotalSum -= $transaction->ammount;
-        }
+		$data = [ 
+			'currentAmmount' => $currentAmmount,
+			'totalInvested' => $totalInvested,
+			'totalRewarded' => $totalRewarded,
+			'lastInvestedAmmount' => $lastInvestedAmmount,
+			];
 	}
-
-	$data = [ 
-		'adminUsersRegistered' => $adminUsersRegistered,
-		'adminTotalSum' => $adminTotalSum,
-		'adminTotalInvestedSum' => $adminTotalInvestedSum,
-		'adminTotalRewardedSum' => $adminTotalRewardedSum,
-		'adminCyclesFinished' => $adminCyclesFinished,
-		'lastInvestedAmmount' => $lastInvestedAmmount,
-		];
 
 	$view->with('data', $data);
 });
@@ -158,7 +162,7 @@ View::creator('includes.backend.cycles', function($view)
 	else
 		$ammount = $transactions[$transactionsCount-1]->ammount;
 
-	if ( Auth::user()->awaiting_award == 1 && Auth::user()->investor != 1 && $ammount <= 1000 )
+	if ( Auth::user()->awaiting_award == 1 && Auth::user()->investor != 1 )
 	{
 	    $data = Helper::reward($ammount, 0.02);
 	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
@@ -176,16 +180,13 @@ View::creator('includes.backend.cycles', function($view)
 View::creator('includes.backend.newoffer', function($view)
 {
 	$uid = Auth::user()->id;
+	$user = User::where('id', '=', $uid)->first();
 
-    $transactions = Transaction::where('user_id', '=', $uid)->get();
-    $userMoneyAvailable = 0;
-    foreach ( $transactions as $transaction ) {
-    	if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-        	$userMoneyAvailable -= $transaction->ammount;
-    	}
-        elseif ( ($transaction->transaction_direction == 'added' || $transaction->transaction_direction == 'reward') && $transaction->confirmed == 1 )
-        	$userMoneyAvailable += $transaction->ammount;    
-	}
+    $totalAdded = $user->userMoney->ammount_added;
+    $totalInvested = $user->userMoney->ammount_invested;
+    $totalRewarded = $user->userMoney->ammount_won;
+    $totalWithdrawn = $user->userMoney->ammount_withdrawn;
+    $userMoneyAvailable = ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
 
 	$offers = Auth::user()->userOffer;
 	$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
@@ -217,17 +218,20 @@ View::creator('includes.backend.newoffer', function($view)
 View::creator('backend.user.withdraw', function($view)
 {
 	$uid = Auth::user()->id;
-
-    $transactions = Transaction::where('user_id', '=', $uid)->get();
-    $userMoneyAvailable = 0;
-    foreach ( $transactions as $transaction ) {
-    	if ( ($transaction->transaction_direction == 'added' || $transaction->transaction_direction == 'reward') && $transaction->confirmed == 1 ) {
-        	$userMoneyAvailable += $transaction->ammount;
-    	}
-        elseif ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 )
-        	$userMoneyAvailable -= $transaction->ammount;
-	}
+	$user = User::where('id', '=', $uid)->first();
+	
+    $totalAdded = $user->userMoney->ammount_added;
+    $totalInvested = $user->userMoney->ammount_invested;
+    $totalRewarded = $user->userMoney->ammount_won;
+    $totalWithdrawn = $user->userMoney->ammount_withdrawn;
+    $userMoneyAvailable = ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
 	
 	$view->with('moneyAvailable', $userMoneyAvailable);
+});
 
+View::creator('includes.backend.cycles', function($view)
+{
+	$uid = Auth::user()->id;
+	$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
+	$view->with('lastInvestedAmmount', $lastInvest->ammount);
 });

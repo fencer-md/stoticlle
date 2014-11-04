@@ -20,8 +20,11 @@ class UserController extends \BaseController {
 		{
 			$user = new User;
 			$userInfo = new UserInfo;
+			$userMoney = new UserMoney;
 			$userInfo->save();
+			$userMoney->save();
 			$user->user_info_id = $userInfo->id;
+			$user->user_money_id = $userMoney->id;
 			$user->email = Input::get('email');
 			$user->role = '2';
 			$user->awaiting_award = '0';
@@ -114,284 +117,168 @@ class UserController extends \BaseController {
 
  	public function usersList() 
  	{
- 		$users = User::where('role', '=', '2')->get();
- 		$usersArray = [];
- 		$i = 0;
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersList';
 
- 		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
- 			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-	 				$ammountAdded += $transaction->ammount;
-	 				$currentAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-	 				$investedTimes++;
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
- 			}
+ 		if ( $sortby && $order ) 			
+ 			$users = User::where('role', '=', '2')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)
+ 						   ->get();
+ 		else
+ 			$users = User::where('role', '=', '2')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get(); 						   
 
- 			$usersArray[$i] = [ 
- 				'user' => $user, 
- 				'ammountAdded' => $ammountAdded, 
- 				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes,
- 				];
- 			$i++;
- 		}
-
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]); 		
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]); 		
  	}
 
  	public function usersListNew() 
  	{
- 		$users = User::where('role', '=', '2')->get();
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersListNew';
+
  		$date = new DateTime;
 		$date->modify('-5 days');
 		$formatted_date = $date->format('Y-m-d H:i:s');
 
- 		$usersArray = [];
- 		$i = 0;
+ 		if ( $sortby && $order ) 			
+ 			$users = User::where('role', '=', '2')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)
+ 						   ->get();
+ 		else
+ 			$users = User::where('role', '=', '2')
+ 						   ->where('users.created_at', '>=', $formatted_date)
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get();
 
- 		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
- 			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-	 				$ammountAdded += $transaction->ammount;
-	 				$currentAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-	 				$investedTimes++;
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
- 			}
-
- 			$usersArray[$i] = [ 
- 				'user' => $user, 
- 				'ammountAdded' => $ammountAdded, 
- 				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes 
- 				];
- 			$i++;
- 		}
- 		
- 		$users = DB::table('users')->select('id', 'email')->where('created_at','>=',$formatted_date)->get();
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
  	}
 
  	public function usersListInvestors() 
  	{
- 		$users = User::whereNotNull('invested_date')->get();
- 		$usersArray = [];
- 		$i = 0;
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersListInvestors';
 
- 		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
- 			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-	 				$ammountAdded += $transaction->ammount;
-	 				$currentAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-	 				$investedTimes++;
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
- 			}
-
- 			$usersArray[$i] = [ 
- 				'user' => $user, 
- 				'ammountAdded' => $ammountAdded, 
- 				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes 
- 				];
- 			$i++;
- 		}
+ 		if ( $sortby && $order ) 			
+ 			$users = User::where('role', '=', '2')
+ 						   ->whereNotNull('users.invested_date')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)
+ 						   ->get();
+ 		else
+ 			$users = User::where('role', '=', '2')
+ 						   ->whereNotNull('users.invested_date')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get();
  		
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
  	}
 
  	public function usersListAwarded() 
  	{
- 		$users = User::where('awarded', '=', '1')->get();
- 		$usersArray = [];
- 		$i = 0;
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersListAwarded';
 
- 		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
-	 		$investedAmmount = 0;
-	 		$awardedAmmount = 0;
-	 		$awardedTimes = 0;
- 			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-	 				$ammountAdded += $transaction->ammount;
-	 				$currentAmmount += $transaction->ammount;
-	 			} elseif ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-	 				$investedTimes++;
-	 				$currentAmmount -= $transaction->ammount;
-	 			} elseif ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
-	 				$currentAmmount -= $transaction->ammount;
-	 			} elseif ( $transaction->transaction_direction == 'awarded' && $transaction->confirmed == 1 ) {
-	 				$awardedAmmount += $transaction->ammount;
-	 				$awardedTimes++;
-	 			}
- 			}
-
- 			$usersArray[$i] = [ 
- 				'user' => $user, 
- 				'ammountAdded' => $ammountAdded, 
- 				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes,
- 				'investedAmmount' => $investedAmmount,
- 				'awardedAmmount' => $awardedAmmount,
- 				'awardedTimes' => $awardedTimes,
- 				];
- 			$i++;
- 		}
+ 		if ( $sortby && $order ) 			
+ 			$users = User::where('awarded', '=', '1')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)
+ 						   ->get();
+ 		else
+ 			$users = User::where('awarded', '=', '1')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get();
  		
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
  	}
 
  	public function usersListMonitored() 
  	{
- 		$users = User::select('id', 'email')->where('monitored', '=', '1')->get();
- 		$usersArray = [];
- 		$i = 0;
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersListMonitored';
 
- 		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
- 			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-	 				$ammountAdded += $transaction->ammount;
-	 				$currentAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-	 				$investedTimes++;
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
-	 			var_dump($ammountAdded);
- 			}
-
- 			$usersArray[$i] = [ 
- 				'user' => $user, 
- 				'ammountAdded' => $ammountAdded, 
- 				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes 
- 				];
- 			$i++;
- 		}
+ 		if ( $sortby && $order ) 			
+ 			$users = User::where('monitored', '=', '1')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)
+ 						   ->get();
+ 		else
+ 			$users = User::where('monitored', '=', '1')
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get();
  		
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
  	}
 
  	public function usersListAwaiting() 
  	{
- 		$users = User::whereNull('invested_date')->where('role', '=', '2')->get();
- 		$usersArray = [];
- 		$i = 0;
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersListAwaiting';
 
- 		foreach ($users as $user) {
-	 		$ammountAdded = 0;
-	 		$currentAmmount = 0;
-	 		$investedTimes = 0;
- 			foreach ($user->userTransaction as $transaction) {
-	 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-	 				$ammountAdded += $transaction->ammount;
-	 				$currentAmmount += $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-	 				$investedTimes++;
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
-	 			if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
-	 				$currentAmmount -= $transaction->ammount;
-	 			}
- 			}
-
- 			$usersArray[$i] = [ 
- 				'user' => $user, 
- 				'ammountAdded' => $ammountAdded, 
- 				'currentAmmount' => $currentAmmount, 
- 				'investedTimes' => $investedTimes 
- 				];
- 			$i++;
- 		}
+ 		if ( $sortby && $order )
+ 			$users = User::whereNull('users.invested_date')
+ 						   ->where('users.role', '=', '2')
+ 						   ->where('users.investor', '!=', 1)
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)->get();
+ 		else
+ 			$users = User::whereNull('users.invested_date')
+ 						   ->where('users.role', '=', '2')
+ 						   ->where('users.investor', '!=', 1)
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get();
  		
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
  	}
 
  	public function usersListNext() 
  	{
- 		$users = User::where('investor', '=', 1)->where('role', '=', 2)->get();
- 		$i = 0;
- 		$usersArray = null;
+ 		$sortby = Input::get('sortby');
+ 		$order = Input::get('order');
+ 		$controller = 'usersListNext';
 
- 		foreach ($users as $user) {
-	 		$lastTransaction = Transaction::where('user_id', '=', $user->id)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->first();
+ 		if ( $sortby && $order ) 			
+ 			$users = User::where('users.investor', '=', 1)
+ 						   ->where('users.role', '=', 2)
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->orderBy($sortby, $order)
+ 						   ->get();
+ 		else
+ 			$users = User::where('users.investor', '=', 1)
+ 						   ->where('users.role', '=', 2)
+ 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
+ 						   ->get();
+
+ 		foreach ($users as $key => $user) {
+	 		$lastTransaction = Transaction::where('user_id', '=', $user->id)->where('ammount', '>=', '1000')->where('confirmed', '=', 0)->where('transaction_direction', '=', 'invested')->first();
 	 		
-	 		if ( $lastTransaction->ammount >= 1000 && $lastTransaction->confirmed != 1 )
-	 		{
-		 		$ammountAdded = 0;
-		 		$currentAmmount = 0;
-		 		$investedTimes = 0;
-		 		$investedAmmount = 0;
-		 		$awardedAmmount = 0;
-		 		$lastOffer = count($user->userOffer);
-		 		if ( $lastOffer == 0 )
-		 			$lastOffer = null;
-		 		else
-		 			$lastOffer = $user->userOffer[$lastOffer-1]->offer_ends;
-		 		$currentDate = date(('Y-m-d H:i:s'));
+	 		$lastOffer = count($user->userOffer);
+	 		if ( $lastOffer == 0 )
+	 			$lastOffer = null;
+	 		else
+	 			$lastOffer = $user->userOffer[$lastOffer-1]->offer_ends;
 
-		 		if ( $lastTransaction->count() != 0
-		 			 && ( $lastOffer == null || $currentDate >= $lastOffer ) ) {
-		 			foreach ( $user->userTransaction as $transaction ) {
-			 			if ( $transaction->transaction_direction == 'added' && $transaction->confirmed == 1 ) {
-			 				$ammountAdded += $transaction->ammount;
-			 				$currentAmmount += $transaction->ammount;
-			 			}
-			 			if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-			 				$investedTimes++;
-			 				$currentAmmount -= $transaction->ammount;
-			 				$investedAmmount += $transaction->ammount;
-			 			}
-			 			if ( $transaction->transaction_direction == 'awarded' && $transaction->confirmed == 1 ) {
-			 				$awardedAmmount += $transaction->ammount;
-			 			}
-		 			}
+	 		$currentDate = date(('Y-m-d H:i:s'));
 
-		 			$usersArray[$i] = [ 
-		 				'user' => $user, 
-		 				'ammountAdded' => $ammountAdded, 
-		 				'currentAmmount' => $currentAmmount, 
-		 				'investedTimes' => $investedTimes,
-		 				'investedAmmount' => $investedAmmount,
-		 				'awardedAmmount' => $awardedAmmount
-		 				];
-		 			$i++;
-	 			}	 			
+	 		if ( $lastTransaction == null ){
+	 			unset($users[$key]);
 	 		}
- 		}
- 		return View::make('backend.admin.userslist', ['users' => $usersArray]);
 
+	 		if ( $lastTransaction != null
+	 			 && ( $lastOffer == null || $currentDate < $lastOffer ) ) {
+	 				unset($users[$key]);
+ 			}
+ 		}
+
+ 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
  	}
 
 }

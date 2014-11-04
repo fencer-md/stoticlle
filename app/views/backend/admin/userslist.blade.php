@@ -5,46 +5,112 @@
     <div class="row">
 		<table class="table table-striped table-hover">
 			<thead>
-				<td>UID</td>
-                <td>Email</td>
-                <td>Ammount added</td>
-                <td>Current available</td>
-                <td>Times invested</td>
+				<td>
+                    @if ($sortby == 'users.id' && $order == 'desc')
+                        {{ HTML::linkAction('UserController@'.$controller, 'UID', ['sortby' => 'users.id', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('UserController@'.$controller, 'UID', ['sortby' => 'users.id', 'order' => 'desc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'users.email' && $order == 'asc')
+                        {{ HTML::linkAction('UserController@'.$controller, 'Email', ['sortby' => 'users.email', 'order' => 'desc', 'table' => 'users']) }}
+                    @else
+                        {{ HTML::linkAction('UserController@'.$controller, 'Email', ['sortby' => 'users.email', 'order' => 'asc', 'table' => 'users']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'user_money_info.ammount_added' && $order == 'asc')
+                        {{ HTML::linkAction('UserController@'.$controller, 'Ammount added', ['sortby' => 'user_money_info.ammount_added', 'order' => 'desc']) }}
+                    @else
+                        {{ HTML::linkAction('UserController@'.$controller, 'Ammount added', ['sortby' => 'user_money_info.ammount_added', 'order' => 'asc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'user_money_info.current_available' && $order == 'asc')
+                        {{ HTML::linkAction('UserController@'.$controller, 'Current available', ['sortby' => 'user_money_info.current_available', 'order' => 'desc']) }}
+                    @else
+                        {{ HTML::linkAction('UserController@'.$controller, 'Current available', ['sortby' => 'user_money_info.current_available', 'order' => 'asc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'user_money_info.times_invested' && $order == 'asc')
+                        {{ HTML::linkAction('UserController@'.$controller, 'Times invested', ['sortby' => 'user_money_info.times_invested', 'order' => 'desc']) }}
+                    @else
+                        {{ HTML::linkAction('UserController@'.$controller, 'Times invested', ['sortby' => 'user_money_info.times_invested', 'order' => 'asc']) }}
+                    @endif
+                </td>
                 @if ( Request::is('user/admin/nextstepusers') )
-                    <td>Ammount invested</td>
-                    <td>Awarded</td>
+                    <td>
+                        @if ($sortby == 'user_money_info.ammount_invested' && $order == 'asc')
+                            {{ HTML::linkAction('UserController@'.$controller, 'Ammount invested', ['sortby' => 'user_money_info.ammount_invested', 'order' => 'desc']) }}
+                        @else
+                            {{ HTML::linkAction('UserController@'.$controller, 'Ammount invested', ['sortby' => 'user_money_info.ammount_invested', 'order' => 'asc']) }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($sortby == 'user_money_info.ammount_won' && $order == 'asc')
+                            {{ HTML::linkAction('UserController@'.$controller, 'Awarded', ['sortby' => 'user_money_info.ammount_won', 'order' => 'desc']) }}
+                        @else
+                            {{ HTML::linkAction('UserController@'.$controller, 'Awarded', ['sortby' => 'user_money_info.ammount_won', 'order' => 'asc']) }}
+                        @endif
+                    </td>
                 @elseif ( Request::is('user/admin/awarded') )
-                    <td>Ammount invested</td>
-                    <td>Awards recieved</td>
-                    <td>Ammount awarded</td>
+                    <td>
+                        @if ($sortby == 'user_money_info.ammount_invested' && $order == 'asc')
+                            {{ HTML::linkAction('UserController@'.$controller, 'Ammount invested', ['sortby' => 'user_money_info.ammount_invested', 'order' => 'desc']) }}
+                        @else
+                            {{ HTML::linkAction('UserController@'.$controller, 'Ammount invested', ['sortby' => 'user_money_info.ammount_invested', 'order' => 'asc']) }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($sortby == 'user_money_info.times_won' && $order == 'asc')
+                            {{ HTML::linkAction('UserController@'.$controller, 'Awards recieved', ['sortby' => 'user_money_info.times_won', 'order' => 'desc']) }}
+                        @else
+                            {{ HTML::linkAction('UserController@'.$controller, 'Awards recieved', ['sortby' => 'user_money_info.times_won', 'order' => 'asc']) }}
+                        @endif
+                    </td>
+                        @if ($sortby == 'user_money_info.ammount_won' && $order == 'asc')
+                            {{ HTML::linkAction('UserController@'.$controller, 'Ammount awarded', ['sortby' => 'user_money_info.ammount_won', 'order' => 'desc']) }}
+                        @else
+                            {{ HTML::linkAction('UserController@'.$controller, 'Ammount awarded', ['sortby' => 'user_money_info.ammount_won', 'order' => 'asc']) }}
+                        @endif
+                    </td>
                 @endif
-                <td>Last login</td>
+                <td>
+                    @if ($sortby == 'users.last_login' && $order == 'asc')
+                        {{ HTML::linkAction('UserController@'.$controller, 'Last login', ['sortby' => 'users.last_login', 'order' => 'desc']) }}
+                    @else
+                        {{ HTML::linkAction('UserController@'.$controller, 'Last login', ['sortby' => 'users.last_login', 'order' => 'asc']) }}
+                    @endif
+                </td>
 			</thead>
 			<tbody>
             @if ( $users != null )
     			@foreach ( $users as $user )
     				<tr>
-                        <td>{{ $user['user']->id }}</td>
+                        <td>{{ $user->id }}</td>
     					@if ( Request::is('user/admin/edituserlist') )
-    						<td><a href="{{ URL::to('user/admin/edituser/'.$user['user']->id) }}">{{ $user['user']->email }}</a></td>
+    						<td><a href="{{ URL::to('user/admin/edituser/'.$user->id) }}">{{ $user->email }}</a></td>
     					@else
-    						<td><a href="{{ URL::to('user/admin/transactions/'.$user['user']->id) }}">{{ $user['user']->email }}</a></td>
+    						<td><a href="{{ URL::to('user/admin/transactions/'.$user->id) }}">{{ $user->email }}</a></td>
     					@endif
-                        <td>{{ $user['ammountAdded'] }}$</td>
-                        <td>{{ $user['currentAmmount'] }}$</td>
-                        <td>{{ $user['investedTimes'] }}</td>
+                        <td>{{ $user->ammount_added }}$</td>
+                        <td>{{ ( $user->ammount_added + $user->ammount_won ) - ( $user->ammount_invested + $user->ammount_withdrawn ) }}$</td>
+                        <td>{{ $user->times_invested }}</td>
                         @if ( Request::is('user/admin/awarded') )
-                            <td>{{ $user['investedAmmount'] }}</td>
-                            <td>{{ $user['awardedTimes'] }}</td>
-                            <td>{{ $user['awardedAmmount'] }}</td>
+                            <td>{{ $user->ammount_invested }}$</td>
+                            <td>{{ $user->times_won }}</td>
+                            <td>{{ $user->ammount_won }}$</td>
                         @endif
                         @if ( Request::is('user/admin/nextstepusers') )
-                            <td>{{ $user['investedAmmount'] }}</td>
+                            <td>{{ $user->ammount_invested }}$</td>
+                            <td>{{ $user->ammount_won }}$</td>
                         @endif
-                        <td>{{ $user['user']->last_login }}</td>
+                        <td>{{ $user->last_login }}</td>
                         @if ( Request::is('user/admin/nextstepusers') )
                             <td>
-                                <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/offer?uid='.$user['user']->id) }}" data-target="#offer-dialog"><i class="fa fa-edit"></i>Offer</a>
+                                <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/offer?uid='.$user->id) }}" data-target="#offer-dialog"><i class="fa fa-edit"></i>Offer</a>
                             </td>
                         @endif
     				</tr>

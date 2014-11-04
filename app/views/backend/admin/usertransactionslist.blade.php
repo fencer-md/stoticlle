@@ -1,8 +1,8 @@
 @extends('layouts.backend.base')
 
 @section('content')
-    <h3 class="page-title"><b>{{ $data['user']['email'] }}</b> transaction history</h3>
     @if ( Request::is('user/admin/transactions/*') && !Request::is('user/admin/transactions/all') )
+        <h3 class="page-title"><b>{{ $user->email }}</b> transaction history</h3>
         <div class="row user-info">
             <div class="name">{{ $data['user']['userInfo']['first_name'] }} {{ $data['user']['userInfo']['last_name'] }}</div>
             <div class="birth-date">{{ $data['user']['userInfo']['birth_date'] }}</div>
@@ -20,41 +20,105 @@
     <div class="row">
         <table class="table table-striped table-hover">
             <thead>
-                <td>Transaction ID</td>
-                <td>Email</td>
-                <td>Date</td>
-                <td>Type</td>
-                <td>Wallet</td>
+                <td>
+                    @if ($sortby == 'users_transaction.id' && $order == 'desc')
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Transaction ID', ['uid' => $uid, 'sortby' => 'users_transaction.id', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Transaction ID', ['uid' => $uid, 'sortby' => 'users_transaction.id', 'order' => 'desc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'users.email' && $order == 'desc')
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Email', ['uid' => $uid, 'sortby' => 'users.email', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Email', ['uid' => $uid, 'sortby' => 'users.email', 'order' => 'desc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'users_transaction.date' && $order == 'desc')
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Date', ['uid' => $uid, 'sortby' => 'users_transaction.date', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Date', ['uid' => $uid, 'sortby' => 'users_transaction.date', 'order' => 'desc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'users_transaction.transaction_direction' && $order == 'desc')
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Type', ['uid' => $uid, 'sortby' => 'users_transaction.transaction_direction', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Type', ['uid' => $uid, 'sortby' => 'users_transaction.transaction_direction', 'order' => 'desc']) }}
+                    @endif
+                </td>
+                <td>
+                    @if ($sortby == 'users_transaction.payment_system' && $order == 'desc')
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Wallet', ['uid' => $uid, 'sortby' => 'users_transaction.payment_system', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Wallet', ['uid' => $uid, 'sortby' => 'users_transaction.payment_system', 'order' => 'desc']) }}
+                    @endif
+                </td>
                 @if ( Request::is('user/admin/transactions/*') )
-                    <td>Credentials</td>
+                    <td>
+                        @if ($sortby == 'payment_methods.account_id' && $order == 'desc')
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials', ['uid' => $uid, 'sortby' => 'payment_methods.account_id', 'order' => 'asc']) }}
+                        @else
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials', ['uid' => $uid, 'sortby' => 'payment_methods.account_id', 'order' => 'desc']) }}
+                        @endif
+                    </td>
                 @endif
-                <td>Ammount</td>
+                <td>
+                    @if ($sortby == 'users_transaction.ammount' && $order == 'desc')
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Ammount', ['uid' => $uid, 'sortby' => 'users_transaction.ammount', 'order' => 'asc']) }}
+                    @else
+                        {{ HTML::linkAction('TransactionsController@'.$controller, 'Ammount', ['uid' => $uid, 'sortby' => 'users_transaction.ammount', 'order' => 'desc']) }}
+                    @endif
+                </td>
                 @if ( Request::is('user/admin/cashoutlist') )
                     <td>Approve</td>
                 @elseif ( Request::is('user/admin/addmoneyrequests') || Request::is('user/admin/withdrawrequests') )
-                    <td>Credentials from</td>
+                    <td>
+                        @if ($sortby == 'payment_methods.from_credentials' && $order == 'desc')
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials from', ['uid' => $uid, 'sortby' => 'payment_methods.from_credentials', 'order' => 'asc']) }}
+                        @else
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials from', ['uid' => $uid, 'sortby' => 'payment_methods.from_credentials', 'order' => 'desc']) }}
+                        @endif
+                    </td>
                     <td>Confirm</td>
                 @elseif ( Request::is('user/admin/moneyrecieved') )
-                    <td>Credentials from</td>
-                    <td>Credentials to</td>
+                    <td>
+                        @if ($sortby == 'payment_methods.account_id' && $order == 'desc')
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials from', ['uid' => $uid, 'sortby' => 'payment_methods.account_id', 'order' => 'asc']) }}
+                        @else
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials from', ['uid' => $uid, 'sortby' => 'payment_methods.account_id', 'order' => 'desc']) }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($sortby == 'users_transaction.to_credentials' && $order == 'desc')
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials to', ['uid' => $uid, 'sortby' => 'users_transaction.to_credentials', 'order' => 'asc']) }}
+                        @else
+                            {{ HTML::linkAction('TransactionsController@'.$controller, 'Credentials to', ['uid' => $uid, 'sortby' => 'users_transaction.to_credentials', 'order' => 'desc']) }}
+                        @endif
+                    </td>
                     <td>Confirm</td>
                 @endif
             </thead>
             <tbody>
-        @foreach ( $data['transactions'] as $transaction )
+        @foreach ( $transactions as $transaction )
                 <tr>
                     <td>{{ $transaction->id }}</td>
                     <td>{{ $transaction->user->email }}</td>
                     <td>{{ $transaction->date }}</td>
                     <td>{{ $transaction->transaction_direction }}</td>
                     <td>@if ( $transaction->payment_system == NULL )
-                            System
+                            -
                         @else
                             {{ $transaction->payment_system }}
                         @endif
                     </td>
-                    @if ( Request::is('user/admin/transactions/*') && $transaction->transactionFrom != null )
-                        <td>{{ $transaction->transactionFrom->account_id }}</td>
+                    @if ( Request::is('user/admin/transactions/*') )
+                        @if ( $transaction->transactionFrom == null )
+                            <td>-</td>
+                        @else
+                            <td>{{ $transaction->account_id }}</td>
+                        @endif
                     @endif
                     <td>{{ $transaction->ammount }}$</td>
                     @if ( Request::is('user/admin/addmoneyrequests') )

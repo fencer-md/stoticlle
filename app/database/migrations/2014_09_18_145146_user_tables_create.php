@@ -30,6 +30,20 @@ class UserTablesCreate extends Migration {
             $table->string('links')->nullable();
             $table->timestamps();
         });
+        Schema::create('user_money_info', function($table)
+        {
+            $table->increments('id');
+            $table->float('current_available');
+            $table->integer('times_won');
+            $table->float('ammount_won');
+            $table->integer('times_invested');
+            $table->float('ammount_invested');
+            $table->integer('times_added');
+            $table->float('ammount_added');
+            $table->integer('times_withdrawn');
+            $table->float('ammount_withdrawn');
+            $table->timestamps();
+        });
         Schema::create('users', function($table)
         {
             $table->increments('id');
@@ -44,6 +58,8 @@ class UserTablesCreate extends Migration {
             $table->string('monitored');
             $table->integer('user_info_id')->unsigned();
             $table->foreign('user_info_id')->references('id')->on('users_info');
+            $table->integer('user_money_id')->unsigned();
+            $table->foreign('user_money_id')->references('id')->on('user_money_info');
             $table->timestamp('last_login')->nullable();
             $table->string('registration_code');  
             $table->string('registration_status');
@@ -54,7 +70,7 @@ class UserTablesCreate extends Migration {
         {
             $table->increments('id');
             $table->string('title');
-            $table->string('account_id');
+            $table->string('account_id')->unique();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

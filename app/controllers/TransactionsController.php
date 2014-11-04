@@ -6,76 +6,157 @@ class TransactionsController extends \BaseController {
 
     public function userTransactions($uid) 
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
+        $controller = 'userTransactions';
+
         if ( $uid == "all")
         {
             $user = null;
-            $transactions = Transaction::where('confirmed', '=', 1)->get();
+            if ( $sortby && $order )
+                $transactions = Transaction::where('confirmed', '=', 1)
+                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->orderBy($sortby, $order)
+                                             ->get();
+            else
+                $transactions = Transaction::where('confirmed', '=', 1)
+                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
-            $transactions = Transaction::where('user_id', '=', $uid)->where('confirmed', '=', 1)->get();
+            if ( $sortby && $order )
+                $transactions = Transaction::where('user_id', '=', $uid)->where('confirmed', '=', 1)->orderBy($sortby, $order)->get();
+            else
+                $transactions = Transaction::where('user_id', '=', $uid)->where('confirmed', '=', 1)->get();
         }
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function userRefusedTransactions() 
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
+        $controller = 'userRefusedTransactions';
+        $uid = null;
+
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'added(denied)')
+        if ( $sortby && $order )
+            $transactions = Transaction::where('transaction_direction', '=', 'added(denied)')
                                    ->orWhere('transaction_direction', '=', 'invested(denied)')
                                    ->orWhere('transaction_direction', '=', 'withdraw(denied)')
+                                   ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                   ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                   ->orderBy($sortby, $order)
+                                   ->get();
+        else
+            $transactions = Transaction::where('transaction_direction', '=', 'added(denied)')
+                                   ->orWhere('transaction_direction', '=', 'invested(denied)')
+                                   ->orWhere('transaction_direction', '=', 'withdraw(denied)')
+                                   ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                   ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                    ->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function currentFunding() 
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
+        $controller = 'currentFunding';
+        $uid = null;
+
         $user = null;
-        $transactions = Transaction::where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->get();
+        if ( $sortby && $order )
+            $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                                         ->where('confirmed', '=', 1)                                         
+                                         ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                         ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                         ->orderBy($sortby, $order)->get();
+        else
+            $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                                         ->where('confirmed', '=', 1)
+                                         ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )                                         
+                                         ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                         ->get();
 
         $data = ['transactions' => $transactions, 'user' => $user];
 
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function usersInvestedMoney($uid)
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
+        $controller = 'usersInvestedMoney';
+
         if ( $uid == "all")
         {
             $user = null;
-            $transactions = Transaction::where('transaction_direction', '=', 'invested')->get();
+            if ( $sortby && $order )
+                $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->orderBy($sortby, $order)->get();
+            else
+                $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
-            $transactions = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->get();
+            if ( $sortby && $order )
+                $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                                             ->orderBy($sortby, $order)->get();
+            else
+                $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                                             ->get();
         }
 
-        $data = ['transactions' => $transactions, 'user' => $user];
-
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function usersEarnedMoney($uid)
     {
+        $sortby = Input::get('sortby');
+        $order = Input::get('order');
+        $controller = 'usersEarnedMoney';
+
         if ( $uid == "all")
         {
             $user = null;
-            $transactions = Transaction::where('transaction_direction', '=', 'reward')->get();
+            if ( $sortby && $order )
+                $transactions = Transaction::where('transaction_direction', '=', 'reward')
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->orderBy($sortby, $order)->get();
+            else
+                $transactions = Transaction::where('transaction_direction', '=', 'reward')
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
-            $transactions = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'reward')->get();
+            if ( $sortby && $order )
+                $transactions = Transaction::where('user_id', '=', $uid)
+                                             ->where('transaction_direction', '=', 'reward')
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->orderBy($sortby, $order)->get();
+            else
+                $transactions = Transaction::where('user_id', '=', $uid)
+                                             ->where('transaction_direction', '=', 'reward')
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->get();
         }
 
-        $data = ['transactions' => $transactions, 'user' => $user];
-
-        return View::make('backend.admin.usertransactionslist')->with('data', $data);        
+        return View::make('backend.admin.usertransactionslist', ['transactions' => $transactions, 'user' => $user, 'uid' => $uid, 'sortby' => $sortby, 'order' => $order, 'controller' => $controller]);
     }
 
     public function usersAddMoney()
@@ -115,6 +196,10 @@ class TransactionsController extends \BaseController {
         $user->awaiting_award = 0;
         $dateInvested = $user->invested_date;
         $user->invested_date = null;
+        $user->userMoney->ammount_won += Input::get('reward');
+        $user->userMoney->current_available += Input::get('reward');
+        $user->userMoney->times_won++;
+        $user->userMoney->save();
         $user->save();
 
         $date = new DateTime($dateInvested);
@@ -132,7 +217,7 @@ class TransactionsController extends \BaseController {
         return Redirect::back();
     }
 
-    public function usersWithdrawMoneyConfirm() 
+    public function usersWithdrawMoneyConfirm()
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
         if ( Input::get('status') == 'deny' ) {
@@ -144,6 +229,10 @@ class TransactionsController extends \BaseController {
         $transaction->save();
 
         $user = User::where('id', '=', Input::get('uid'))->first();
+        $user->userMoney->ammount_withdrawn += $transaction->ammount;
+        $user->userMoney->current_available -= $transaction->ammount;
+        $user->userMoney->times_withdrawn++;
+        $user->userMoney->save();
 
         $email = $user->email;
         $username = $user->userInfo->first_name;
@@ -153,6 +242,8 @@ class TransactionsController extends \BaseController {
         Mail::send('emails.withdrawconfirm', $data, function($message) {
             $message->to(Auth::user()->email, 'test')->subject('Withdraw!');
         });
+
+        $user->save();
 
         return Redirect::back();
     }
@@ -189,15 +280,18 @@ class TransactionsController extends \BaseController {
         else
             $transaction->transaction_direction = 'added';
         $transaction->confirmed = 1;
+        $transaction->save();
 
         $user = User::where('id', '=', Input::get('uid'))->first();
+        $user->userMoney->ammount_added += $transaction->ammount;
+        $user->userMoney->current_available += $transaction->ammount;
+        $user->userMoney->times_added++;
+        $user->userMoney->save();
 
         $email = $user->email;
         $username = $user->userInfo->first_name;
 
         $data = ['username' => $username, 'ammount' => $transaction->ammount];
-
-        $transaction->save();
 
         Mail::send('emails.addmoneyconfirmation', $data, function($message) {
             $message->to(Auth::user()->email, 'test')->subject('Success!');
@@ -237,16 +331,20 @@ class TransactionsController extends \BaseController {
     public function investMoney()
     {
         $uid = Auth::user()->id;
-        $lastTransaction = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->first();
-        if ( $lastTransaction != null && $lastTransaction->confirmed == 0 ) 
-        {
-            $lastTransaction->ammount = Input::get('ammount');
+        $lastTransaction = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->orderBy('created_at', 'DESC')->first();
+        if ( $lastTransaction != null && $lastTransaction->confirmed == 0 )
+         {
             $lastTransaction->confirmed = 1;
             $lastTransaction->date = date('Y-m-d H:i:s');            
             $user = User::where('id', '=', $uid)->first();
             $user->awaiting_award = 1;
             $user->invested_date = date('Y-m-d H:i:s');
+            $user->userMoney->ammount_invested += $lastTransaction->ammount;
+            $user->userMoney->current_available -= $lastTransaction->ammount;
+            $user->userMoney->times_invested++;
+            $user->userMoney->save();
             $user->save();
+
             $lastTransaction->user_id = $uid;
             $lastTransaction->save();
 
@@ -272,11 +370,15 @@ class TransactionsController extends \BaseController {
                  && Auth::user()->investor == 1 ) 
             {
                 $transaction->confirmed = 0;
-
             }
             else 
             {
+                $user = User::where('id', '=', $uid)->first();
                 $transaction->confirmed = 1;
+                $user->userMoney->ammount_invested += $transaction->ammount;
+                $user->userMoney->current_available -= $lastTransaction->ammount;
+                $user->userMoney->times_invested++;
+                $user->userMoney->save();
                 $transaction->date = date('Y-m-d H:i:s');            
                 $user = User::where('id', '=', $uid)->first();
                 $user->awaiting_award = 1;
