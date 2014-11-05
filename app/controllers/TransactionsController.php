@@ -283,8 +283,10 @@ class TransactionsController extends \BaseController {
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
         $transaction->to_credentials = Input::get('credentials');
-        if ( Input::get('status') == 'deny' )
+        if ( Input::get('status') == 'deny' ) {
             $transaction->transaction_direction = 'added(denied)';
+            $transaction->confirmed = 1;
+        }
         else
             $transaction->transaction_direction = 'added(pending)';
         $transaction->save();
