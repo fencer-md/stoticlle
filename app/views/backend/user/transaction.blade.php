@@ -23,7 +23,13 @@
                             {{ $transaction->payment_system }}
                         @endif
                     </td>
-                    <td>{{ $transaction->transaction_direction }}</td>
+                    <td>
+                        @if ( $transaction->transaction_direction == 'added(denied)' || $transaction->transaction_direction == 'withdraw(denied)' )
+                            <a data-toggle="modal" data-target="#info-dialog" href="{{ URL::to('user/admin/transaction/commentary?tid='.$transaction->id) }}">{{ $transaction->transaction_direction }}</a>
+                        @else
+                            {{ $transaction->transaction_direction }}
+                        @endif
+                    </td>
                     @if ( $transaction->transactionFrom != null )
                         <td>{{ $transaction->transactionFrom->account_id }}</td>
                     @else
@@ -36,4 +42,18 @@
 		</table>
 		<br>
 	</div>
+    <div class="modal fade" id="info-dialog" tabindex="-1" role="dialog" aria-labelledby="award" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
+@stop
+
+@section('custom_scripts')
+    <script>
+        $('#info-dialog').on('hidden.bs.modal', function() {
+            $(this).removeData('bs.modal');
+        });
+    </script>
 @stop

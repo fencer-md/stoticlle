@@ -124,7 +124,13 @@
                     <td>{{ $transaction->id }}</td>
                     <td>{{ $transaction->email }}</td>
                     <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->transaction_direction }}</td>
+                    <td>
+                        @if ( $transaction->transaction_direction == 'added(denied)' || $transaction->transaction_direction == 'withdraw(denied)' )
+                            <a data-toggle="modal" data-target="#info-dialog" href="{{ URL::to('user/admin/transaction/commentary?tid='.$transaction->id) }}">{{ $transaction->transaction_direction }}</a>
+                        @else
+                            {{ $transaction->transaction_direction }}
+                        @endif
+                    </td>
                     <td>@if ( $transaction->payment_system == NULL )
                             -
                         @else

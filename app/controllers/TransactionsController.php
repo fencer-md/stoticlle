@@ -14,13 +14,15 @@ class TransactionsController extends \BaseController {
         {
             $user = null;
             if ( $sortby && $order )
-                $transactions = Transaction::where('confirmed', '=', 1)
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('confirmed', '=', 1)
                                              ->leftJoin('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                              ->leftJoin('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)
                                              ->get();
             else
-                $transactions = Transaction::where('confirmed', '=', 1)
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('confirmed', '=', 1)
                                              ->leftJoin('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                              ->leftJoin('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->get();
@@ -28,13 +30,15 @@ class TransactionsController extends \BaseController {
         {
             $user = User::where('id', '=', $uid)->first();
             if ( $sortby && $order )
-                $transactions = Transaction::where('user_id', '=', $uid)
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('user_id', '=', $uid)
                                              ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)
                                              ->get();
             else
-                $transactions = Transaction::where('user_id', '=', $uid)
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('user_id', '=', $uid)
                                              ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)
@@ -55,7 +59,8 @@ class TransactionsController extends \BaseController {
 
         $user = null;
         if ( $sortby && $order )
-            $transactions = Transaction::where('transaction_direction', '=', 'added(denied)')
+            $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                   ->where('transaction_direction', '=', 'added(denied)')
                                    ->orWhere('transaction_direction', '=', 'invested(denied)')
                                    ->orWhere('transaction_direction', '=', 'withdraw(denied)')
                                    ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
@@ -63,7 +68,8 @@ class TransactionsController extends \BaseController {
                                    ->orderBy($sortby, $order)
                                    ->get();
         else
-            $transactions = Transaction::where('transaction_direction', '=', 'added(denied)')
+            $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                   ->where('transaction_direction', '=', 'added(denied)')
                                    ->orWhere('transaction_direction', '=', 'invested(denied)')
                                    ->orWhere('transaction_direction', '=', 'withdraw(denied)')
                                    ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
@@ -84,13 +90,15 @@ class TransactionsController extends \BaseController {
 
         $user = null;
         if ( $sortby && $order )
-            $transactions = Transaction::where('transaction_direction', '=', 'invested')
+            $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                         ->where('transaction_direction', '=', 'invested')
                                          ->where('confirmed', '=', 1)                                         
                                          ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                          ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                          ->orderBy($sortby, $order)->get();
         else
-            $transactions = Transaction::where('transaction_direction', '=', 'invested')
+            $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                         ->where('transaction_direction', '=', 'invested')
                                          ->where('confirmed', '=', 1)
                                          ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )                                         
                                          ->join('users', 'users_transaction.user_id', '=', 'users.id' )
@@ -111,11 +119,13 @@ class TransactionsController extends \BaseController {
         {
             $user = null;
             if ( $sortby && $order )
-                $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('transaction_direction', '=', 'invested')
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)->get();
             else
-                $transactions = Transaction::where('transaction_direction', '=', 'invested')
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('transaction_direction', '=', 'invested')
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->get();
         } else
@@ -142,23 +152,27 @@ class TransactionsController extends \BaseController {
         {
             $user = null;
             if ( $sortby && $order )
-                $transactions = Transaction::where('transaction_direction', '=', 'reward')
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('transaction_direction', '=', 'reward')
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)->get();
             else
-                $transactions = Transaction::where('transaction_direction', '=', 'reward')
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('transaction_direction', '=', 'reward')
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
             if ( $sortby && $order )
-                $transactions = Transaction::where('user_id', '=', $uid)
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('user_id', '=', $uid)
                                              ->where('transaction_direction', '=', 'reward')
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)->get();
             else
-                $transactions = Transaction::where('user_id', '=', $uid)
+                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('user_id', '=', $uid)
                                              ->where('transaction_direction', '=', 'reward')
                                              ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->get();
@@ -286,6 +300,7 @@ class TransactionsController extends \BaseController {
         if ( Input::get('status') == 'deny' ) {
             $transaction->transaction_direction = 'added(denied)';
             $transaction->confirmed = 1;
+            $transaction->comments = Input::get('text');
         }
         else
             $transaction->transaction_direction = 'added(pending)';
@@ -310,8 +325,11 @@ class TransactionsController extends \BaseController {
     public function addMoneyRequestConfirm() 
     {
         $transaction = Transaction::where('id', '=' , Input::get('tid'))->first();
-        if ( Input::get('status') == 'deny' )
+        if ( Input::get('status') == 'deny' ) {
             $transaction->transaction_direction = 'added(denied)';
+            $transaction->confirmed = 1;
+            $transaction->comments = Input::get('text');
+        }
         else
             $transaction->transaction_direction = 'added';
         $transaction->confirmed = 1;
@@ -521,6 +539,13 @@ class TransactionsController extends \BaseController {
 
             return Redirect::back();
         }
+    }
+
+    public function transactionComment() {
+        $tid = Input::get('tid');
+        $transaction = Transaction::select('comments')->where('id', '=', $tid)->first();
+
+        return View::make('includes.backend.transactioncommentary')->with('commentary', $transaction);
     }
 
     //---------------End users---------------

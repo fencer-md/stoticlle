@@ -85,7 +85,7 @@ Route::group(['before' => 'auth'], function()
 		return View::make('backend.user.cashout');		
 	});
 	Route::post('user/transactions/cashout', 'TransactionsController@cashOutRequest');
-	Route::get('user/messages', 'MessageController@messageList');
+	Route::get('user/admin/transaction/commentary', 'TransactionsController@transactionComment');
 });
 
 Route::get('user/confirm/{cc}', 'UserController@confirm');
