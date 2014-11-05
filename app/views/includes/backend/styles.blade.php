@@ -11,6 +11,7 @@
 <link href="{{ URL::asset('backend/plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('backend/plugins/fullcalendar/fullcalendar/fullcalendar.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ URL::asset('backend/plugins/jqvmap/jqvmap/jqvmap.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+<link href="{{ URL::asset('backend/plugins/selectize/css/selectize.bootstrap3.css') }}" rel="stylesheet" type="text/css" media="screen"/>
 <!-- END PAGE LEVEL STYLES -->
 <!-- BEGIN THEME STYLES -->
 <link href="{{ URL::asset('backend/css/components.css') }}" rel="stylesheet" type="text/css"/>

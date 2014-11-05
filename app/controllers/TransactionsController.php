@@ -15,22 +15,30 @@ class TransactionsController extends \BaseController {
             $user = null;
             if ( $sortby && $order )
                 $transactions = Transaction::where('confirmed', '=', 1)
-                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
-                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->leftJoin('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                             ->leftJoin('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)
                                              ->get();
             else
                 $transactions = Transaction::where('confirmed', '=', 1)
-                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
-                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->leftJoin('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                             ->leftJoin('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->get();
         } else
         {
             $user = User::where('id', '=', $uid)->first();
             if ( $sortby && $order )
-                $transactions = Transaction::where('user_id', '=', $uid)->where('confirmed', '=', 1)->orderBy($sortby, $order)->get();
+                $transactions = Transaction::where('user_id', '=', $uid)
+                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->orderBy($sortby, $order)
+                                             ->get();
             else
-                $transactions = Transaction::where('user_id', '=', $uid)->where('confirmed', '=', 1)->get();
+                $transactions = Transaction::where('user_id', '=', $uid)
+                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
+                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                                             ->orderBy($sortby, $order)
+                                             ->get();
         }
 
         $data = ['transactions' => $transactions, 'user' => $user];
@@ -431,21 +439,7 @@ class TransactionsController extends \BaseController {
     public function addMoneyPage()
     {
         $uid = Auth::user()->id;
-        $payments = PaymentMethod::where('user_id', '=', $uid)->get();
-        $wallets = [
-            'webmoney' => null,
-            'paypal' => null,
-            'cards' => null,
-        ];
-
-        foreach ($payments as $payment) {
-            if ( $payment->title == 'webmoney' )
-                $wallets['webmoney'] = $payment->account_id;
-            elseif ( $payment->title == 'paypal' )
-                $wallets['paypal'] = $payment->account_id;
-            elseif ( $payment->title == 'cards' )
-                $wallets['cards'] = $payment->account_id;
-        }
+        $wallets = PaymentMethod::select('id', 'title', 'account_id')->where('user_id', '=', $uid)->get();
 
         return View::make('backend.user.addmoney')->with('wallets', $wallets);
 
@@ -455,24 +449,11 @@ class TransactionsController extends \BaseController {
     {        
         $uid = Auth::user()->id;
 
-        if ( Input::get('add_method') == 'webmoney' )
-        {
+        $wallet = PaymentMethod::where('account_id', '=', Input::get('credentials') )->first();
+
+        if ( $wallet == null ) {
             $payment = new PaymentMethod;
-            $payment->title = 'webmoney';
-            $payment->account_id = Input::get('credentials');
-            $payment->user_id = $uid;
-            $payment->save();
-        } elseif ( Input::get('add_method') == 'paypal' )
-        {
-            $payment = new PaymentMethod;
-            $payment->title = 'paypal';
-            $payment->account_id = Input::get('credentials');
-            $payment->user_id = $uid;
-            $payment->save();
-        } elseif ( Input::get('add_method') == 'cards' ) 
-        {
-            $payment = new PaymentMethod;
-            $payment->title = 'cards';
+            $payment->title = Input::get('add_method');
             $payment->account_id = Input::get('credentials');
             $payment->user_id = $uid;
             $payment->save();

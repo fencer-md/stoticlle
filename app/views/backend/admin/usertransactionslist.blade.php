@@ -122,7 +122,7 @@
         @foreach ( $transactions as $transaction )
                 <tr>
                     <td>{{ $transaction->id }}</td>
-                    <td>{{ $transaction->user->email }}</td>
+                    <td>{{ $transaction->email }}</td>
                     <td>{{ $transaction->date }}</td>
                     <td>{{ $transaction->transaction_direction }}</td>
                     <td>@if ( $transaction->payment_system == NULL )

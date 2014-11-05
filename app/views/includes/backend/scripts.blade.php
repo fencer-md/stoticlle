@@ -25,6 +25,7 @@
 <script src="{{ URL::asset('backend/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('backend/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('backend/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('backend/plugins/selectize/js/selectize.min.js') }}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="{{ URL::asset('backend/scripts/metronic.js') }}" type="text/javascript"></script>       

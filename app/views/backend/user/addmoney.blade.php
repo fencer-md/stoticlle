@@ -23,7 +23,12 @@
                         {{ Form::label('credentials', 'Credentials', ['class' => 'control-label']) }}
                         <div class="controls">
                             <div class="col-md-4">
-                              {{ Form::text('credentials', null, ['class' => 'form-control']) }}
+                                <select name="credentials" id="credentials" data-placeholder="Select a person...">
+                                    <option></option>
+                                    @foreach ( $wallets as $wallet )
+                                        <option value='{{ $wallet->account_id }}'>{{ $wallet->title }} - {{ $wallet->account_id }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -43,4 +48,18 @@
             </div>  
         {{ Form::close() }}
     </div>
+@stop
+
+@section('custom_scripts')
+<script>
+    $('#credentials').selectize({
+        create: true,
+        persist: false,
+        sortField: {
+            field: 'text',
+            direction: 'asc'
+        },
+        dropdownParent: 'body'
+    });    
+</script>
 @stop

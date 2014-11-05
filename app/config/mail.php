@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.gmail.com',
+	'host' => 'mail.stoticlle.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'production@plusplus.md', 'name' => 'Stoticlle'),
+	'from' => array('address' => 'info@stoticlle.com', 'name' => 'Stoticlle'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'production@plusplus.md',
+	'username' => 'info@stoticlle.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'str787ef!',
+	'password' => 'stoticlle',
 
 	/*
 	|--------------------------------------------------------------------------
