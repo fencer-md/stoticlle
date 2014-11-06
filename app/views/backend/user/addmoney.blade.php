@@ -6,7 +6,7 @@
     @endif
     <h3 class="page-title">Add money to your account</h3>
     <div class="row">
-        {{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal']) }}
+        {{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal', 'id' => 'add-money-form']) }}
             <div class="form-body col-md-12">
                 <div class="col-md-6">
                     <div class="form-group"> 
@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback credentials">
                         {{ Form::label('credentials', 'Credentials', ['class' => 'control-label']) }}
                         <div class="controls">
                             <div class="col-md-4">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback ammount">
                         {{ Form::label('add_money', 'Ammount to add', ['class' => 'control-label']) }}
                         <div class="controls">
                             <div class="col-md-4">
@@ -60,6 +60,19 @@
             direction: 'asc'
         },
         dropdownParent: 'body'
-    });    
+    });
+
+    $('form#add-money-form input[type=submit]').click(function(e) {
+        if ( $('.selectize-input').text().length == 0 ) {
+            e.preventDefault();
+            $('form#add-money-form .credentials').addClass('has-error');
+            $('form#add-money-form .credentials').after('<div>Field is empty</div>');
+        }
+        if ( $('input#add_money').text().length == 0 ) {
+            e.preventDefault();
+            $('form#add-money-form .ammount').addClass('has-error');
+            $('form#add-money-form .ammount').after('<div>Field is empty</div>');
+        }
+    });
 </script>
 @stop

@@ -25,6 +25,7 @@
 <script src="{{ URL::asset('backend/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('backend/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('backend/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('backend/plugins/jquery.validate.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('backend/plugins/selectize/js/selectize.min.js') }}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -35,11 +36,22 @@
 <script src="{{ URL::asset('backend/scripts/components-picker.js') }}" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->  
 <script>
-   jQuery(document).ready(function() {    
-      Metronic.init(); // init metronic core components
-      Layout.init(); // init current layout
-      QuickSidebar.init(); // init quick sidebar
-      ComponentsPickers.init();
-   });
+	jQuery(document).ready(function() {    
+		Metronic.init(); // init metronic core components
+		Layout.init(); // init current layout
+		QuickSidebar.init(); // init quick sidebar
+		ComponentsPickers.init();
+	});
+	jQuery.validator.setDefaults({
+	});
+
+	jQuery("#invest-sidebar-form").validate({
+		rules: {
+			ammount: {
+				required: 'true',
+				number: 'true'
+			}
+		}
+	});
 </script>
 <!-- END JAVASCRIPTS -->

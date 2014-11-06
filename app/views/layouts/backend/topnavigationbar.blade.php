@@ -2,6 +2,21 @@
 	<li class="dropdown">
 	  	<a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 		  	<span class="menu-title">
+		  		Config
+		  	</span>
+		  	<i class="fa fa-angle-down"></i>
+	  	</a>
+	  	<ul class="dropdown-menu">
+			<li>
+				<a href="{{ URL::to('user/admin/config/rate') }}">
+					Rate
+				</a>
+			</li>
+		</ul>
+	</li>
+	<li class="dropdown">
+	  	<a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+		  	<span class="menu-title">
 		  		Actions
 		  	</span>
 		  	<i class="fa fa-angle-down"></i>
