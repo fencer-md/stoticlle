@@ -84,3 +84,9 @@
       </div>
     </section>
 @stop
+
+@section('custom_scripts')
+<script>
+  var usersData = {{ $usersData }};
+</script>
+@stop
