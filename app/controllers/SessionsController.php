@@ -16,9 +16,10 @@ class SessionsController extends \BaseController {
                 return Redirect::to('/user/admin/transactions/all');
             else
                 return Redirect::to('/user/transactions');
+        } else {
+            Auth::logout();
+            return 'Failed login attempt';
         }
-        Auth::logout();
-        return 'Failed login attempt';
 
     }
 
