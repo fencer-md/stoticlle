@@ -63,15 +63,14 @@
     });
 
     $('form#add-money-form input[type=submit]').click(function(e) {
+        $('.error-addmoney').remove();
         if ( $('.selectize-input > div').text().length == 0 ) {
             e.preventDefault();
-            $('.error-addmoney').remove();
             $('form#add-money-form .credentials').addClass('has-error');
             $('form#add-money-form .credentials').after('<div class="error-addmoney">Field is empty</div>');
         }
         if ( $('input#add_money').val() == '' ) {
             e.preventDefault();
-            $('.error-addmoney').remove();
             $('form#add-money-form .ammount').addClass('has-error');
             $('form#add-money-form .ammount').after('<div class="error-addmoney">Field is empty</div>');
         }
