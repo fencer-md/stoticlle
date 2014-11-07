@@ -122,7 +122,7 @@
         @foreach ( $transactions as $transaction )
                 <tr>
                     <td>{{ $transaction->id }}</td>
-                    <td>{{ $transaction->email }}</td>
+                    <td>{{ $transaction->user->email }}</td>
                     <td>{{ $transaction->date }}</td>
                     <td>
                         @if ( $transaction->transaction_direction == 'added(denied)' || $transaction->transaction_direction == 'withdraw(denied)' )

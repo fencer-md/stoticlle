@@ -1,4 +1,4 @@
 <?php
 		return array(
-			'rate' => 0.05
+			'rate' => 0.08
 		);

@@ -137,11 +137,14 @@ View::creator('layouts.backend.base', function($view)
 	    $totalWithdrawn = $user->userMoney->ammount_withdrawn;
 	    $currentAmmount = ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
 
-		$lastInvestedAmmount = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->orderBy('created_at', 'DESC')->first();
-		if ( count($lastInvestedAmmount) == 0 )
+	    if ( $user->awaiting_award == 1 ) {
+			$lastInvestedAmmount = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->orderBy('created_at', 'DESC')->first();
+			if ( count($lastInvestedAmmount) == 0 )
+				$lastInvestedAmmount = 0;
+			else
+				$lastInvestedAmmount = $lastInvestedAmmount->ammount;
+		} else
 			$lastInvestedAmmount = 0;
-		else
-			$lastInvestedAmmount = $lastInvestedAmmount->ammount;
 		$adminUsersRegistered = 0;
 
 		$data = [ 
@@ -168,13 +171,13 @@ View::creator('includes.backend.cycles', function($view)
 
 	if ( Auth::user()->awaiting_award == 1 && Auth::user()->investor != 1 )
 	{
-	    $data = Helper::reward($ammount, 0.02);
+	    $data = Helper::reward($ammount, Config::get('rate.rate'));
 	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
 		$offer = Offer::where('recipient_id', '=', $id)->orderBy('id','DESC')->first();
 		if ( $offer != null )
 			$rate = $offer->rate;
 		else
-			$rate = 0.02;
+			$rate = Config::get('rate.rate');
 	    $data = Helper::reward($ammount, $rate);
 	}
 
