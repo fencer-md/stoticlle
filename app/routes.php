@@ -111,11 +111,21 @@ View::creator('layouts.backend.base', function($view)
 	    $totalCycles = 0;
 
 		foreach ($users as $user) {
+
+		    if ( $user->awaiting_award == 1 ) {
+				$lastInvestedAmmount = Transaction::where('user_id', '=', $user->id)->where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->orderBy('created_at', 'DESC')->first();
+				if ( count($lastInvestedAmmount) == 0 )
+					$lastInvestedAmmount = 0;
+				else
+					$lastInvestedAmmount = $lastInvestedAmmount->ammount;
+			} else
+				$lastInvestedAmmount = 0;
+
 		    $totalAdded += $user->userMoney->ammount_added;
 		    $totalInvested += $user->userMoney->ammount_invested;
 		    $totalRewarded += $user->userMoney->ammount_won;
 		    $totalWithdrawn += $user->userMoney->ammount_withdrawn;
-	    	$currentAmmount += ( $totalAdded + $totalRewarded + $totalInvested) - $totalWithdrawn;
+	    	$currentAmmount += ( $totalAdded + $totalRewarded + $lastInvestedAmmount) - ( $totalWithdrawn + $totalInvested );
 	    	$totalCycles = $user->userMoney->times_won;
 		}
 
