@@ -115,7 +115,7 @@ View::creator('layouts.backend.base', function($view)
 		    $totalInvested += $user->userMoney->ammount_invested;
 		    $totalRewarded += $user->userMoney->ammount_won;
 		    $totalWithdrawn += $user->userMoney->ammount_withdrawn;
-	    	$currentAmmount += ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
+	    	$currentAmmount += ( $totalAdded + $totalRewarded + $totalInvested) - $totalWithdrawn;
 	    	$totalCycles = $user->userMoney->times_won;
 		}
 
