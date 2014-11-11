@@ -23,7 +23,7 @@
                         {{ Form::label('credentials', 'Credentials', ['class' => 'control-label']) }}
                         <div class="controls">
                             <div class="col-md-4">
-                                <select name="credentials" id="credentials" data-placeholder="Select a person...">
+                                <select name="credentials" id="credentials" data-placeholder="Insert your credentials">
                                     <option></option>
                                     @foreach ( $wallets as $wallet )
                                         <option value='{{ $wallet->account_id }}'>{{ $wallet->title }} - {{ $wallet->account_id }}</option>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="form-group has-feedback ammount">
-                        {{ Form::label('add_money', 'Ammount to add', ['class' => 'control-label']) }}
+                        {{ Form::label('add_money', 'Ammount to add $', ['class' => 'control-label']) }}
                         <div class="controls">
                             <div class="col-md-4">
                               {{ Form::text('add_money', null, ['class' => 'form-control']) }}
