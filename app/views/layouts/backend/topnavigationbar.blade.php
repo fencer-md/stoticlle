@@ -12,9 +12,24 @@
 					Rate
 				</a>
 			</li>
+		</ul>
+	</li>
+	<li class="dropdown">
+	  	<a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+		  	<span class="menu-title">
+		  		Content
+		  	</span>
+		  	<i class="fa fa-angle-down"></i>
+	  	</a>
+	  	<ul class="dropdown-menu">
 			<li>
 				<a href="{{ URL::to('user/admin/pages') }}">
 					Pages edit
+				</a>
+			</li>
+			<li>
+				<a href="{{ URL::to('user/admin/pages') }}">
+					Front page blocks
 				</a>
 			</li>
 		</ul>

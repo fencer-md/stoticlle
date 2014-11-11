@@ -1,6 +1,6 @@
 <?php
 
-class PageController extends \BaseController {
+class ContentController extends \BaseController {
 
 	public function show () {
 
