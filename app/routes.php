@@ -76,7 +76,7 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/withdrawrequest', 'TransactionsController@usersWithdrawMoneyConfirm');
 		Route::post('user/admin/comment', 'UserController@updateCommentary');
 		Route::get('user/admin/denied', 'TransactionsController@userRefusedTransactions');
-		Route::get('user/admin/pages', '@show');
+		Route::get('user/admin/pages', 'ContentController@show');
 		Route::get('user/admin/page/{pid}', 'ContentController@edit');
 		Route::post('user/admin/page/{pid}', 'ContentController@update');
 	});

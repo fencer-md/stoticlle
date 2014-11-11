@@ -39,6 +39,4 @@ class ContentController extends \BaseController {
 
 	}
 
-	public function editBlock
-
 }
