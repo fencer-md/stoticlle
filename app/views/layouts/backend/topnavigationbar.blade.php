@@ -12,6 +12,11 @@
 					Rate
 				</a>
 			</li>
+			<li>
+				<a href="{{ URL::to('user/admin/pages') }}">
+					Pages edit
+				</a>
+			</li>
 		</ul>
 	</li>
 	<li class="dropdown">

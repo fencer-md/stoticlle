@@ -105,7 +105,6 @@
 
     @include('includes.frontend.scripts')
     <script type="text/javascript">
-      var usersData = {{ $usersData }}
       $('html').click(function() {
         $('.register-form').hide();        
       });

@@ -113,7 +113,10 @@ class UserTablesCreate extends Migration {
 	{
         Schema::drop('user_roles');
         Schema::drop('users_info');
+        Schema::drop('user_money_info');
 		Schema::drop('users');
+        Schema::drop('payment_methods');
+        Schema::drop('offers');
 		Schema::drop('users_transaction');
 	}
 

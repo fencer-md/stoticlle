@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="page-title">Messaging</h3>
     <div class="row">        
-        {{ Form::open(['action' => 'MessageController@create', 'class' => 'form', 'role' => 'form']) }}            
+        {{ Form::open(['action' => 'MessageController@create', 'class' => 'form', 'role' => 'form']) }}
             <div class="form-body">
                 <div class="form-group">
                     {{ Form::label('title', 'Title') }}
@@ -28,7 +28,7 @@
                     <div class="input-group">
                         {{ Form::textarea('body', null, ['class' => 'form-control']) }}
                     </div>
-                </div>  
+                </div>
                 {{ Form::submit('Create', ['class' => 'btn btn-lg blue']) }}
             </div>
         {{ Form::close() }}

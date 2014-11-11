@@ -23,6 +23,8 @@ Route::get('login', function()
 });
 Route::get('logout', 'SessionsController@destroy');
 
+Route::get('page/{ptitle}', 'PageController@viewMake');
+
 Route::post('user/store', 'UserController@store');
 
 Route::group(['before' => 'auth'], function()
@@ -73,6 +75,9 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/withdrawrequest', 'TransactionsController@usersWithdrawMoneyConfirm');
 		Route::post('user/admin/comment', 'UserController@updateCommentary');
 		Route::get('user/admin/denied', 'TransactionsController@userRefusedTransactions');
+		Route::get('user/admin/pages', 'PageController@show');
+		Route::get('user/admin/page/{pid}', 'PageController@edit');
+		Route::post('user/admin/page/{pid}', 'PageController@update');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
