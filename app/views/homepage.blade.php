@@ -19,14 +19,17 @@
           <div class="container">
             <div class="row">
             	<div class="text">
-            		<h1>Our business is the best deal for you!</h3>
+            		<h1>{{ $blocks[0]->content->title }}</h3>
             		<div class="body">
-            			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nulla vitae dolor sollicitudin accumsan. Morbi ex ex, ornare nec elit a, varius convallis metus. Suspendisse potenti.
+            			{{ $blocks[0]->content->body }}
             		</div>
             	</div>
             	<div class="video-list">
-            		<iframe width="460" height="300" src="//www.youtube.com/embed/qLJ3fERSS1Q" frameborder="0" allowfullscreen></iframe>
-            	</div>
+            		<iframe width="460" height="300" src="//www.youtube.com/embed/{{ $blocks[0]->content->video_1 }}" frameborder="0" allowfullscreen></iframe>
+            	  <img src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_1 }}/1.jpg">
+                <img src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_2 }}/1.jpg">
+                <img src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_3 }}/1.jpg">
+              </div>
             </div>
           </div>
       </section>
@@ -34,21 +37,21 @@
         <div class="container">
           <div class="row">
             <div class="clmn">
-              <div class="title">Title</div>
+              <div class="title">{{ $blocks[1]->content->title }}</div>
               <div class="text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nulla vitae dolor sollicitudin accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="#">Read more</a>
+                {{ $blocks[1]->content->body }} <a href="{{ $blocks[1]->content->link }}">Read more</a>
               </div>
             </div>
             <div class="clmn">
-              <div class="title">Title</div>
+              <div class="title">{{ $blocks[2]->content->title }}</div>
               <div class="text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nulla vitae dolor sollicitudin accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="#">Read more</a>
+                {{ $blocks[2]->content->body }} <a href="{{ $blocks[1]->content->link }}">Read more</a>
               </div>
             </div>
             <div class="clmn">
-              <div class="title">Title</div>
+              <div class="title">{{ $blocks[3]->content->title }}</div>
               <div class="text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nulla vitae dolor sollicitudin accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="#">Read more</a>
+                {{ $blocks[3]->content->body }} <a href="{{ $blocks[1]->content->link }}">Read more</a>
               </div>
             </div>
           </div>
@@ -60,22 +63,22 @@
             <div class="title"><span>Partners</span></div>
             <div class="list">
               <div class="logo">
-                <a href="#"><img src="{{ URL::asset('images/partner.png') }}"></a>
+                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_1 }}" />
               </div>
               <div class="logo">
-                <a href="#"><img src="{{ URL::asset('images/partner.png') }}"></a>
+                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_2 }}" />
               </div>
               <div class="logo">
-                <a href="#"><img src="{{ URL::asset('images/partner.png') }}"></a>
+                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_3 }}" />
               </div>
               <div class="logo">
-                <a href="#"><img src="{{ URL::asset('images/partner.png') }}"></a>
+                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_4 }}" />
               </div>
               <div class="logo">
-                <a href="#"><img src="{{ URL::asset('images/partner.png') }}"></a>
+                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_5 }}" />
               </div>
               <div class="logo">
-                <a href="#"><img src="{{ URL::asset('images/partner.png') }}"></a>
+                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_6 }}" />
               </div>
             </div>
           </div>

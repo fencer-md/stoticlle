@@ -61,7 +61,7 @@ class UserTransactionsSeeds extends Migration {
 		DB::table('user_roles')->insert(
             array(
                 array(
-                    'role' => 'administror'
+                    'role' => 'administrator'
                 ),
                 array(
                     'role' => 'user'

@@ -116,5 +116,8 @@
         e.stopPropagation();
       });
     </script>
+    @if ( Auth::user() && Auth::user()->role == 1 )
+
+    @endif
   </body>
 </html>

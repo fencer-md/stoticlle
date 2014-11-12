@@ -23,8 +23,7 @@ Route::get('login', function()
 });
 Route::get('logout', 'SessionsController@destroy');
 
-Route::get('page/{ptitle}', '
-ContentController@viewMake');
+Route::get('page/{ptitle}', 'ContentController@viewMake');
 
 Route::post('user/store', 'UserController@store');
 
@@ -76,9 +75,14 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/withdrawrequest', 'TransactionsController@usersWithdrawMoneyConfirm');
 		Route::post('user/admin/comment', 'UserController@updateCommentary');
 		Route::get('user/admin/denied', 'TransactionsController@userRefusedTransactions');
-		Route::get('user/admin/pages', 'ContentController@show');
+		Route::get('user/admin/pages', 'ContentController@showPages');
 		Route::get('user/admin/page/{pid}', 'ContentController@edit');
 		Route::post('user/admin/page/{pid}', 'ContentController@update');
+		Route::get('user/admin/blocks/', 'ContentController@showBlocks');
+		Route::get('user/admin/block/{bid}', 'ContentController@editBlock');
+		Route::post('user/admin/blocks/mb', 'ContentController@updateMainBlock');
+		Route::post('user/admin/blocks/b', 'ContentController@updateBlocks');
+		Route::post('user/admin/blocks/p', 'ContentController@updatePartners');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
@@ -257,4 +261,15 @@ View::creator('includes.backend.cycles', function($view)
 	$uid = Auth::user()->id;
 	$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 	$view->with('lastInvestedAmmount', $lastInvest->ammount);
+});
+
+View::creator('homepage', function($view)
+{
+	$blocks = Block::all();
+
+	foreach ($blocks as $block) {
+		$block->content = json_decode($block->content);
+	}
+
+	$view->with('blocks', $blocks);
 });
