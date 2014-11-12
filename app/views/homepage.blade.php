@@ -25,10 +25,16 @@
             		</div>
             	</div>
             	<div class="video-list">
-            		<iframe width="460" height="300" src="//www.youtube.com/embed/{{ $blocks[0]->content->video_1 }}" frameborder="0" allowfullscreen></iframe>
-            	  <img src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_1 }}/1.jpg">
-                <img src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_2 }}/1.jpg">
-                <img src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_3 }}/1.jpg">
+                <div class="videos">
+            		  <iframe class="video_1 video" width="460" height="300" src="//www.youtube.com/embed/{{ $blocks[0]->content->video_1 }}" frameborder="0" allowfullscreen></iframe>
+                  <iframe class="video_2 video" width="460" height="300" src="//www.youtube.com/embed/{{ $blocks[0]->content->video_2 }}" frameborder="0" allowfullscreen></iframe>
+                  <iframe class="video_3 video" width="460" height="300" src="//www.youtube.com/embed/{{ $blocks[0]->content->video_3 }}" frameborder="0" allowfullscreen></iframe>
+            	  </div>
+                <div class="thumbnails">
+                  <img class="video_1 video" src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_1 }}/1.jpg">
+                  <img class="video_2 video" src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_2 }}/1.jpg">
+                  <img class="video_3 video" src="http://img.youtube.com/vi/{{ $blocks[0]->content->video_3 }}/1.jpg">
+                </div>
               </div>
             </div>
           </div>
@@ -91,5 +97,12 @@
 @section('custom_scripts')
 <script>
   var usersData = {{ $usersData }};
+
+  $('img.video').click(function() {
+    var firstClass = $(this).attr('class').split(' ');
+    firstClass = firstClass[0];
+    $('iframe.video').hide();
+    $('iframe.'+firstClass).show();
+  });
 </script>
 @stop

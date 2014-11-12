@@ -72,13 +72,14 @@ section.content-region .videos .container .text,section.content-region .containe
 
 section.videos {
     background: #f2f2f2;
+    min-height: 490px;
 }
 
 section.content-region .container {
     padding: 0 120px;
 }
 
-section.content-region .videos {
+section.content-region .video-list,section.content-region .text {
     padding: 40px 0;
 }
 header .login-form input {
@@ -238,4 +239,36 @@ header .register input {
 
 header .register input[type=submit] {
     margin-left: 10px;
+}
+iframe.video {
+    display: none;
+}
+iframe.video_1 {
+    display: block;
+}
+
+.video-list {
+    width: 460px;
+    display: inline-block;
+}
+
+section.content-region .video-list .thumbnails img {
+    margin-right: 50px;
+    margin-top: 20px;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    width: 120px;
+    height: 90px;
+}
+
+section.content-region .video-list .thumbnails img:last-child {
+    margin-right: 0;
+}
+.thumbnails {
+    overflow: hidden;
+}
+
+.videos {
+    height: 300px;
 }

@@ -39,6 +39,12 @@
                 {{ Form::hidden('pid', $block->id) }}
                 <div class="form-body">
                     <div class="form-group">
+                        {{ Form::label('title', 'Title') }}
+                        <div class="input-group">
+                            {{ Form::text('title', $block->content->title, ['class' => 'form-control']) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         {{ Form::label('body', 'Body') }}
                         <div class="input-group">
                             {{ Form::textarea('body', $block->content->body, ['class' => 'form-control']) }}

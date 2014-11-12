@@ -28,7 +28,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ URL::to('user/admin/pages') }}">
+				<a href="{{ URL::to('user/admin/blocks') }}">
 					Front page blocks
 				</a>
 			</li>

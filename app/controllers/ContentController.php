@@ -61,9 +61,24 @@ class ContentController extends \BaseController {
 		$block = Block::where('title', '=', 'main-block')->first();
 		$block->content = json_decode($block->content);
 		$block->content->body = Input::get('body');
-		$block->content->video_1 = Input::get('video_1');
-		$block->content->video_2 = Input::get('video_2');
-		$block->content->video_3 = Input::get('video_3');
+
+		if(filter_var(Input::get('video_1'), FILTER_VALIDATE_URL)){
+			$url = parse_url(Input::get('video_1'));
+			$url = parse_str($url['query'], $query);
+			$block->content->video_1 = $query['v'];
+		}
+
+		if(filter_var(Input::get('video_2'), FILTER_VALIDATE_URL)){
+			$url = parse_url(Input::get('video_2'));
+			$url = parse_str($url['query'], $query);
+			$block->content->video_2 = $query['v'];
+		}
+
+		if(filter_var(Input::get('video_3'), FILTER_VALIDATE_URL)){
+			$url = parse_url(Input::get('video_3'));
+			$url = parse_str($url['query'], $query);
+			$block->content->video_3 = $query['v'];
+		}
 		$block->content = json_encode($block->content);
 		$block->save();
 
@@ -76,9 +91,8 @@ class ContentController extends \BaseController {
 		$block = Block::where('title', '=', 'block-1')->orWhere('title', '=', 'block-2')->orWhere('title', '=', 'block-3')->first();
 		$block->content = json_decode($block->content);
 		$block->content->body = Input::get('body');
-		$block->content->video_1 = Input::get('video_1');
-		$block->content->video_2 = Input::get('video_2');
-		$block->content->video_3 = Input::get('video_3');
+		$block->content->titke = Input::get('title');
+		$block->content->link = Input::get('link');
 		$block->content = json_encode($block->content);
 		$block->save();
 

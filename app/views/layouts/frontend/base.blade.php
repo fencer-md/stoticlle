@@ -104,6 +104,7 @@
     </footer>
 
     @include('includes.frontend.scripts')
+    @yield('custom_scripts')
     <script type="text/javascript">
       $('html').click(function() {
         $('.register-form').hide();        
@@ -116,8 +117,5 @@
         e.stopPropagation();
       });
     </script>
-    @if ( Auth::user() && Auth::user()->role == 1 )
-
-    @endif
   </body>
 </html>
