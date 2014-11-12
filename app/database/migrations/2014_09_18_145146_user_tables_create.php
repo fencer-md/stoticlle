@@ -55,6 +55,7 @@ class UserTablesCreate extends Migration {
             $table->string('awarded');
             $table->integer('awaiting_award');
             $table->timestamp('invested_date')->nullable();
+            $table->integer('cycle_duration')->nullable();
             $table->string('monitored');
             $table->string('blocked');
             $table->integer('user_info_id')->unsigned();

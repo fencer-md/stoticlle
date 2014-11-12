@@ -135,7 +135,7 @@ View::creator('layouts.backend.base', function($view)
 		    $totalInvested += $user->userMoney->ammount_invested;
 		    $totalRewarded += $user->userMoney->ammount_won;
 		    $totalWithdrawn += $user->userMoney->ammount_withdrawn;
-	    	$currentAmmount += ( $totalAdded + $totalRewarded + $lastInvestedAmmount) - ( $totalWithdrawn + $totalInvested );
+	    	$currentAmmount += $user->userMoney->current_available;
 	    	$totalCycles = $user->userMoney->times_won;
 		}
 
@@ -155,7 +155,7 @@ View::creator('layouts.backend.base', function($view)
 	    $totalInvested = $user->userMoney->ammount_invested;
 	    $totalRewarded = $user->userMoney->ammount_won;
 	    $totalWithdrawn = $user->userMoney->ammount_withdrawn;
-	    $currentAmmount = ( $totalAdded + $totalRewarded ) - ( $totalInvested + $totalWithdrawn);
+	    $currentAmmount = $user->userMoney->current_available;
 
 	    if ( $user->awaiting_award == 1 ) {
 			$lastInvestedAmmount = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('confirmed', '=', 1)->orderBy('created_at', 'DESC')->first();
@@ -191,14 +191,15 @@ View::creator('includes.backend.cycles', function($view)
 
 	if ( Auth::user()->awaiting_award == 1 && Auth::user()->investor != 1 )
 	{
-	    $data = Helper::reward($ammount, Config::get('rate.rate'));
+	    $data = Helper::reward($ammount, Config::get('rate.days'), Config::get('rate.rate'));
 	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
 		$offer = Offer::where('recipient_id', '=', $id)->orderBy('id','DESC')->first();
 		if ( $offer != null )
 			$rate = $offer->rate;
 		else
 			$rate = Config::get('rate.rate');
-	    $data = Helper::reward($ammount, $rate);
+		$days = Auth::user()->cycle_duration;
+	    $data = Helper::reward($ammount, $days, $rate);
 	}
 
 	$view->with('data', $data);

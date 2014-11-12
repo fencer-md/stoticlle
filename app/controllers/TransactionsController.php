@@ -395,6 +395,7 @@ class TransactionsController extends \BaseController {
             $user = User::where('id', '=', $uid)->first();
             $user->awaiting_award = 1;
             $user->invested_date = date('Y-m-d H:i:s');
+            $user->cycle_duration = Config::get('rate.days');
             $user->userMoney->ammount_invested += $lastTransaction->ammount;
             $user->userMoney->current_available -= $lastTransaction->ammount;
             $user->userMoney->times_invested++;
@@ -438,6 +439,7 @@ class TransactionsController extends \BaseController {
                 $user = User::where('id', '=', $uid)->first();
                 $user->awaiting_award = 1;
                 $user->invested_date = date('Y-m-d H:i:s');
+                $user->cycle_duration = Config::get('rate.days');
                 $user->save();
             }
             $transaction->user_id = $uid;

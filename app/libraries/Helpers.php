@@ -2,9 +2,9 @@
 
 class Helper {
 
-    public static function reward($ammount, $rate)
+    public static function reward($ammount, $days, $rate)
     {
-    	$ammount = $ammount * $rate;
+    	$ammount = $ammount * $days * $rate;
         return $ammount;
     }
 }
