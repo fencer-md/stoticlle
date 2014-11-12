@@ -28,6 +28,29 @@ class PagesTableTablesCreate extends Migration {
             $table->timestamps();
         });
 
+        DB::table('pages')->insert(
+            array(
+                array(
+                    'title' => 'faq'
+                ),
+                array(
+                    'title' => 'howdoipay'
+                ),
+                array(
+                    'title' => 'bestinvestment'
+                ),
+                array(
+                    'title' => 'info'
+                ),
+                array(
+                    'title' => 'news'
+                ),
+                array(
+                    'title' => 'promotions'
+                ),
+            )
+        );
+
 		DB::table('blocks')->insert(
             array(
                 array(

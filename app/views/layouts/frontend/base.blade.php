@@ -69,12 +69,12 @@
               <div class="title">Some links</div>
               <div class="text">
                 <ul>
-                  <li><a href="#">FAQ</a></li>
-                  <li><a href="#">How do i pay?</a></li>
-                  <li><a href="#">This is the best investment</a></li>
-                  <li><a href="#">Another link info</a></li>
-                  <li><a href="#">News</a></li>
-                  <li><a href="#">Promotions</a></li>
+                  <li><a href="{{ URL::to('page/faq') }}">FAQ</a></li>
+                  <li><a href="{{ URL::to('page/howdoipay') }}">How do i pay?</a></li>
+                  <li><a href="{{ URL::to('page/bestinvestment') }}">This is the best investment</a></li>
+                  <li><a href="{{ URL::to('page/info') }}">Another link info</a></li>
+                  <li><a href="{{ URL::to('page/news') }}">News</a></li>
+                  <li><a href="{{ URL::to('page/promotions') }}">Promotions</a></li>
                 </ul>
               </div>
             </div>
