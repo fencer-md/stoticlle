@@ -38,7 +38,7 @@
 <link href="{{ URL::asset('backend/scripts/components-editor.js') }}" type="text/javascript" media="screen"/>
 <!-- END PAGE LEVEL SCRIPTS -->  
 <script>
-	jQuery(document).ready(function() {    
+	jQuery(document).ready(function() {
 		Metronic.init(); // init metronic core components
 		Layout.init(); // init current layout
 		QuickSidebar.init(); // init quick sidebar
@@ -54,6 +54,11 @@
 				number: 'true'
 			}
 		}
+	});
+	$.ajaxSetup({
+	    headers: {
+	        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	    }
 	});
 </script>
 <!-- END JAVASCRIPTS -->

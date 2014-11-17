@@ -29,6 +29,8 @@ class MapController extends \BaseController {
             $usersData[$i]['totalInvested'] = $totalInvested;
             $usersData[$i]['totalReward'] = $totalReward;
             $usersData[$i]['registered'] = $user->created_at;
+            $usersData[$i]['show_continent'] = $user->show_continent;
+            $usersData[$i]['show_dot'] = $user->show_dot;
             $allUsers++;
         }
 

@@ -310,8 +310,10 @@
                                 {{ Form::password('re-password', ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
-                        <div class="form-actions"> 
-                            {{ Form::submit('Save', ['class' => 'btn blue']) }}
+                        <div class="form-actions">
+                            @if ( !Request::is('user/admin/edituser/*') )
+                                {{ Form::submit('Save', ['class' => 'btn blue']) }}
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -338,16 +340,32 @@
                 </div>
             {{ Form::close() }}
                 @if ( Request::is('user/admin/edituser/*') )
-                    <div class="col-md-12">
-                        <h4>Commentary</h4>
-                        <div class="commentary">
-                            {{ Form::open(['action' => 'UserController@updateCommentary', 'class' => 'form-horizontal']) }}
-                                {{ Form::hidden('uid', $user->id) }}
-                                {{ Form::textarea('user_commentary', $user->commentary) }}
-                                {{ Form::submit('Save', ['class' => 'btn default btn-xs blue']) }}
-                            {{ Form::close() }}
+                    {{ Form::open(['action' => 'UserController@updateCommentary', 'class' => 'form-horizontal']) }}
+                        <div class="form-body col-md-12">
+                            <h4>Commentary</h4>
+                            <div class="form-group">
+                                <div class="commentary">
+                                    <div class="col-md-9">
+                                        {{ Form::hidden('uid', $user->id) }}
+                                        {{ Form::textarea('user_commentary', $user->commentary) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('showRegion', 'Show on region', ['class' => 'col-md-1 control-label']) }}
+                                <div class="col-md-9">
+                                    {{ Form::checkbox('showRegion', '1', $user->show_continent == 1 ? true : false, ['class' => 'show-continent', 'uid' => $user->id]) }}
+                                </div>
+                            </div>
+                            <div class="form-group"> 
+                                {{ Form::label('showDot', 'Show on Dot', ['class' => 'col-md-1 control-label']) }}
+                                <div class="col-md-9">
+                                    {{ Form::checkbox('showDot', '1', $user->show_dot == 1 ? true : false, ['class' => 'show-dot', 'uid' => $user->id]) }}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        {{ Form::submit('Save', ['class' => 'btn blue']) }}
+                    {{ Form::close() }}
                 @endif
         </div>
     </div>
