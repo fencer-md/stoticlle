@@ -16,6 +16,8 @@ class MapController extends \BaseController {
         foreach ($users as $user) {
             $usersData[$i]['first_name'] = $user->userInfo->first_name;
             $usersData[$i]['last_name'] = $user->userInfo->last_name;
+            $usersData[$i]['city'] = $user->userInfo->city;
+            $usersData[$i]['country'] = $user->userInfo->country;
 
             foreach ($user->userTransaction as $transaction) {
                 if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
