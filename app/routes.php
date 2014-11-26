@@ -102,6 +102,7 @@ Route::group(['before' => 'auth'], function()
 	});
 	Route::post('user/transactions/cashout', 'TransactionsController@cashOutRequest');
 	Route::get('user/admin/transaction/commentary', 'TransactionsController@transactionComment');
+	Route::post('user/edit/coords', 'UserController@updateCoords');
 });
 
 Route::get('user/confirm/{cc}', 'UserController@confirm');

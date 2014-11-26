@@ -47,7 +47,11 @@
                             <div class="col-md-9">
                                 <select name="country" id="country" data-placeholder="Select a country...">
                                     <option></option>
-                                    <option value="" selected="selected">Select Country</option> 
+                                    @if ( $user_info->country == NULL )
+                                        <option value="" selected="selected">Select Country</option> 
+                                    @else
+                                        <option value="{{ $user_info->country }}" selected="selected">{{  $user_info->country  }}</option> 
+                                    @endif
                                     <option value="United States">United States</option> 
                                     <option value="United Kingdom">United Kingdom</option> 
                                     <option value="Afghanistan">Afghanistan</option> 
