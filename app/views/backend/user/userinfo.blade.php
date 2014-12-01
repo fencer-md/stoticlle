@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="page-title">Edit profile</h3>
     <div class="row">
-            {{ Form::open(['action' => 'UserController@updateInfo', 'class' => 'form-horizontal']) }}
+            {{ Form::open(['action' => 'UserController@updateInfo', 'files' => true, 'class' => 'form-horizontal']) }}
                 <div class="form-body col-md-12">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -34,6 +34,13 @@
                                         <label class="radio-inline"><div><span>{{ Form::radio('gender', 'female', null, [$disabled]) }}</span></div>F</label>
                                     @endif
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            {{ Form::label('photo', 'Photo', ['class' => 'col-md-3 control-label']) }}
+                            <div class="col-md-9">
+                                <img src="{{ URL::asset($user_info->photo) }}">
+                                {{ Form::file('photo', ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group"> 

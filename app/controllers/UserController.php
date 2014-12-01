@@ -125,9 +125,18 @@ class UserController extends \BaseController {
 		$user_info->country = Input::get('country');
 		$user_info->city = Input::get('city');
 		$user_info->links = $linksArray;
+
+		$photo = Input::file('photo');
+		$filename = date('Ymdhis')."-".$photo->getClientOriginalName();
+		$path = 'uploads/user-photos/'.$filename;
+		Image::make(Input::file('photo'))->resize(200, 200)->save( public_path('uploads/user-photos/').$filename );
+        $user_info->photo = $path;
+
 		$user->save();
 		$user_info->save();
-		return Redirect::back()->with(['message' => 'updated']);
+
+		return Redirect::back();
+
  	}
 
  	public function usersList() 

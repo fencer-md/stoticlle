@@ -6,7 +6,7 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"bllim/datatables": "*"
+		"intervention/image": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
