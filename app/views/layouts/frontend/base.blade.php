@@ -32,7 +32,7 @@
                 <div class="register">
                   Don't have an account? <a href="#">Register</a>
                   <div class="register-form">
-                    {{ Form::open(['route' => 'user.store', 'class' => 'form-signin']) }}
+                    {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
                         {{ Form::text('email', null, ['placeholder' => 'E-mail']) }}
                         {{ Form::submit('Submit') }}
                     {{ Form::close() }}

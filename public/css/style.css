@@ -224,6 +224,7 @@ footer .footer .columns .clmn .copyright {
     padding: 20px 10px;
     width: 230px;
     display: none;
+    z-index: 100;
 }
 
 .register {
