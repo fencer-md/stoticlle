@@ -3,8 +3,8 @@
 @section('content')
 	<section class="map-region">
       <div class="container-fluid">
-        <div class="map">
-          <img src="{{ URL::asset('images/map.png') }}">
+        <div class="map" id="world_map" style="background:url('{{ URL::asset('images/map.png') }}') no-repeat 0 0; background-size:900px auto">
+          
         </div>
         <div class="info">
           <div class="inside">
