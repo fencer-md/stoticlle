@@ -48,6 +48,8 @@ class MapController extends \BaseController {
                 $usersData[$continent][$i]['show_continent'] = $user->show_continent;
                 $usersData[$continent][$i]['point'] = $user->show_dot;
                 $i++;
+		$totalInvested = 0;
+		$totalReward = 0;
             }
                 $allUsers++;
 
