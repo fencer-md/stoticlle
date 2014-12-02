@@ -18,15 +18,17 @@ class MapController extends \BaseController {
             else {
                 $geoJson = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.$user->userInfo->lat.','.$user->userInfo->long.'&sensor=true');
                 $geoJson = json_decode($geoJson);
-                $countryShort = $geoJson->results[0]->address_components[4]->short_name;
+                $geoJson = $geoJson->results[0]->address_components;
+                $geoJson = end($geoJson);
+                $countryShort = $geoJson->short_name;
 
                 $country = DB::table('countries')->where('code', $countryShort)->first();
-                $continent = DB::table('continents')->where('code', $country->continent_code)->first();
-                if ( $continent->name == 'Europe' ) $continent = 'euro';
-                elseif ( $continent->name == 'North America' ) $continent = 'america_n';
-                elseif ( $continent->name == 'South America' ) $continent = 'america_s';
-                elseif ( $continent->name == 'Africa' ) $continent = 'africa';
-                elseif ( $continent->name == 'Oceania' ) $continent = 'australia';
+                $continentDb = DB::table('continents')->where('code', $country->continent_code)->first();
+                if ( $continentDb->name == 'Europe' ) $continent = 'euro';
+                elseif ( $continentDb->name == 'North America' ) $continent = 'america_n';
+                elseif ( $continentDb->name == 'South America' ) $continent = 'america_s';
+                elseif ( $continentDb->name == 'Africa' ) $continent = 'africa';
+                elseif ( $continentDb->name == 'Oceania' ) $continent = 'australia';
 
                 $usersData[$continent][$i]['first_name'] = $user->userInfo->first_name;
                 $usersData[$continent][$i]['last_name'] = $user->userInfo->last_name;
@@ -48,8 +50,8 @@ class MapController extends \BaseController {
                 $usersData[$continent][$i]['show_continent'] = $user->show_continent;
                 $usersData[$continent][$i]['point'] = $user->show_dot;
                 $i++;
-		$totalInvested = 0;
-		$totalReward = 0;
+        		$totalInvested = 0;
+        		$totalReward = 0;
             }
                 $allUsers++;
 
