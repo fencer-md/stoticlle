@@ -1,0 +1,75 @@
+#world_map {
+	position:relative;
+	width:900px;
+	height:600px;
+}
+#world_map svg{
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:1;
+}
+#world_map circle{
+	z-index:2;
+	position:relative;
+}
+#world_map path{
+	z-index:1;
+	position:relative;
+}
+#world_map .pop_up_info{
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:2;
+	background:rgba(255,255,255,0.9);
+	width:150px;
+	opacity:0;
+	
+}
+#world_map .pop_up_info .user{
+	color:#666;
+	font-size:12px;
+	padding:4px;
+	border-bottom:1px solid #666;
+	position:relative;
+}
+#world_map .pop_up_info .user:hover{
+	color:#428bca;
+}
+.sub_user{
+	position:absolute;
+	left:150px;
+	top:-3px;
+	background:rgba(255,255,255,0.9);
+	width:150px;
+	padding:10px;
+	display:none;
+	z-index:2;
+}
+#world_map .pop_up_info .user:hover .sub_user{
+	display:block;
+}
+.sub_user .photo img{
+	width:50px;
+}
+.sub_user .photo {
+	width:60px;
+	float:left;
+}
+.sub_user .name {
+	width:70px;
+	float:left;
+	color:#666;
+}
+.sub_user .name b{
+	color:#428bca;
+}
+.user_info{
+	padding:10px 0 0;
+	font-size:10px;
+	color:#666;
+}
+.clear{
+	clear:both;
+}

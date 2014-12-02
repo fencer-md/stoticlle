@@ -11,7 +11,11 @@
 |
 */
 
+<<<<<<< HEAD
+Route::get('xyz', 'MapController@output');
+=======
 Route::get('/xyz', 'MapController@output');
+>>>>>>> 245707878ebeec79ef45893a1747923cb700302f
 
 Route::get('register', function()
 {
