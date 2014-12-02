@@ -11,7 +11,11 @@
 |
 */
 
+<<<<<<< HEAD
 Route::get('xyz', 'MapController@output');
+=======
+Route::get('/xyz', 'MapController@output');
+>>>>>>> 245707878ebeec79ef45893a1747923cb700302f
 
 Route::get('register', function()
 {
@@ -83,6 +87,8 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/blocks/mb', 'ContentController@updateMainBlock');
 		Route::post('user/admin/blocks/b', 'ContentController@updateBlocks');
 		Route::post('user/admin/blocks/p', 'ContentController@updatePartners');
+		Route::post('user/admin/edit/showdot', 'UserController@showOnMap');
+		Route::post('user/admin/edit/showcontinent', 'UserController@showOnMap');
 	});
 
 	Route::get('user/edit', 'UserController@editUserInfo');
@@ -100,12 +106,13 @@ Route::group(['before' => 'auth'], function()
 	});
 	Route::post('user/transactions/cashout', 'TransactionsController@cashOutRequest');
 	Route::get('user/admin/transaction/commentary', 'TransactionsController@transactionComment');
+	Route::post('user/edit/coords', 'UserController@updateCoords');
 });
 
 Route::get('user/confirm/{cc}', 'UserController@confirm');
 
 Route::resource('session', 'SessionsController');
-Route::resource('user', 'UserController');
+Route::resource('user', 'SessionsController');
 
 View::creator('layouts.backend.base', function($view)
 {

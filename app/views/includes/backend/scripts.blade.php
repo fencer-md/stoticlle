@@ -38,7 +38,7 @@
 <link href="{{ URL::asset('backend/scripts/components-editor.js') }}" type="text/javascript" media="screen"/>
 <!-- END PAGE LEVEL SCRIPTS -->  
 <script>
-	jQuery(document).ready(function() {    
+	jQuery(document).ready(function() {
 		Metronic.init(); // init metronic core components
 		Layout.init(); // init current layout
 		QuickSidebar.init(); // init quick sidebar
@@ -55,5 +55,28 @@
 			}
 		}
 	});
+	$.ajaxSetup({
+	    headers: {
+	        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	    }
+	});
+
+@if ( Auth::user()->role == 2 )
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+
+	function showPosition(position) {
+        $.ajax({
+            type: 'post',
+            url: '/user/edit/coords?lat='+position.coords.latitude+'&long='+position.coords.longitude,
+            beforeSend: function(request) {
+                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+            },
+        });
+        console.log('/user/edit/coords?lat='+position.coords.latitude+'&long='+position.coords.longitude);
+	}
+@endif
 </script>
+<!-- END JAVASCRIPTS -->
 <!-- END JAVASCRIPTS -->

@@ -84,6 +84,10 @@
                         {{ HTML::linkAction('UserController@'.$controller, 'Last login', ['sortby' => 'users.last_login', 'order' => 'asc']) }}
                     @endif
                 </td>
+                @if ( Request::is('user/admin/edituserlist') )
+                    <td>Show in region</td>
+                    <td>Show in dot</td>
+                @endif
 			</thead>
 			<tbody>
             @if ( $users != null )
@@ -113,6 +117,10 @@
                                 <a class="btn default btn-xs purple" data-toggle="modal" href="{{ URL::to('user/admin/offer?uid='.$user->id) }}" data-target="#offer-dialog"><i class="fa fa-edit"></i>Offer</a>
                             </td>
                         @endif
+                        @if ( Request::is('user/admin/edituserlist') )
+                            <td>{{ Form::checkbox('showContinent', '1', $user->show_continent == 1 ? true : false, ['class' => 'show-continent', 'uid' => $user->id]) }}</td>
+                            <td>{{ Form::checkbox('showDot', '1', $user->show_dot == 1 ? true : false, ['class' => 'show-dot', 'uid' => $user->id]) }}</td>
+                        @endif
     				</tr>
     			@endforeach
             @endif
@@ -131,4 +139,36 @@
             </div>
           </div>
         </div>
+@stop
+
+@section('custom_scripts')
+    <script>
+    $('input.show-continent').change(function() {
+        if ( $(this).is(":checked") ) {
+            temp = 1;
+            if ( $(this).attr('checked') == null ) temp = 0;
+            $.ajax({
+                type: 'post',
+                url: '/user/admin/edit/showcontinent?showRegion='+temp+'&uid='+$(this).attr('uid'),
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+            });
+        }
+    });
+
+    $('input.show-dot').change(function() {
+        if ( $(this).is(":checked") ) {
+            temp = 1;
+            if ( $(this).attr('checked') == null ) temp = 0;
+            $.ajax({
+                type: 'post',
+                url: '/user/admin/edit/showdot?showDot='+temp+'&uid='+$(this).attr('uid'),
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+            });
+        }
+    });
+    </script>
 @stop

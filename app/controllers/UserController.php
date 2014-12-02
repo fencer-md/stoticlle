@@ -75,6 +75,16 @@ class UserController extends \BaseController {
 		$user = User::find($uid);
 		$user->commentary = Input::get('user_commentary');
 		$user->monitored = Input::get('monitored');
+
+ 		if ( Input::get('showRegion') == 1 )
+ 			$user->show_continent = 1;
+ 		if ( Input::get('showDot') == 1 )
+ 			$user->show_dot = 1;
+ 		if ( Input::get('showRegion') == 0 )
+ 			$user->show_continent = 0;
+ 		if ( Input::get('showDot') == 0 )
+ 			$user->show_dot = 0;
+ 		
 		$user->save();
 
 		return Redirect::back();
@@ -115,9 +125,18 @@ class UserController extends \BaseController {
 		$user_info->country = Input::get('country');
 		$user_info->city = Input::get('city');
 		$user_info->links = $linksArray;
+
+		$photo = Input::file('photo');
+		$filename = date('Ymdhis')."-".$photo->getClientOriginalName();
+		$path = 'uploads/user-photos/'.$filename;
+		Image::make(Input::file('photo'))->resize(200, 200)->save( public_path('uploads/user-photos/').$filename );
+        $user_info->photo = $path;
+
 		$user->save();
 		$user_info->save();
-		return Redirect::back()->with(['message' => 'updated']);
+
+		return Redirect::back();
+
  	}
 
  	public function usersList() 
@@ -288,6 +307,30 @@ class UserController extends \BaseController {
  		}
 
  		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]);
+ 	}
+
+ 	public function showOnMap() 
+ 	{
+ 		$user = User::find(Input::get('uid'));
+
+ 		if ( Input::get('showRegion') == 1 )
+ 			$user->show_continent = 1;
+ 		if ( Input::get('showDot') == 1 )
+ 			$user->show_dot = 1;
+ 		if ( Input::get('showRegion') == 0 )
+ 			$user->show_continent = 0;
+ 		if ( Input::get('showDot') == 0 )
+ 			$user->show_dot = 0;
+
+ 		$user->save();
+ 	}
+
+ 	public function updateCoords() {
+		$id = Auth::user()->id;
+		$user_info = UserInfo::find($user->user_info_id);
+		$user_info->lat = Input::get('lat');
+		$user_info->long = Input::get('long');
+		$user_info->save();
  	}
 
 }

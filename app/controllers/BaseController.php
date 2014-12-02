@@ -15,4 +15,10 @@ class BaseController extends Controller {
 		}
 	}
 
+	public function __construct()
+	{
+	    // Run the 'csrf' filter on all post, put, patch and delete requests.
+	    $this->beforeFilter('csrf', ['on' => ['post', 'put', 'patch', 'delete']]);
+	}
+
 }

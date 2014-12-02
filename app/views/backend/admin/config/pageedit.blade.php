@@ -18,7 +18,7 @@
                         <textarea name="body" id="summernote">{{ $page->body }}</textarea>
                     </div>
                 </div>
-                {{ Form::submit('Create', ['class' => 'btn btn-lg blue']) }}
+                {{ Form::submit('Submit', ['class' => 'btn btn-lg blue']) }}
             </div>
         {{ Form::close() }}
     </div>
