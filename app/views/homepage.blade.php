@@ -96,7 +96,7 @@
 
 @section('custom_scripts')
 <script>
-  var usersData = {{ $usersData }};
+  var my_data = {{ $usersData }};
 
   $('img.video').click(function() {
     var firstClass = $(this).attr('class').split(' ');

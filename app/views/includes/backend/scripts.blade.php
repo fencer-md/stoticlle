@@ -74,7 +74,6 @@
                 return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
             },
         });
-        console.log('/user/edit/coords?lat='+position.coords.latitude+'&long='+position.coords.longitude);
 	}
 @endif
 </script>

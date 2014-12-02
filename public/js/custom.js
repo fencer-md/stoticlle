@@ -11,35 +11,7 @@ function main_custom () {
 		custom.global['coord']['euro'] = "M409,193L401,185L398,176L403,167L409,171L418,174L419,151L433,137L445,134L445,124L437,116L436,104L450,100L463,83L481,72L496,65L525,80L554,84L575,75L596,72L599,56L620,65L623,53L643,50L667,42L678,34L659,26L669,15L689,29L686,38L712,39L704,56L741,57L751,68L778,64L769,46L780,39L803,50L784,53L794,60L803,69L815,66L841,74L877,75L900,90L891,94L878,88L875,105L847,114L834,115L833,129L821,144L813,128L826,116L808,116L775,118L767,133L782,136L787,164L770,198L756,209L722,229L690,236L697,249L690,265L685,279L668,260L664,241L650,227L628,245L628,269L610,258L589,222L567,218L573,228L558,245L538,251L506,207L511,193L495,191L477,183L457,191L442,179L429,175L426,189Z";
 		custom.global['coord']['africa'] = "M377,229L396,210L406,196L427,192L444,188L452,199L468,205L482,204L504,208L518,232L528,252L535,262L550,254L550,272L530,287L523,298L520,315L529,316L525,327L513,336L514,350L498,364L486,379L472,377L462,358L460,337L451,330L456,319L457,300L446,287L446,275L430,271L403,279L380,256Z";
 		custom.global['coord']['australia'] = "M708,344L718,338L727,330L741,322L752,318L766,319L772,329L778,319L792,326L803,349L809,370L797,384L786,388L769,384L755,367L734,371L713,378L714,361Z";
-		
-		var my_data = new Array( );
-		my_data['america_n'] = new Array();
-		my_data['america_s'] = new Array();
-		my_data['euro'] = new Array();
-		my_data['africa'] = new Array();
-		my_data['australia'] = new Array();
-		
-		my_data['america_n'][0] = new Array();
-		my_data['america_n'][0]['name'] = "Vasilika";
-		my_data['america_n'][0]['coord'] = "46,29";
-		my_data['america_n'][0]['city'] = "Chisinau";
-		my_data['america_n'][0]['point'] = 1;
-		my_data['america_n'][0]['id'] = 11;
-		
-		my_data['australia'][1] = new Array();
-		my_data['australia'][1]['name'] = "Ionel";
-		my_data['australia'][1]['coord'] = "36,-84";
-		my_data['australia'][1]['city'] = "New york";
-		my_data['australia'][1]['point'] = 1;
-		my_data['australia'][1]['id'] = 12;
-		
-		my_data['america_n'][2] = new Array();
-		my_data['america_n'][2]['name'] = "Anatolie ";
-		my_data['america_n'][2]['coord'] = "20,-64";
-		my_data['america_n'][2]['city'] = "New Jersy";
-		my_data['america_n'][2]['point'] = 0;
-		my_data['america_n'][2]['id'] = 13;
-		
+				
         if ($(".map").length)
 		{
 			var r = Raphael("world_map" ,900 , 450);
@@ -94,13 +66,13 @@ function main_custom () {
 					$(".pop_up_info").remove();
 					this.animate({opacity: "0.3"} , 200);
 					var pop_up = "<div class='pop_up_info'>";
-					for (user_id in my_data)
+					for (i in my_data)
 					{
-						var user = my_data[user_id];
-						//alert(user['name'])
-						pop_up += "<div class='user'>" + user['name']  + "," + user['city'];
-						pop_up += "<div class='sub_user'><div class='photo'><img src='http://lorempixel.com/50/50/people/' /></div><div class='name'><b>" + user['name']  + "</b><br />" + user['city'] +"</div><div class='clear'></div>";
-						pop_up += "<div class='user_info'>Registered: 29.09.2014 <br />Invested: 3600$ <br />Gained: 4200$</div>";
+						var user = my_data[i];
+						console.log(user['first_name']);
+						pop_up += "<div class='user'>" + user['first_name'] + " " + user['last_name'] + "," + user['city'];
+						pop_up += "<div class='sub_user'><div class='photo'><img src='/" + user['photo'] + "' /></div><div class='name'><b>" + user['first_name'] + " " + user['last_name'] + "</b><br />" + user['city'] +"</div><div class='clear'></div>";
+						pop_up += "<div class='user_info'>Invested: " + user['totalInvested'] + "$ <br />Gained: " + user['totalReward'] + "$</div>";
 						pop_up += "</div></div>";
 					}
 					pop_up += "</div>";
@@ -158,8 +130,8 @@ function main_custom () {
 			});
 			
 			c.click(function(){
-				var pop_up = "<div class='sub_user' id='user_info_"+user['id']+"' style='display:block;left:" + (coord_x + 2 )+ "px;top:"+ (coord_y + 2 )+ "px'><div class='photo'><img src='http://lorempixel.com/50/50/people/' /></div><div class='name'><b>" + user['name']  + "</b><br />" + user['city'] +"</div><div class='clear'></div>";
-				pop_up += "<div class='user_info'>Registered: 29.09.2014 <br />Invested: 3600$ <br />Gained: 4200$</div>";
+				var pop_up = "<div class='sub_user' id='user_info_"+user['id']+"' style='display:block;left:" + (coord_x + 2 )+ "px;top:"+ (coord_y + 2 )+ "px'><div class='photo'><img src='/" + user['photo'] + "' /></div><div class='name'><b>" + user['first_name'] + " " + user['last_name'] + "</b><br />" + user['city'] +"</div><div class='clear'></div>";
+				pop_up += "<div class='user_info'>Invested: " + user['totalInvested'] + "$ <br />Gained: " + user['totalReward'] + "$</div>";
 				pop_up += "</div>";
 				$("#world_map").append(pop_up);
 				
