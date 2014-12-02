@@ -37,7 +37,6 @@ class MapController extends \BaseController {
                 foreach ($user->userTransaction as $transaction) {
                     if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
                         $totalInvested = $transaction->ammount;
-                        $allInvested += $transaction->ammount;
                     }
                     elseif ( $transaction->transaction_direction == 'reward' && $transaction->confirmed == 1 )
                         $totalReward += $transaction->ammount;
@@ -48,7 +47,14 @@ class MapController extends \BaseController {
                 $usersData[$continent][$i]['registered'] = $user->created_at;
                 $usersData[$continent][$i]['show_continent'] = $user->show_continent;
                 $usersData[$continent][$i]['point'] = $user->show_dot;
+                $i++;
+            }
                 $allUsers++;
+
+            foreach ($user->userTransaction as $transaction) {
+                if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
+                    $allInvested += $transaction->ammount;
+                }
             }
         }
 
