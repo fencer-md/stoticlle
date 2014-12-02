@@ -122,6 +122,10 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
+    	'Torann\GeoIP\GeoIPServiceProvider',
+    	'Way\Generators\GeneratorsServiceProvider',
+		'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
+		'Orangehill\Iseed\IseedServiceProvider',
 
 	),
 
@@ -191,6 +195,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Datatables'      	=> 'Bllim\Datatables\Facade\Datatables',
 		'Image' 			=> 'Intervention\Image\Facades\Image',
+    	'GeoIP' 			=> 'Torann\GeoIP\GeoIPFacade',
 
 	),
 

@@ -20,7 +20,7 @@ class UserTransactionsSeeds extends Migration {
                 	'gender' => 'male',                	
                     'birth_date' => '1980-06-04',
                     'city'  => 'Washington',
-                    'country' => 'USA',
+                    'country' => 'United States of America',
                 ),
             	array(
                 	'first_name' => 'Foo',

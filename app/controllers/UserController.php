@@ -326,8 +326,8 @@ class UserController extends \BaseController {
  	}
 
  	public function updateCoords() {
-		$id = Auth::user()->id;
-		$user_info = UserInfo::find($user->user_info_id);
+		$uid = Auth::user()->id;
+		$user_info = UserInfo::find($uid);
 		$user_info->lat = Input::get('lat');
 		$user_info->long = Input::get('long');
 		$user_info->save();
