@@ -14,7 +14,7 @@ class MapController extends \BaseController {
 
         $users = User::where('role', '=', 2)->get();
         foreach ($users as $user) {
-
+            if ( $user->userInfo->lat == 0 && $user->userInfo->long == 0 ) break;
             $geoJson = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.$user->userInfo->lat.','.$user->userInfo->long.'&sensor=true');
             $geoJson = json_decode($geoJson);
             $countryShort = $geoJson->results[0]->address_components[4]->short_name;
