@@ -18,7 +18,11 @@ class MapController extends \BaseController {
             else {
                 $geoJson = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.$user->userInfo->lat.','.$user->userInfo->long.'&sensor=true');
                 $geoJson = json_decode($geoJson);
-                $countryShort = $geoJson->results[0]->address_components[4]->short_name;
+                $geoJson = $geoJson->results[0]->address_components;
+                foreach ($geoJson as $geoloc) {
+                    if ( $geoloc->types[0] == 'country' )
+                        $countryShort = $geoloc->short_name;
+                }
 
                 $country = DB::table('countries')->where('code', $countryShort)->first();
                 $continent = DB::table('continents')->where('code', $country->continent_code)->first();
@@ -48,8 +52,8 @@ class MapController extends \BaseController {
                 $usersData[$continent][$i]['show_continent'] = $user->show_continent;
                 $usersData[$continent][$i]['point'] = $user->show_dot;
                 $i++;
-		$totalInvested = 0;
-		$totalReward = 0;
+        		$totalInvested = 0;
+        		$totalReward = 0;
             }
                 $allUsers++;
 

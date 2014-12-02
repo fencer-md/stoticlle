@@ -55,8 +55,8 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'admin_stoticlle2',
-			'username'  => 'admin_stoticlle2',
+			'database'  => 'stoticlle',
+			'username'  => 'stoticlle',
 			'password'  => 'UTQ8xTIAUX',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
