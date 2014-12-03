@@ -49,7 +49,7 @@ class UserTablesCreate extends Migration {
             $table->increments('id');
             $table->string('email')->unique;
             $table->string('password');
-            $table->string('commentary');
+            $table->string('commentary')->nullable();
             $table->string('role');
             $table->string('investor');
             $table->string('awarded');
