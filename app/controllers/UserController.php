@@ -39,7 +39,7 @@ class UserController extends \BaseController {
 				$message->to(Input::get('email'), 'test')->subject('Welcome!');
 			});
 
-			return Redirect::to('/xyz');
+			return Redirect::to('/');
 		}
  	}
 
@@ -50,7 +50,7 @@ class UserController extends \BaseController {
 		$user->registration_status = 1;
 		$user->registration_code = 0;
 		$user->save();
-		return Redirect::to('/xyz')->with('msg',$msg);
+		return Redirect::to('/')->with('msg',$msg);
 	}
 
 	public function editUserInfo()

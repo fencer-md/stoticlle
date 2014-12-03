@@ -27,7 +27,7 @@ class SessionsController extends \BaseController {
     {
         Auth::logout();
 
-        return Redirect::to('/xyz');
+        return Redirect::to('/');
     }
 
 }

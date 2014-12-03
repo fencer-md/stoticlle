@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('xyz', 'MapController@output');
-
-Route::get('/xyz', 'MapController@output');
+Route::get('', 'MapController@output');
 
 Route::get('register', function()
 {
