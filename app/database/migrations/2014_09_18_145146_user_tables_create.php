@@ -90,7 +90,7 @@ class UserTablesCreate extends Migration {
 		Schema::create('users_transaction', function($table)
         {
             $table->increments('id');
-            $table->integer('ammount');
+            $table->float('ammount');
             $table->timestamp('date');
             $table->string('payment_system')->nullable();
             $table->integer('confirmed')->nullable();

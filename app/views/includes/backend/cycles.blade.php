@@ -1,3 +1,3 @@
 @if ($data != null)
-	{{ round($data, 2) + $lastInvestedAmmount }}$
+	{{ round($data, 2) }}$
 @endif

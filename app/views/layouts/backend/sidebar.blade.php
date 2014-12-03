@@ -5,7 +5,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['usersRegistered'] }}</div>
+				<div class="number">{{ round($data['usersRegistered'], 2) }}</div>
 				<div class="desc">Users</div>
 			</div>
 		</li>
@@ -14,7 +14,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['currentAmmount'] }}$</div>
+				<div class="number">{{ round($data['currentAmmount'], 2) }}$</div>
 				<div class="desc">Money in the system</div>
 			</div>
 		</li>
@@ -23,7 +23,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['totalInvested'] }}$</div>
+				<div class="number">{{ round($data['totalInvested'], 2) }}$</div>
 				<div class="desc">Total invested</div>
 			</div>
 		</li>
@@ -32,7 +32,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['totalRewarded'] }}$</div>
+				<div class="number">{{ round($data['totalRewarded'], 2) }}$</div>
 				<div class="desc">Total rewarded</div>
 			</div>
 		</li>
@@ -53,7 +53,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['currentAmmount'] }}$</div>
+				<div class="number">{{ round($data['currentAmmount'], 2) }}$</div>
 				<div class="desc">Available ammount</div>
 			</div>
 		</li>
@@ -62,7 +62,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['totalInvested'] }}$</div>
+				<div class="number">{{ round($data['totalInvested'], 2) }}$</div>
 				<div class="desc">Total invested</div>
 			</div>
 		</li>
@@ -71,7 +71,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['totalRewarded'] }}$</div>
+				<div class="number">{{ round($data['totalRewarded'], 2) }}$</div>
 				<div class="desc">Total rewarded</div>
 			</div>
 		</li>
@@ -80,7 +80,7 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ $data['lastInvestedAmmount'] }}$</div>
+				<div class="number">{{ round($data['lastInvestedAmmount'], 2) }}$</div>
 				<div class="desc">Current invested</div>
 			</div>
 		</li>
