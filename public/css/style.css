@@ -55,6 +55,8 @@ header {
 
 .map-region .container-fluid .info .inside .label {
     padding: 0;
+    position: relative;
+    left: 40px;
 }
 section.content-region .videos .container .text h1 {
     color: #1E8BC3;
@@ -272,4 +274,26 @@ section.content-region .video-list .thumbnails img:last-child {
 
 .videos {
     height: 300px;
+}
+.easy-pie-chart canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.easy-pie-chart {
+    position: relative;
+}
+.info-homepage {
+    height: 220px;
+}
+
+.easy-pie-chart span {
+    position: absolute;
+    top: 50px;
+    left: 31px;
+}
+
+.info-homepage .number {
+    height: 120px;
 }

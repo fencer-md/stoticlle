@@ -8,7 +8,7 @@
 				<div class="number">
 					<div class="easy-pie-chart">
 						<div class="number transactions" data-percent="{{ round($data['usersRegistered'], 2) * 100 / 100 }}">
-							<span>+ {{ round($data['usersRegistered'], 2) * 100 / 100 }} %</span>
+							<span>{{ round($data['usersRegistered'], 2) * 100 / 100 }} %</span>
 						</div>
 					</div>
 				</div>
@@ -23,7 +23,7 @@
 				<div class="number">
 					<div class="easy-pie-chart">
 						<div class="number transactions" data-percent="{{ round($data['currentAmmount'], 2) * 200000 / 100 }}">
-							<span>+ {{ round($data['currentAmmount'], 2) * 200000 / 100 }} %</span>
+							<span>{{ round($data['currentAmmount'], 2) * 200000 / 100 }} %</span>
 						</div>
 					</div>
 				</div>

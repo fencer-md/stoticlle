@@ -4,3 +4,19 @@
 <script src="{{ URL::asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ URL::asset('/js/raphael.js') }}"></script>
 <script src="{{ URL::asset('/js/custom.js') }}"></script>
+<script src="{{ URL::asset('backend/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('backend/scripts/metronic.js') }}" type="text/javascript"></script>       
+<script src="{{ URL::asset('backend/layout/scripts/layout.js') }}" type="text/javascript"></script>
+<script>
+	jQuery(document).ready(function() {
+		Metronic.init(); // init metronic core components
+		Layout.init(); // init current layout
+	});
+	
+    $('.easy-pie-chart .number.transactions').easyPieChart({
+        animate: 1000,
+        size: 200,
+        lineWidth: 6,
+        barColor: Metronic.getBrandColor('yellow')
+    });
+</script>

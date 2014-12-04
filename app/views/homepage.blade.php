@@ -8,8 +8,20 @@
         </div>
         <div class="info pull-right">
           <div class="inside">
-            <div class="registered"><div class="number">{{ $totalInfo['allUsers'] }}</div><div class="label">registered users</div></div>
-            <div class="invested"><div class="number">${{ $totalInfo['allInvested'] }}</div><div class="label">invested by users</div></div>
+            <div class="registered info-homepage"><div class="number">
+              <div class="easy-pie-chart">
+                <div class="number transactions" data-percent="{{ $totalInfo['allUsers'] * 100 / 100 }}">
+                  <span>{{ $totalInfo['allUsers'] * 100 / 100 }} %</span>
+                </div>
+              </div>
+            </div><div class="label">registered users</div></div>
+            <div class="invested info-homepage"><div class="number">
+              <div class="easy-pie-chart">
+                <div class="number transactions" data-percent="{{ $totalInfo['allInvested'] * 100 / 100 }}">
+                  <span>{{ $totalInfo['allInvested'] * 100 / 100 }} %</span>
+                </div>
+              </div>
+            </div><div class="label">invested by users</div></div>
           </div>
         </div>
       </div>
