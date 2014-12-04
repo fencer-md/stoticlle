@@ -5,16 +5,16 @@ Rounded Portlets
 ***/
 /*
 .portlet {
-	border-radius: 4px !important;
+  border-radius: 4px !important;
 }
 
 .portlet .portlet-title {
-	border-radius: 4px 4px 0px 0px !important;
+  border-radius: 4px 4px 0px 0px !important;
 }
 
 .portlet .portlet-body,
 .portlet .portlet-body .form-actions  {
-	border-radius: 0px 0px 4px 4px !important;
+  border-radius: 0px 0px 4px 4px !important;
 }
 */
 
@@ -76,4 +76,22 @@ li.avlb-amount {
 }
 ul.page-sidebar-menu li {
     color: #fff;
+}
+.pie-chart-sidebar .details .number {
+    padding: 0;
+    margin: 0;
+    height: 70px;
+}
+
+.easy-pie-chart {}
+
+.dashboard-stat.purple-plum .details .easy-pie-chart {
+    position: absolute;
+    right: 0px;
+}
+
+.pie-chart-sidebar .easy-pie-chart .number span {
+    position: absolute;
+    top: 20px;
+    right: 27px;
 }

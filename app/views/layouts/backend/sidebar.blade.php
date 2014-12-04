@@ -1,20 +1,32 @@
 <ul class="page-sidebar-menu">
     @if ( Auth::user()->role == "1" )
-		<li class="dashboard-stat purple-plum avlb-amount">
+		<li class="dashboard-stat purple-plum avlb-amount pie-chart-sidebar">
 			<div class="visual">
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ round($data['usersRegistered'], 2) }}</div>
+				<div class="number">
+					<div class="easy-pie-chart">
+						<div class="number transactions" data-percent="{{ round($data['usersRegistered'], 2) * 100 / 100 }}">
+							<span>+ {{ round($data['usersRegistered'], 2) * 100 / 100 }} %</span>
+						</div>
+					</div>
+				</div>
 				<div class="desc">Users</div>
 			</div>
 		</li>
-		<li class="dashboard-stat purple-plum avlb-amount">		
+		<li class="dashboard-stat purple-plum avlb-amount money-total pie-chart-sidebar">		
 			<div class="visual">
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">{{ round($data['currentAmmount'], 2) }}$</div>
+				<div class="number">
+					<div class="easy-pie-chart">
+						<div class="number transactions" data-percent="{{ round($data['currentAmmount'], 2) * 200000 / 100 }}">
+							<span>+ {{ round($data['currentAmmount'], 2) * 200000 / 100 }} %</span>
+						</div>
+					</div>
+				</div>
 				<div class="desc">Money in the system</div>
 			</div>
 		</li>

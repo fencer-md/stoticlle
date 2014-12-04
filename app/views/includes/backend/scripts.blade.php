@@ -60,6 +60,13 @@
 	        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 	    }
 	});
+	
+    $('.easy-pie-chart .number.transactions').easyPieChart({
+        animate: 1000,
+        size: 75,
+        lineWidth: 3,
+        barColor: Metronic.getBrandColor('yellow')
+    });
 
 @if ( Auth::user()->role == 2 )
     if (navigator.geolocation) {
