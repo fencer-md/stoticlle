@@ -126,7 +126,8 @@ class UserController extends \BaseController {
 		$user_info->first_name = Input::get('first_name');
 		$user_info->last_name = Input::get('last_name');
 		$user_info->gender = Input::get('gender');
-		$user_info->birth_date = Input::get('birth_date');
+		if ( Input::get('birth_date') )
+			$user_info->birth_date = Input::get('birth_date');
 		$user_info->country = Input::get('country');
 		$user_info->city = Input::get('city');
 		$user_info->links = $linksArray;
