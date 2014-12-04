@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'mail.stoticlle.com',
+	'host' => 'mail.majorii.nl',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'info@stoticlle.com',
+	'username' => 'system@stoticlle.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'bestplus',
+	'password' => 'bestsys!',
 
 	/*
 	|--------------------------------------------------------------------------

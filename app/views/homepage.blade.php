@@ -6,7 +6,7 @@
         <div class="map" id="world_map" style="background:url('{{ URL::asset('images/map.png') }}') no-repeat 0 0; background-size:900px auto">
           
         </div>
-        <div class="info">
+        <div class="info pull-right">
           <div class="inside">
             <div class="registered"><div class="number">{{ $totalInfo['allUsers'] }}</div><div class="label">registered users</div></div>
             <div class="invested"><div class="number">${{ $totalInfo['allInvested'] }}</div><div class="label">invested by users</div></div>

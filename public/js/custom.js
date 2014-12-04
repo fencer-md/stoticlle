@@ -151,6 +151,12 @@ var custom = new main_custom();
 	
 $(document).ready(function(){
 		custom.init_map();
+		
+		/* 	nice center the map	 */
+		var mapWidth = ($(".container-fluid").width() - 900 - $(".info.pull-right").width())/2;
+		$("#world_map").css("left",mapWidth);
+		var mapWidth = ($(".container-fluid").height() - 600);
+		$("#world_map").css("top",mapWidth);
 })
 
 
