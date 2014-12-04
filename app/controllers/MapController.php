@@ -25,6 +25,7 @@ class MapController extends \BaseController {
                 elseif ( $continentDb->name == 'South America' ) $continent = 'america_s';
                 elseif ( $continentDb->name == 'Africa' ) $continent = 'africa';
                 elseif ( $continentDb->name == 'Oceania' ) $continent = 'australia';
+                elseif ( $continentDb->name == 'Asia' ) $continent = 'asia';
                 $usersData[$continent][$i]['first_name'] = $user->userInfo->first_name;
                 $usersData[$continent][$i]['last_name'] = $user->userInfo->last_name;
                 $usersData[$continent][$i]['city'] = $user->userInfo->city;
