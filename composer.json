@@ -9,7 +9,8 @@
 		"intervention/image": "dev-master",
 		"torann/geoip": "dev-master",
 		"xethron/migrations-generator": "dev-master",
-    	"orangehill/iseed": "dev-master"
+    	"orangehill/iseed": "dev-master",
+		"barryvdh/laravel-debugbar": "~1.8"
 	},
 	"autoload": {
 		"classmap": [
