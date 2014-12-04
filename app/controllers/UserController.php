@@ -66,7 +66,12 @@ class UserController extends \BaseController {
 		$disabled = null;
 		$links = json_decode($user_info->links);
 
-		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links, 'disabled' => $disabled]);
+		if ( $user_info->country != NULL ) {
+			$country = Country::where('code', $user_info->country)->first();
+			$country = $country->name;
+		} else $country = null;
+
+		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'country' => $country, 'links' => $links, 'disabled' => $disabled]);
 	}
 
 	public function updateCommentary()
@@ -126,11 +131,13 @@ class UserController extends \BaseController {
 		$user_info->city = Input::get('city');
 		$user_info->links = $linksArray;
 
-		$photo = Input::file('photo');
-		$filename = date('Ymdhis')."-".$photo->getClientOriginalName();
-		$path = 'uploads/user-photos/'.$filename;
-		Image::make(Input::file('photo'))->resize(200, 200)->save( public_path('uploads/user-photos/').$filename );
-        $user_info->photo = $path;
+		if ( Input::file('photo') ) {
+			$photo = Input::file('photo');
+			$filename = date('Ymdhis')."-".$photo->getClientOriginalName();
+			$path = 'uploads/user-photos/'.$filename;
+			Image::make(Input::file('photo'))->resize(200, 200)->save( public_path('uploads/user-photos/').$filename );
+	        $user_info->photo = $path;
+	    }
 
 		$user->save();
 		$user_info->save();

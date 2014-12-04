@@ -15,23 +15,16 @@ class MapController extends \BaseController {
         $users = User::where('role', '=', 2)->get();
         foreach ($users as $user) {
             if ( $user->userInfo->lat == 0 && $user->userInfo->long == 0 ) {}
-            else {
-                $geoJson = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.$user->userInfo->lat.','.$user->userInfo->long.'&sensor=true');
-                $geoJson = json_decode($geoJson);
-                $geoJson = $geoJson->results[0]->address_components;
-                foreach ($geoJson as $geoloc) {
-                    if ( $geoloc->types[0] == 'country' )
-                        $countryShort = $geoloc->short_name;
-                }
+            elseif ( $user->userInfo->country != NULL ) {
+                $country = $user->userInfo->country;
 
-                $country = DB::table('countries')->where('code', $countryShort)->first();
+                $country = DB::table('countries')->where('code', $country)->first();
                 $continentDb = DB::table('continents')->where('code', $country->continent_code)->first();
                 if ( $continentDb->name == 'Europe' ) $continent = 'euro';
                 elseif ( $continentDb->name == 'North America' ) $continent = 'america_n';
                 elseif ( $continentDb->name == 'South America' ) $continent = 'america_s';
                 elseif ( $continentDb->name == 'Africa' ) $continent = 'africa';
                 elseif ( $continentDb->name == 'Oceania' ) $continent = 'australia';
-
                 $usersData[$continent][$i]['first_name'] = $user->userInfo->first_name;
                 $usersData[$continent][$i]['last_name'] = $user->userInfo->last_name;
                 $usersData[$continent][$i]['city'] = $user->userInfo->city;
@@ -52,8 +45,8 @@ class MapController extends \BaseController {
                 $usersData[$continent][$i]['show_continent'] = $user->show_continent;
                 $usersData[$continent][$i]['point'] = $user->show_dot;
                 $i++;
-        		$totalInvested = 0;
-        		$totalReward = 0;
+                $totalInvested = 0;
+                $totalReward = 0;
             }
                 $allUsers++;
 

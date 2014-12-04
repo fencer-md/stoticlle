@@ -67,22 +67,6 @@
         lineWidth: 3,
         barColor: Metronic.getBrandColor('yellow')
     });
-
-@if ( Auth::user()->role == 2 )
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    }
-
-	function showPosition(position) {
-        $.ajax({
-            type: 'post',
-            url: '/user/edit/coords?lat='+position.coords.latitude+'&long='+position.coords.longitude,
-            beforeSend: function(request) {
-                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-            },
-        });
-	}
-@endif
 </script>
 <!-- END JAVASCRIPTS -->
 <!-- END JAVASCRIPTS -->
