@@ -7,6 +7,9 @@
 @section('content')
 <div>
 	Hello {{ $username }}!
-	{{ $text }}
+	{{ $text }}<br>
+	@if ( $credentials != 'none' )
+		Credentials: {{ $credentials }}
+	@endif
 </div>
 @stop

@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'port' => 465,
+	'port' => 25,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'info@stoticlle.com', 'name' => 'Stoticlle'),
+	'from' => array('address' => 'system@stoticlle.com', 'name' => 'Stoticlle'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return array(
 	|
 	*/
 
-	'encryption' => 'ssl',
+	'encryption' => 'tls',
 
 	/*
 	|--------------------------------------------------------------------------

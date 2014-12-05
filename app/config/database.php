@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'stoticlle',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => 'zosima13',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

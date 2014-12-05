@@ -17,6 +17,6 @@
         animate: 1000,
         size: 200,
         lineWidth: 6,
-        barColor: Metronic.getBrandColor('yellow')
+        barColor: Metronic.getBrandColor('green')
     });
 </script>

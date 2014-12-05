@@ -39,6 +39,9 @@
                   </div>
                 </div>
               @else
+                <div class="control-panel">
+                  <a href="{{ URL::to('user/transactions') }}">Control panel</a>
+                </div>
                 <div class="logout">
                   <a href="{{ URL::to('logout') }}">Logout</a>
                 </div>
@@ -101,6 +104,21 @@
           </div>
         </div>
       </div>
+      @if(Session::has('msg'))
+      <div class="modal fade" id="successModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal">×</a>
+              <h3>Registration status</h3>
+            </div>
+            <div class="modal-body">
+              <p>{{ Session::get('msg') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      @endif
     </footer>
 
     @include('includes.frontend.scripts')
@@ -115,6 +133,9 @@
       });
       $('.register-form').click(function(e) {
         e.stopPropagation();
+      });
+      $(window).load(function(){
+          $('#successModal').modal('show');
       });
     </script>
   </body>

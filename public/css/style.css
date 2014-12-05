@@ -297,3 +297,13 @@ section.content-region .video-list .thumbnails img:last-child {
 .info-homepage .number {
     height: 120px;
 }
+#successModal h3, #successModal .modal-body {
+    color: black!important;
+}
+.control-panel, .logout {
+    display: inline-block;
+}
+
+.control-panel {
+    margin-right: 10px;
+}

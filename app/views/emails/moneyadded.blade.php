@@ -7,6 +7,6 @@
 @section('content')
 <div>
 	Hello {{ $username }}!
-	You've successfully added {{ $ammount }}$ to your account!
+	You've requested to add {{ $ammount }}$ to your account, wait for the response.
 </div>
 @stop

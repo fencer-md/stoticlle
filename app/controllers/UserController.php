@@ -12,9 +12,11 @@ class UserController extends \BaseController {
 
 		if ( $validate->fails() )
 		{
+			$msg = 'User with this email exists already.';
 			return Redirect::to('/')
 		    	->withErrors($validate)
-		        ->withInput();
+		        ->withInput()
+		        ->with('msg', $msg);
 		}
 		else
 		{
@@ -39,13 +41,15 @@ class UserController extends \BaseController {
 				$message->to(Input::get('email'), 'test')->subject('Welcome!');
 			});
 
-			return Redirect::to('/');
+			$msg = 'You\'ve been sent an email, to activate your account please click on the link in the email.';
+
+			return Redirect::to('/')->with('msg', $msg);
 		}
  	}
 
 	public function confirm($cc)
 	{
-		$msg = 'Thank you for registration, you now can login and begin shopping';
+		$msg = 'Thank you for registration, you now can login';
 		$user = User::where('registration_code', '=', $cc)->first();
 		$user->registration_status = 1;
 		$user->registration_code = 0;

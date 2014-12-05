@@ -1,3 +1,10 @@
+<li class="dropdown">
+  <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
+  	<span class="menu-title">
+  		Homepage
+  	</span>
+  </a>
+</li>
 @if ( Auth::user()->role == "1" )
 	<li class="dropdown">
 	  	<a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">

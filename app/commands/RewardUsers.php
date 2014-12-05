@@ -63,6 +63,7 @@ class RewardUsers extends Command {
 					$reward->ammount = Helper::reward($ammount, $user->cycle_duration, Config::get('rate.rate'));
 					$reward->transaction_direction = 'reward';
 					$reward->user_id = $user->id;
+					$reward->confirmed = 1;
 					$reward->save();
 
 					$user->investor = 1;
@@ -86,7 +87,7 @@ class RewardUsers extends Command {
 					else
 						$rate = Config::get('rate.rate');
 
-					$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
+					$lastInvest = Transaction::where('user_id','=',$user->id)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 
 					$reward = new Transaction;
 					$reward->ammount = Helper::reward($ammount, $user->cycle_duration, $rate);
@@ -100,7 +101,7 @@ class RewardUsers extends Command {
 					$user->cycle_duration = NULL;
 					$user->save();
 
-					$user->userMoney->current_available += $reward->ammount + $lastInvest;
+					$user->userMoney->current_available += $reward->ammount + $lastInvest->ammount;
 					$user->userMoney->times_won++;
 					$user->userMoney->ammount_won = $reward->ammount;
 					$user->userMoney->save();

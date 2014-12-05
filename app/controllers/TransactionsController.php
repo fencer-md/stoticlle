@@ -345,7 +345,7 @@ class TransactionsController extends \BaseController {
         $username = $user->userInfo->first_name;
         $text = 'You successfuly added '.$transaction->ammount.'$';
 
-        $data = ['username' => $username, 'ammount' => $transaction->ammount, 'text' => $text];
+        $data = ['username' => $username, 'ammount' => $transaction->ammount, 'text' => $text, 'credentials' => 'none'];
 
         Mail::send('emails.addmoneycredentials', $data, function($message) {
             $user = User::where('id', '=', Input::get('uid'))->first();
@@ -504,7 +504,9 @@ class TransactionsController extends \BaseController {
             $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
         });
 
-        return Redirect::back();
+        $msg = 'You\'ve requested to add '.Input::get('add_money').'$ to your account, wait for the response.';
+
+        return Redirect::back()->with('msg',$msg);
     }
 
     public function withdraw()

@@ -3,7 +3,7 @@
 @section('content')
 	<section class="map-region">
       <div class="container-fluid">
-        <div class="map" id="world_map" style="background:url('{{ URL::asset('images/map.png') }}') no-repeat 0 0; background-size:900px auto">
+        <div class="map" id="world_map" style="background:url('{{ URL::asset('images/map.png') }}') no-repeat 0 0; background-size:910px 450px">
           
         </div>
         <div class="info pull-right">
@@ -11,14 +11,14 @@
             <div class="registered info-homepage"><div class="number">
               <div class="easy-pie-chart">
                 <div class="number transactions" data-percent="{{ $totalInfo['allUsers'] * 100 / 100 }}">
-                  <span>{{ $totalInfo['allUsers'] * 100 / 100 }} %</span>
+                  <span>{{ $totalInfo['allUsers'] * 100 / 100 }}</span>
                 </div>
               </div>
-            </div><div class="label">registered users</div></div>
+            </div><div class="label">users</div></div>
             <div class="invested info-homepage"><div class="number">
               <div class="easy-pie-chart">
                 <div class="number transactions" data-percent="{{ $totalInfo['allInvested'] * 100 / 100 }}">
-                  <span>{{ $totalInfo['allInvested'] * 100 / 100 }} %</span>
+                  <span>{{ $totalInfo['allInvested'] * 100 / 100 }} $</span>
                 </div>
               </div>
             </div><div class="label">invested by users</div></div>
@@ -104,6 +104,8 @@
       </section>
       </div>
     </section>
+}
+}
 @stop
 
 @section('custom_scripts')
