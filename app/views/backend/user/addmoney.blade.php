@@ -53,6 +53,24 @@
 @section('custom_scripts')
 <script>
     $('#credentials').selectize({
+        onDropdownClose: function() {
+        	value = $('.selectize-control.single .selectize-input div').text().split(' ');
+        	$('.radio-list div#uniform-add_method input').each(function() {
+        		if ( value[0] == $(this).val() ) {
+					$(this).trigger('click');
+        		}
+        		$('.selectize-input.items.has-options.full.has-items').trigger('click');
+			});
+        },
+        onChange: function() {
+        	value = $('.selectize-control.single .selectize-input div').text().split(' ');
+        	$('.radio-list div#uniform-add_method input').each(function() {
+        		if ( value[0] == $(this).val() ) {
+					$(this).trigger('click');
+        		}
+        		$('.selectize-input.items.has-options.full.has-items').trigger('click');
+			});
+        },
         create: true,
         persist: false,
         sortField: {

@@ -158,6 +158,7 @@
                                 {{ Form::hidden('tid', $transaction->id) }}
                                 {{ Form::hidden('uid', $transaction->user_id) }}
                                 {{ Form::hidden('status', 'allow') }}
+                                {{ Form::hidden('credentials', $transaction->transactionFrom->account_id) }}
                                 {{ Form::submit('Confirm', ['class' => 'btn default btn-xs purple']) }}
                             {{ Form::close() }}
                             <a class="btn default btn-xs red" data-toggle="modal" href="{{ URL::to('user/admin/withdrawrequest?tid='.$transaction->id.'&uid='.$transaction->user_id.'&status=deny') }}" data-target="#info-dialog"><i class="fa fa-edit"></i>Deny</a>

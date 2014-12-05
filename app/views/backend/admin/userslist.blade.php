@@ -70,6 +70,7 @@
                             {{ HTML::linkAction('UserController@'.$controller, 'Awards recieved', ['sortby' => 'user_money_info.times_won', 'order' => 'asc']) }}
                         @endif
                     </td>
+                    <td>
                         @if ($sortby == 'user_money_info.ammount_won' && $order == 'asc')
                             {{ HTML::linkAction('UserController@'.$controller, 'Ammount awarded', ['sortby' => 'user_money_info.ammount_won', 'order' => 'desc']) }}
                         @else
@@ -99,13 +100,13 @@
     					@else
     						<td><a href="{{ URL::to('user/admin/transactions/'.$user->id) }}">{{ $user->email }}</a></td>
     					@endif
-                        <td>{{ $user->ammount_added }}$</td>
-                        <td>{{ ( $user->ammount_added + $user->ammount_won ) - ( $user->ammount_invested + $user->ammount_withdrawn ) }}$</td>
-                        <td>{{ $user->times_invested }}</td>
+                        <td>{{ $user->userMoney->ammount_added }}$</td>
+                        <td>{{ $user->userMoney->current_available }}$</td>
+                        <td>{{ $user->userMoney->times_invested }}</td>
                         @if ( Request::is('user/admin/awarded') )
-                            <td>{{ $user->ammount_invested }}$</td>
-                            <td>{{ $user->times_won }}</td>
-                            <td>{{ $user->ammount_won }}$</td>
+                            <td>{{ $user->userMoney->ammount_invested }}$</td>
+                            <td>{{ $user->userMoney->times_won }}</td>
+                            <td>{{ $user->userMoney->ammount_won }}$</td>
                         @endif
                         @if ( Request::is('user/admin/nextstepusers') )
                             <td>{{ $user->ammount_invested }}$</td>

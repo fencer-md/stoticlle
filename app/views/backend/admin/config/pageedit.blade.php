@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="page-title"><b>{{ $page->title }}</b> edit</h3>
     <div class="row">
-        {{ Form::open(['action' => 'PageController@update', 'class' => 'form', 'role' => 'form']) }}
+        {{ Form::open(['action' => 'ContentController@update', 'class' => 'form', 'role' => 'form']) }}
             {{ Form::hidden('pid', $page->id) }}
             <div class="form-body">
                 <div class="form-group">

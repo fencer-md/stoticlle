@@ -328,7 +328,11 @@
                             <div class="col-md-9">
                                 {{ Form::password('re-password', ['class' => 'form-control', $disabled]) }}
                             </div>
-                        </div>
+                        </div>                        
+                        @if ( Auth::user()->role == 2 )
+                            {{ Form::hidden('lat', null) }}
+                            {{ Form::hidden('long', null) }}
+                        @endif
                         <div class="form-actions">
                             @if ( !Request::is('user/admin/edituser/*') )
                                 {{ Form::submit('Save', ['class' => 'btn blue']) }}
@@ -415,19 +419,21 @@
                 latlng: position.coords.latitude+','+position.coords.longitude
             },
             function( data, textStatus ) {
-                if ( $('select[name=country]').val().length == 0 && $('input[name=city]').val().length == 0 ) {
-                    for ( key in data.results[0].address_components ) {
-                        address = data.results[0].address_components;
-                        if ( address[key].types[0] == 'locality' )
-                            city = address[key].short_name;
+                for ( key in data.results[0].address_components ) {
+                    address = data.results[0].address_components;
+                    if ( address[key].types[0] == 'locality' )
+                        city = address[key].short_name;
 
-                        if ( address[key].types[0] == 'country' )
-                            country = address[key].short_name;
-                    }
+                    if ( address[key].types[0] == 'country' )
+                        country = address[key].short_name;
+                }
+                $('input[name=lat]').val(position.coords.latitude);
+                $('input[name=long]').val(position.coords.longitude);  
+                if ( $('select[name=country]').val().length == 0 && $('input[name=city]').val().length == 0 ) {
                     $('input[name=city]').val(city);
                     $('select[name=country] option').val(country);
-                    $('.form-horizontal input.btn.blue').trigger('click');
-                }
+                    $('.form-horizontal input.btn.blue').trigger('click');        
+                }      
             }
          );
     }

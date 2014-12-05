@@ -15,7 +15,7 @@ class MapController extends \BaseController {
         $users = User::where('role', '=', 2)->get();
         foreach ($users as $user) {
             if ( $user->userInfo->lat == 0 && $user->userInfo->long == 0 ) {}
-            elseif ( $user->userInfo->country != NULL ) {
+            elseif ( $user->userInfo->lat != 0 && $user->userInfo->country != NULL ) {
                 $country = $user->userInfo->country;
 
                 $country = DB::table('countries')->where('code', $country)->first();

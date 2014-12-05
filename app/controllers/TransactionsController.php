@@ -14,14 +14,14 @@ class TransactionsController extends \BaseController {
         {
             $user = null;
             if ( $sortby && $order )
-                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                $transactions = Transaction::select('users_transaction.id as id', 'users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
                                              ->where('confirmed', '=', 1)
                                              ->leftJoin('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                              ->leftJoin('users', 'users_transaction.user_id', '=', 'users.id' )
                                              ->orderBy($sortby, $order)
                                              ->get();
             else
-                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                $transactions = Transaction::select('users_transaction.id as id', 'users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
                                              ->where('confirmed', '=', 1)
                                              ->leftJoin('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                              ->leftJoin('users', 'users_transaction.user_id', '=', 'users.id' )
@@ -30,18 +30,15 @@ class TransactionsController extends \BaseController {
         {
             $user = User::where('id', '=', $uid)->first();
             if ( $sortby && $order )
-                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
-                                             ->where('user_id', '=', $uid)
-                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
-                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
+                $transactions = Transaction::select('users_transaction.id as id', 'users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('users_transaction.user_id', '=', $uid)
+                                             ->where('confirmed', '=', 1)
                                              ->orderBy($sortby, $order)
                                              ->get();
             else
-                $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
-                                             ->where('user_id', '=', $uid)
-                                             ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
-                                             ->join('users', 'users_transaction.user_id', '=', 'users.id' )
-                                             ->orderBy($sortby, $order)
+                $transactions = Transaction::select('users_transaction.id as id', 'users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
+                                             ->where('users_transaction.user_id', '=', $uid)
+                                             ->where('confirmed', '=', 1)
                                              ->get();
         }
 
@@ -91,14 +88,14 @@ class TransactionsController extends \BaseController {
         $user = null;
         if ( $sortby && $order )
             $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
-                                         ->where('transaction_direction', '=', 'invested')
+                                         ->where('transaction_direction', '=', 'added')
                                          ->where('confirmed', '=', 1)                                         
                                          ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )
                                          ->join('users', 'users_transaction.user_id', '=', 'users.id' )
                                          ->orderBy($sortby, $order)->get();
         else
             $transactions = Transaction::select('users_transaction.id as id', '.users_transaction.user_id', 'from_credentials', 'date', 'payment_system', 'ammount','transaction_direction')
-                                         ->where('transaction_direction', '=', 'invested')
+                                         ->where('transaction_direction', '=', 'added')
                                          ->where('confirmed', '=', 1)
                                          ->join('payment_methods', 'users_transaction.from_credentials', '=', 'payment_methods.id' )                                         
                                          ->join('users', 'users_transaction.user_id', '=', 'users.id' )
@@ -280,7 +277,7 @@ class TransactionsController extends \BaseController {
         $email = $user->email;
         $username = $user->userInfo->first_name;
 
-        $data = ['username' => $username, 'ammount' => Input::get('ammount'), 'text' => Input::get('text')];
+        $data = ['username' => $username, 'ammount' => Input::get('ammount'), 'text' => Input::get('text'), 'credentials' => 'none'];
 
         Mail::send('emails.addmoneycredentials', $data, function($message) {
             $user = User::where('id', '=', Input::get('uid'))->first();
@@ -423,11 +420,25 @@ class TransactionsController extends \BaseController {
             $transaction = new Transaction;
             $transaction->ammount = Input::get('ammount');
             $transaction->transaction_direction = 'invested';
-            if ( Auth::user()->investor == 1 ) 
+            if ( Auth::user()->investor == 1 && Input::get('ammount') < 1000 ) {
+                $user = User::where('id', '=', $uid)->first();
+                $transaction->confirmed = 1;
+                $user->userMoney->ammount_invested += Input::get('ammount');
+                $user->userMoney->current_available -= Input::get('ammount');
+                $user->userMoney->times_invested++;
+                $user->userMoney->save();
+                $transaction->date = date('Y-m-d H:i:s');
+                $user = User::where('id', '=', $uid)->first();
+                $user->awaiting_award = 1;
+                $user->invested_date = date('Y-m-d H:i:s');
+                $user->cycle_duration = Config::get('rate.days');
+                $user->save();
+            }
+            elseif ( Auth::user()->investor == 1 ) 
             {
                 $transaction->confirmed = 0;
             }
-            else 
+            else
             {
                 $user = User::where('id', '=', $uid)->first();
                 $transaction->confirmed = 1;
@@ -435,7 +446,7 @@ class TransactionsController extends \BaseController {
                 $user->userMoney->current_available -= Input::get('ammount');
                 $user->userMoney->times_invested++;
                 $user->userMoney->save();
-                $transaction->date = date('Y-m-d H:i:s');            
+                $transaction->date = date('Y-m-d H:i:s');
                 $user = User::where('id', '=', $uid)->first();
                 $user->awaiting_award = 1;
                 $user->invested_date = date('Y-m-d H:i:s');
@@ -448,7 +459,7 @@ class TransactionsController extends \BaseController {
             $email = Auth::user()->email;
             $username = Auth::user()->userInfo->first_name;
 
-            $data = ['username' => $username, 'ammount' => $transaction->ammount];
+            $data = ['username' => $username, 'ammount' => $transaction->ammount, 'invested' => 'pending'];
 
             Mail::send('emails.invested', $data, function($message) {
                 $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');

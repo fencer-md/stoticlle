@@ -85,3 +85,8 @@ Event::listen('auth.login', function($user) {
     $user->last_login = new DateTime;
     $user->save();
 });
+
+App::missing(function($exception)
+{
+    return Response::view('errors.missing', array('url' => Request::url()), 404);
+});

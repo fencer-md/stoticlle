@@ -56,14 +56,16 @@ class RewardUsers extends Command {
 				else
 					$ammount = $transactions[$transactionsCount-1]->ammount;
 
-				if ( $user->investor == 0 )
+				if ( $user->investor == 0 || ( $user->investor == 1 && $ammount < 1000 ) )
 				{
+					$lastInvest = Transaction::where('user_id','=',$user->id)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 
 					$reward = new Transaction;
 					$reward->ammount = Helper::reward($ammount, $user->cycle_duration, Config::get('rate.rate'));
 					$reward->transaction_direction = 'reward';
 					$reward->user_id = $user->id;
 					$reward->confirmed = 1;
+        			$reward->date = date('Y-m-d H:i:s');
 					$reward->save();
 
 					$user->investor = 1;
@@ -73,9 +75,9 @@ class RewardUsers extends Command {
 					$user->cycle_duration = NULL;
 					$user->save();
 
-					$user->userMoney->current_available += $reward->ammount;
+					$user->userMoney->current_available += $reward->ammount + $lastInvest->ammount;
 					$user->userMoney->times_won++;
-					$user->userMoney->ammount_won = $reward->ammount;
+					$user->userMoney->ammount_won += $reward->ammount;
 					$user->userMoney->save();
 
 				}
@@ -93,6 +95,8 @@ class RewardUsers extends Command {
 					$reward->ammount = Helper::reward($ammount, $user->cycle_duration, $rate);
 					$reward->transaction_direction = 'reward';
 					$reward->user_id = $user->id;
+					$reward->confirmed = 1;
+        			$reward->date = date('Y-m-d H:i:s');
 					$reward->save();
 
 					$user->awarded = 1;
@@ -103,7 +107,7 @@ class RewardUsers extends Command {
 
 					$user->userMoney->current_available += $reward->ammount + $lastInvest->ammount;
 					$user->userMoney->times_won++;
-					$user->userMoney->ammount_won = $reward->ammount;
+					$user->userMoney->ammount_won += $reward->ammount;
 					$user->userMoney->save();
 
 				}

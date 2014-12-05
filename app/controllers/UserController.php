@@ -23,17 +23,20 @@ class UserController extends \BaseController {
 			$user = new User;
 			$userInfo = new UserInfo;
 			$userMoney = new UserMoney;
+			$userInfo->lat = 0;
+			$userInfo->long = 0;
 			$userInfo->save();
 			$userMoney->save();
 			$user->user_info_id = $userInfo->id;
 			$user->user_money_id = $userMoney->id;
 			$user->email = Input::get('email');
-			$user->role = '2';
-			$user->awaiting_award = '0';
+			$user->role = 2;
+			$user->awaiting_award = 0;
+			$user->investor = 0;
 			$user->registration_code = str_random(64);
 			$password = str_random(12);
 			$user->password = Hash::make($password);
-			$user->registration_status = '0';
+			$user->registration_status = 0;
 			$user->save();
 
 			$data = ['code' => $user->registration_code, 'password' => $password];
@@ -70,7 +73,7 @@ class UserController extends \BaseController {
 		$disabled = null;
 		$links = json_decode($user_info->links);
 
-		if ( $user_info->country != NULL ) {
+		if ( $user_info->country != null ) {
 			$country = Country::where('code', $user_info->country)->first();
 			$country = $country->name;
 		} else $country = null;
@@ -111,7 +114,12 @@ class UserController extends \BaseController {
 		$disabled = 'disabled';
 		$links = json_decode($user_info->links);
 
-		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links, 'disabled' => $disabled]);
+		if ( $user_info->country != null ) {
+			$country = Country::where('code', $user_info->country)->first();
+			$country = $country->name;
+		} else $country = null;
+
+		return View::make('backend.user.userinfo', ['user' => $user, 'country' => $country, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links, 'disabled' => $disabled]);
 	}
 
  	public function updateInfo()
@@ -143,6 +151,10 @@ class UserController extends \BaseController {
 			Image::make(Input::file('photo'))->resize(200, 200)->save( public_path('uploads/user-photos/').$filename );
 	        $user_info->photo = $path;
 	    }
+	    if ( Input::get('lat') && Input::get('long') ) {
+			$user_info->lat = round(Input::get('lat'), 2);
+			$user_info->long = round(Input::get('long'), 2);
+		}
 
 		$user->save();
 		$user_info->save();
@@ -159,13 +171,11 @@ class UserController extends \BaseController {
 
  		if ( $sortby && $order ) 			
  			$users = User::where('role', '=', '2')
- 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
  						   ->orderBy($sortby, $order)
  						   ->get();
  		else
  			$users = User::where('role', '=', '2')
- 						   ->join('user_money_info', 'users.id', '=', 'user_money_info.id')
- 						   ->get(); 						   
+ 						   ->get();
 
  		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]); 		
  	}
