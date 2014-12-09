@@ -90,3 +90,22 @@ App::missing(function($exception)
 {
     return Response::view('errors.missing', array('url' => Request::url()), 404);
 });
+Event::listen(
+    'auth.login',
+    function ($user) {
+        // Check for first login.
+        $firstLogin = false;
+        if ($user->last_login == null) {
+            $firstLogin = true;
+        }
+
+        // Update user's last_login date.
+        $user->last_login = new DateTime();
+        $user->save();
+
+        // Add first login flag, not stored in db.
+        if ($firstLogin) {
+            $user->first_login = true;
+        }
+    }
+);

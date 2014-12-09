@@ -65,6 +65,7 @@ class UserController extends \BaseController {
 		$id = Auth::user()->id;
 		$user = User::find($id);
 		$user_info = UserInfo::find($user->user_info_id);
+
 		if ( $user_info->birth_date == null )
 			$birth_date = null;
 		else
@@ -73,12 +74,24 @@ class UserController extends \BaseController {
 		$disabled = null;
 		$links = json_decode($user_info->links);
 
+<<<<<<< HEAD
 		if ( $user_info->country != null ) {
 			$country = Country::where('code', $user_info->country)->first();
 			$country = $country->name;
 		} else $country = null;
 
 		return View::make('backend.user.userinfo', ['user' => $user, 'user_info' => $user_info, 'birth_date' => $birth_date, 'country' => $country, 'links' => $links, 'disabled' => $disabled]);
+=======
+        return View::make('backend.user.userinfo',
+            [
+                'user' => $user,
+                'user_info' => $user_info,
+                'birth_date' => $birth_date,
+                'links' => $links,
+                'disabled' => $disabled
+            ]
+        );
+>>>>>>> 1ef6549625ee9b7a2f7703727da72101e58fea39
 	}
 
 	public function updateCommentary()
@@ -134,7 +147,13 @@ class UserController extends \BaseController {
 		$id = Auth::user()->id;
 		$user = User::find($id);
 		$user_info = UserInfo::find($user->user_info_id);
-		$user->password = Hash::make(Input::get('re-password'));
+
+        // Change password if needed.
+        // TODO: Add some error messages.
+        if (Input::get('password') == Input::get('re-password') && Input::get('re-password') != '') {
+            $user->password = Hash::make(Input::get('re-password'));
+        }
+
 		$user_info->first_name = Input::get('first_name');
 		$user_info->last_name = Input::get('last_name');
 		$user_info->gender = Input::get('gender');

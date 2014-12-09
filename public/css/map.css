@@ -23,7 +23,7 @@
 	top:0;
 	z-index:2;
 	background:rgba(255,255,255,0.9);
-	width:150px;
+	width:200px;
 	opacity:0;
 	
 }
@@ -35,14 +35,14 @@
 	position:relative;
 }
 #world_map .pop_up_info .user:hover{
-	color:#428bca;
+	color:#FA503A;
 }
 .sub_user{
 	position:absolute;
-	left:150px;
+	left:200px;
 	top:-3px;
 	background:rgba(255,255,255,0.9);
-	width:150px;
+	width:200px;
 	padding:10px;
 	display:none;
 	z-index:2;
@@ -58,12 +58,12 @@
 	float:left;
 }
 .sub_user .name {
-	width:70px;
+	width:120px;
 	float:left;
 	color:#666;
 }
 .sub_user .name b{
-	color:#428bca;
+	color:#FA503A;
 }
 .user_info{
 	padding:10px 0 0;

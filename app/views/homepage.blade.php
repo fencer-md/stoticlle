@@ -8,12 +8,8 @@
         </div>
         <div class="info pull-right">
           <div class="inside">
-            <div class="registered info-homepage"><div class="number">
-              <div class="easy-pie-chart">
-                <div class="number transactions" data-percent="{{ $totalInfo['allUsers'] * 100 / 100 }}">
-                  <span>{{ $totalInfo['allUsers'] * 100 / 100 }}</span>
-                </div>
-              </div>
+            <div class="registered info-homepage"><div class="number"><i class="fa fa-users"></i>
+              {{ $totalInfo['allUsers'] * 100 / 100 }}
             </div><div class="label">users</div></div>
             <div class="invested info-homepage"><div class="number">
               <div class="easy-pie-chart">
@@ -55,60 +51,77 @@
         <div class="container">
           <div class="row">
             <div class="clmn">
-              <div class="title">{{ $blocks[1]->content->title }}</div>
+              <div class="title">Jarvis Tech</div>
               <div class="text">
-                {{ $blocks[1]->content->body }} <a href="{{ $blocks[1]->content->link }}">Read more</a>
+                Вы сами будете контролировать процесс обогащения и в любой момент сможете изменить свое решение. Успех основан на уникальной стратегии в ставках, дающей прибыль в 50-400% в месяц(зависит от количества матчей).                <a href="{{ $blocks[1]->content->link }}"> детали</a>
               </div>
             </div>
             <div class="clmn">
-              <div class="title">{{ $blocks[2]->content->title }}</div>
+              <div class="title">Как это работает</div>
               <div class="text">
-                {{ $blocks[2]->content->body }} <a href="{{ $blocks[1]->content->link }}">Read more</a>
+                Перед тем как нам начать чтото мы конечно хотели бы описать как мы работаем, и как наше с вами взаимодействие будет происходить, прошу вас ознакомиться с небольшой инструкцией <a href="{{ $blocks[1]->content->link }}">инструкция</a>
               </div>
             </div>
             <div class="clmn">
+              <div class="title">Последние новости</div>
+              <div class="text">
+                  <a href="">детали</a>
+              </div>
+            </div>
+            <!--
+<div class="clmn">
               <div class="title">{{ $blocks[3]->content->title }}</div>
               <div class="text">
                 {{ $blocks[3]->content->body }} <a href="{{ $blocks[1]->content->link }}">Read more</a>
               </div>
             </div>
+-->
           </div>
         </div>
       </section>
       <section class="partners">
         <div class="container">
           <div class="row">
-            <div class="title"><span>Partners</span></div>
+            <div class="title"><span>Методы оплаты</span></div>
             <div class="list">
               <div class="logo">
-                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_1 }}" />
+                <img src="../../public/backend/img/pay_met/imgres-1.png" alt="imgres-1" width="" height="" />
               </div>
               <div class="logo">
-                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_2 }}" />
+                <img src="../../public/backend/img/pay_met/imgres.png" alt="imgres" width="" height="" />
               </div>
               <div class="logo">
-                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_3 }}" />
+                <img src="../../public/backend/img/pay_met/logo-footer.png" alt="logo-footer" width="" height="" />
               </div>
               <div class="logo">
-                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_4 }}" />
+                <img src="../../public/backend/img/pay_met/logo.png" alt="logo" width="" height="" />
               </div>
               <div class="logo">
-                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_5 }}" />
+                <img src="../../public/backend/img/pay_met/logo3.png" alt="logo3" width="" height="" />
               </div>
               <div class="logo">
-                <img src="data:image/png;base64,{{ $blocks[4]->content->partner_6 }}" />
+                <img src="../../public/backend/img/pay_met/okpay-logo-226x142-orange.png" alt="okpay-logo-226x142-orange" width="" height="" />
               </div>
-            </div>
+              <!--
+<div class="logo">
+                <img src="../../public/backend/img/pay_met/rR9Pw.jpg" alt="rR9Pw" width="" height="" />
+              </div>
+              <div class="logo">
+                <img src="../../public/backend/img/pay_met/yandex.money_.jpg" alt="yandex.money_" width="" height="" />
+              </div>
+-->
+              
           </div>
         </div>
       </section>
       </div>
     </section>
-}
-}
 @stop
 
 @section('custom_scripts')
+<script src="../../public/backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
+<link href="../../public/backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css" rel="stylesheet">
+
 <script>
   var my_data = {{ $usersData }};
 
@@ -119,4 +132,5 @@
     $('iframe.'+firstClass).show();
   });
 </script>
+
 @stop

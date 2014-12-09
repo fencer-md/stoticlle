@@ -15,7 +15,7 @@ td {
     width: 75%;
 }
 .map-region .info {
-    width: 25%;
+    width: 20%;
     background: #445965;
     padding-top: 120px;
     height: 697px;
@@ -82,7 +82,8 @@ section.content-region .container {
 }
 
 section.content-region .video-list,section.content-region .text {
-    padding: 40px 0;
+    padding: 20px 0;
+    font-size: 12px;
 }
 header .login-form input {
     padding: 2px 15px 0px;
@@ -122,6 +123,7 @@ select.language-picker {
     width: 100px;
     padding-left: 12px;
     border: 1px solid #E6E6E6;
+    position: relative;
 }
 
 .clmn {
@@ -306,4 +308,34 @@ section.content-region .video-list .thumbnails img:last-child {
 
 .control-panel {
     margin-right: 10px;
+}
+.videos{
+	display: none;
+}
+footer .title{
+	font-family: calibri;
+	color: #fff;
+}
+a, a:hover{
+	color: #FA503A;
+	text-decoration: none;
+}
+section.content-region .columns .container .clmn .title/* , .row.top-header .text-right a */{
+	color: #FA503A;
+}
+a.logo-text,a.logo-text:hover{
+	font-family: rockwell;
+	font-size: 24px;
+	color: #F56000;
+}
+/*
+.top-header .text-right a{
+	color: #fff;
+}
+.text-right control-panel a, div.logout a{
+	color: #fff;
+}
+*/
+.col-md-10.text-right, .language-picker {
+top: 7px;
 }

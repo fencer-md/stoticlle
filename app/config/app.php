@@ -126,7 +126,7 @@ return array(
     	'Way\Generators\GeneratorsServiceProvider',
 		'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
 		'Orangehill\Iseed\IseedServiceProvider',
-		'Barryvdh\Debugbar\ServiceProvider',
+/* 		'Barryvdh\Debugbar\ServiceProvider', */
 
 	),
 
@@ -197,7 +197,7 @@ return array(
 		'Datatables'      	=> 'Bllim\Datatables\Facade\Datatables',
 		'Image' 			=> 'Intervention\Image\Facades\Image',
     	'GeoIP' 			=> 'Torann\GeoIP\GeoIPFacade',
-    	'Debugbar' 			=> 'Barryvdh\Debugbar\Facade',
+/*     	'Debugbar' 			=> 'Barryvdh\Debugbar\Facade', */
 
 	),
 
