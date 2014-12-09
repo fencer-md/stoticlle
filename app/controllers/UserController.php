@@ -118,12 +118,16 @@ class UserController extends \BaseController {
 		$disabled = 'disabled';
 		$links = json_decode($user_info->links);
 
-		if ( $user_info->country != null ) {
-			$country = Country::where('code', $user_info->country)->first();
-			$country = $country->name;
-		} else $country = null;
-
-		return View::make('backend.user.userinfo', ['user' => $user, 'country' => $country, 'user_info' => $user_info, 'birth_date' => $birth_date, 'links' => $links, 'disabled' => $disabled]);
+		return View::make(
+            'backend.user.userinfo',
+            [
+                'user' => $user,
+                'user_info' => $user_info,
+                'birth_date' => $birth_date,
+                'links' => $links,
+                'disabled' => $disabled
+            ]
+        );
 	}
 
  	public function updateInfo()
