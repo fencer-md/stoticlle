@@ -121,6 +121,7 @@
 @section('custom_scripts')
 <script src="../../public/backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
 <link href="../../public/backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css" rel="stylesheet">
+<link href="{{ asset('css/pictonic.css') }}" rel="stylesheet">
 
 <script>
   var my_data = {{ $usersData }};

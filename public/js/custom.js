@@ -1,3 +1,24 @@
+function social_link_class(site) {
+    var result = null;
+    switch (site) {
+        case 'facebook':
+            result = 'icon-facebook';
+            break;
+        case 'twitter':
+            result = 'icon-twitter-3';
+            break;
+        case 'pinterest':
+            result = 'icon-pinterest';
+            break;
+        case 'odnoklassniki':
+            result = 'icon-odnoklassniki';
+            break;
+        case 'vkontacte':
+            result = 'icon-rus-vk-02';
+            break;
+    }
+    return result;
+}
 
 function main_custom () {
 
@@ -68,11 +89,25 @@ function main_custom () {
 					var pop_up = "<div class='pop_up_info'>";
 					for (i in my_data)
 					{
+                        // TODO: Move all this HTML generation into template.
 						var user = my_data[i];
-						console.log(user['first_name']);
 						pop_up += "<div class='user'>" + user['first_name'] + " " + user['last_name'] + "," + user['city'];
-						pop_up += "<div class='sub_user'><div class='photo'><img src='/" + user['photo'] + "' /></div><div class='name'><b>" + user['first_name'] + " " + user['last_name'] + "</b><br />" + user['city'] +"</div><div class='clear'></div>";
+						pop_up += "<div class='sub_user'>";
+                        if (user.photo.length) {
+                            pop_up += "<div class='photo'><img src='/" + user['photo'] + "' /></div>";
+                        }
+                        pop_up += "<div class='name'><b>" + user['first_name'] + " " + user['last_name'] + "</b><br />" + user['city'] +"</div><div class='clear'></div>";
 						pop_up += "<div class='user_info'>Invested: " + user['totalInvested'] + "$ <br />Gained: " + user['totalReward'] + "$</div>";
+
+                        // Social links.
+                        if (user.social != null) {
+                            pop_up += '<div class="social_links">';
+                            for (var l in user.social) {
+                                pop_up += '<a href="' + user.social[l] + '" class="social_link"><span class="' + social_link_class(l) + '"></span></a>';
+                            }
+                            pop_up += "</div>";
+                        }
+
 						pop_up += "</div></div>";
 					}
 					pop_up += "</div>";

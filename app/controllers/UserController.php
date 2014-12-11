@@ -73,8 +73,9 @@ class UserController extends \BaseController {
 
 		$disabled = null;
 		$links = json_decode($user_info->links);
+        $links = array_pad($links, 5, null);
 
-		        return View::make('backend.user.userinfo',
+        return View::make('backend.user.userinfo',
             [
                 'user' => $user,
                 'user_info' => $user_info,
@@ -117,6 +118,7 @@ class UserController extends \BaseController {
 
 		$disabled = 'disabled';
 		$links = json_decode($user_info->links);
+        $links = array_pad($links, 5, null);
 
 		return View::make(
             'backend.user.userinfo',
@@ -132,12 +134,10 @@ class UserController extends \BaseController {
 
  	public function updateInfo()
  	{
- 		$linksArray = [];
- 		for ($i=0; $i < Input::get('links'); $i++) {
- 			$temp = $i + 1;
- 			$linksArray[$i] = Input::get('link-'.$temp);
- 		}
- 		$linksArray = json_encode($linksArray);
+ 		$linksArray = Input::get('links');
+        // check if we have all social links (fill array with empty data).
+        $linksArray = array_pad($linksArray, 5, null);
+        $linksArray = json_encode($linksArray);
 
 		$id = Auth::user()->id;
 		$user = User::find($id);
