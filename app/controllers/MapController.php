@@ -91,6 +91,14 @@ class MapController extends \BaseController {
         }
 
         $totalInfo = [
+            'users_total' => User::where('role', '=', 2)->where('registration_status', '=', 1)->count(),
+            'users_invested' => User::where('role', '=', 2)->where('investor', '=', 1)->count(),
+            'users_withdrew' => User::where('role', '=', 2)->where('awarded', '=', 1)->count(),
+
+            'total_invested' => DB::table('user_money_info')->sum('ammount_invested'),
+            'total_won' => DB::table('user_money_info')->sum('ammount_won'),
+            'total_withdrew' => DB::table('user_money_info')->sum('ammount_withdrawn'),
+
             'allInvested' => $allInvested,
             'allUsers' => $allUsers,
         ];
