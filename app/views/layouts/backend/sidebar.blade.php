@@ -69,7 +69,7 @@
 				<div class="desc">Available ammount</div>
 			</div>
 		</li>
-		<li class="dashboard-stat purple-plum avlb-amount">
+		<li class="dashboard-stat purple-plum total-investment">
 			<div class="visual">
 				<i class="fa fa-globe"></i>
 			</div>
@@ -78,7 +78,7 @@
 				<div class="desc">Total invested</div>
 			</div>
 		</li>
-		<li class="dashboard-stat purple-plum avlb-amount">
+		<li class="dashboard-stat purple-plum total-reward">
 			<div class="visual">
 				<i class="fa fa-globe"></i>
 			</div>
@@ -87,7 +87,7 @@
 				<div class="desc">Total rewarded</div>
 			</div>
 		</li>
-		<li class="dashboard-stat purple-plum avlb-amount">
+		<li class="dashboard-stat purple-plum current-invested">
 			<div class="visual">
 				<i class="fa fa-globe"></i>
 			</div>
