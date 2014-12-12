@@ -73,6 +73,9 @@ class UserController extends \BaseController {
 
 		$disabled = null;
 		$links = json_decode($user_info->links);
+        if (empty($links)) {
+            $links = array();
+        }
         $links = array_pad($links, 5, null);
 
         return View::make('backend.user.userinfo',
@@ -118,6 +121,9 @@ class UserController extends \BaseController {
 
 		$disabled = 'disabled';
 		$links = json_decode($user_info->links);
+        if (empty($links)) {
+            $links = array();
+        }
         $links = array_pad($links, 5, null);
 
 		return View::make(
