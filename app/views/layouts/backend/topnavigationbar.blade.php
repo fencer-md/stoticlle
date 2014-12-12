@@ -1,5 +1,6 @@
 <li class="dropdown">
   <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
+  <i class="fa fa-home"></i>
   	<span class="menu-title">
   		Homepage
   	</span>
@@ -154,38 +155,38 @@
 @endif
 @if ( Auth::user()->role == "2" )
 	<li class="dropdown">
-	  <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link">
+	  <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link"><i class="fa fa-group"></i>
 	  	<span class="menu-title">
-	  		Profile
+	  		Личный кабинет
 	  	</span>
 	  </a>
 	</li>
 	<li class="dropdown">
-	  <a href="{{ URL::to('user/transactions') }}" class="dropdown-toggle simple-link">
+	  <a href="{{ URL::to('user/transactions') }}" class="dropdown-toggle simple-link"><i class="fa fa-exchange"></i>
 	  	<span class="menu-title">
-	  		Transactions
+	  		Транзакций
 	  	</span>
 	  </a>
 	</li>
 	<li class="dropdown">
-	  <a href="{{ URL::to('user/addmoney') }}" class="dropdown-toggle simple-link">
+	  <a href="{{ URL::to('user/addmoney') }}" class="dropdown-toggle simple-link"><i class="fa fa-download"></i>
 	  	<span class="menu-title">
-	  		Add money
+	  		Пополнение средств
 	  	</span>
 	  </a>
 	</li>
 	<li class="dropdown">
-	  <a href="{{ URL::to('user/withdraw') }}" class="dropdown-toggle simple-link">
+	  <a href="{{ URL::to('user/withdraw') }}" class="dropdown-toggle simple-link"><i class="fa fa-upload"></i>
 	  	<span class="menu-title">
-	  		Withdraw money
+	  		Вывод средств
 	  	</span>
 	  </a>
 	</li>
 @endif
 <li class="dropdown">
-  <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link">
+  <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link"><i class="fa fa-sign-out"></i>
   	<span class="menu-title">
-  		Logout
+  		Выход
   	</span>
   </a>
 </li>

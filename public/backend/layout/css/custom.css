@@ -95,3 +95,9 @@ ul.page-sidebar-menu li {
     top: 20px;
     right: 27px;
 }
+.name.pull-left {
+font-size: 14px;
+line-height: 46px;
+color: #fff;
+}
+}
