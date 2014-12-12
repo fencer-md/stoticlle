@@ -84,23 +84,34 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        {{ Form::hidden('links', 2) }}
-                        <div class="form-group"> 
+                        <div class="form-group">
                             {{ Form::label('facebook', 'Facebook link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('link-1', $links[0], ['class' => 'form-control', $disabled]) }}
+                                {{ Form::text('links[0]', $links[0], ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('twitter', 'Twitter link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('link-2', $links[1], ['class' => 'form-control', $disabled]) }}
+                                {{ Form::text('links[1]', $links[1], ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                         <div class="form-group"> 
                             {{ Form::label('pinterest', 'Pinterest link', ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">
-                                {{ Form::text('link-2', $links[1], ['class' => 'form-control', $disabled]) }}
+                                {{ Form::text('links[2]', $links[2], ['class' => 'form-control', $disabled]) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ Form::label('odnoklassniki', 'Odnoklassniki', ['class' => 'col-md-3 control-label']) }}
+                            <div class="col-md-9">
+                                {{ Form::text('links[3]', $links[3], ['class' => 'form-control', $disabled]) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ Form::label('vkontacte', 'vKontacte', ['class' => 'col-md-3 control-label']) }}
+                            <div class="col-md-9">
+                                {{ Form::text('links[4]', $links[4], ['class' => 'form-control', $disabled]) }}
                             </div>
                         </div>
                     </div>
@@ -183,12 +194,12 @@ $(document).ready(function(){
                         country = address[key].short_name;
                 }
                 $('input[name=lat]').val(position.coords.latitude);
-                $('input[name=long]').val(position.coords.longitude);  
+                $('input[name=long]').val(position.coords.longitude);
                 if ( $('select[name=country]').val().length == 0 && $('input[name=city]').val().length == 0 ) {
                     $('input[name=city]').val(city);
                     $('select[name=country] option').val(country);
-                    $('.form-horizontal input.btn.blue').trigger('click');        
-                }      
+                    $('.form-horizontal input.btn.blue').trigger('click');
+                }
             }
          );
     }
