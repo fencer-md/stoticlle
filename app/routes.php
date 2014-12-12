@@ -262,12 +262,19 @@ View::creator('backend.user.withdraw', function($view)
 	$view->with('moneyAvailable', $userMoneyAvailable);
 });
 
-View::creator('includes.backend.cycles', function($view)
-{
-	$uid = Auth::user()->id;
-	$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
-	$view->with('lastInvestedAmmount', $lastInvest->ammount);
-});
+View::creator('includes.backend.cycles', function ($view) {
+        $uid = Auth::user()->id;
+        $lastInvest = Transaction::where('user_id', '=', $uid)
+            ->where('transaction_direction', '=', 'invested')
+            ->orderBy('id', 'DESC')->first();
+
+        $amount = 0;
+        if ($lastInvest) {
+            $amount = $lastInvest->ammount;
+        }
+
+        $view->with('lastInvestedAmmount', $amount);
+    });
 
 View::creator('homepage', function($view)
 {
