@@ -15,8 +15,8 @@
 	
     $('.easy-pie-chart .number.transactions').easyPieChart({
         animate: 1000,
-        size: 200,
-        lineWidth: 6,
-        barColor: Metronic.getBrandColor('green')
+        size: 100,
+        lineWidth: 4,
+        barColor: Metronic.getBrandColor('red')
     });
 </script>

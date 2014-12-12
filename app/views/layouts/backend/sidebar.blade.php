@@ -59,7 +59,7 @@
 		</li>
 	@endif
     @if ( Auth::user()->role == "2" )
-		<li class="name">Hello {{ Auth::user()->userInfo->first_name }}</li>
+		
 		<li class="dashboard-stat purple-plum avlb-amount">
 			<div class="visual">
 				<i class="fa fa-globe"></i>

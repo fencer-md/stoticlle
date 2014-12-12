@@ -16,11 +16,11 @@ td {
 }
 .map-region .info {
     width: 20%;
-    background: #445965;
-    padding-top: 120px;
-    height: 697px;
-    color: #fff;
-    text-shadow: 5px 5px 20px #1B1B1B;
+background: rgba(33, 69, 89, 0.49);
+padding-top: 20px;
+height: 690px;
+color: #fff;
+text-shadow: 5px 5px 20px #1B1B1B;
 }
 header {
     background: #666666;
@@ -38,14 +38,25 @@ header {
     background: #4D4D4D;
 }
 .map-region .info .number, .map-region .info .label {
-    font-size: 60px;
-    font-weight: normal;
+    font-size: 30px;
+text-align: center;
+font-weight: 100;
+margin: 10px;
+line-height: 55px;
+padding: 10px;
+}
+.registered .number{
+	border-bottom: 1px solid;
 }
 .map-region .info .label {
     font-size: 16px;
 }
 .map-region .container-fluid {
     padding: 0;
+    background-image: url('http://stoticlle.com/public/images/jar_bg.png');
+background-position-y: -260px;
+background-position-x: 50px;
+
 }
 
 .map-region .container-fluid .info .inside {
@@ -285,19 +296,25 @@ section.content-region .video-list .thumbnails img:last-child {
 
 .easy-pie-chart {
     position: relative;
+margin: 0 auto;
+width: 100px;
 }
 .info-homepage {
-    height: 220px;
+    height: 145px;
+background: rgba(0, 0, 0, 0.3);
+margin: 10px;
 }
 
-.easy-pie-chart span {
-    position: absolute;
-    top: 50px;
-    left: 31px;
+   .easy-pie-chart span {
+position: absolute;
+top: 22px;
+left: 24px;
+font-size: 14px;
+text-align: center;
 }
+
 
 .info-homepage .number {
-    height: 120px;
 }
 #successModal h3, #successModal .modal-body {
     color: black!important;
@@ -338,4 +355,71 @@ a.logo-text,a.logo-text:hover{
 */
 .col-md-10.text-right, .language-picker {
 top: 7px;
+}
+i.fa.fa-users, i.fa.fa-usd {
+font-size: 30px;
+text-align: left;
+padding: 8px;
+background: #E7E7E7;
+position: relative;
+color: #F56000;
+border-radius: 3px;
+text-shadow: none;
+display: inline-block;
+}
+i.fa.fa-usd{
+	width: 46px;
+text-align: center;
+font-weight: 900;
+}
+.block-header .lable, .user-other .lable {
+font-size: 10px;
+line-height: 14px;
+top: 4px;
+position: relative;
+}
+.lables{
+	display: inline-block;
+}
+.total-users {
+font-size: 24px;
+line-height: 26px;
+position: relative;
+top: 8px;
+}
+.investors, .withdrawals{
+display: inline-block;
+width: 50%;
+position: relative;
+text-align: center;
+}
+.investor-users, .withdrawals {
+font-size: 22px;
+line-height: 26px;
+}
+.user-other .lable {
+margin-bottom: 8px;
+}
+.investor-users {
+border-right: 1px solid;
+}
+.invested .investors, .invested .withdrawals{
+	width: 160px;
+display: block;
+position: relative;
+border-right: none;
+border-bottom: 1px solid;
+height: 140px;
+}
+.invested .withdrawals{
+	border-bottom: none;
+}
+.invested .investor-users {
+border-right: none;
+}
+.invested.info-homepage {
+height: 345px;
+}
+.invested .investors .lable{
+	
 }
