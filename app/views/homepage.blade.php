@@ -3,21 +3,42 @@
 @section('content')
 	<section class="map-region">
       <div class="container-fluid">
-        <div class="map" id="world_map" style="background:url('{{ URL::asset('images/map.png') }}') no-repeat 0 0; background-size:910px 450px">
+        <div class="map" id="world_map" style="background:url('{{ URL::asset('images/map.png') }}') no-repeat 0 0; background-size:900px 450px">
           
         </div>
         <div class="info pull-right">
           <div class="inside">
-            <div class="registered info-homepage"><div class="number"><i class="fa fa-users"></i>
-              {{ $totalInfo['allUsers'] * 100 / 100 }}
-            </div><div class="label">users</div></div>
-            <div class="invested info-homepage"><div class="number">
+            <div class="registered info-homepage">
+            <div class="number"><div class="block-header"><i class="fa fa-users"></i>
+              <div class="lables"><div class="lable">Пользователей</div><div class="total-users">{{ $totalInfo['allUsers']}}</div></div></div>
+            </div>
+            <div class="user-other"><div class="investors"><div class="lable">Ивестировали</div><div class="investor-users">{{ $totalInfo['investors']}}</div></div><div class="withdrawals"><div class="lable">Вывели</div><div class="withdrawals">{{ $totalInfo['withdrawals']}}</div></div></div>
+            </div>
+            <div class="invested info-homepage">
+            <div class="number"><div class="block-header"><i class="fa fa-usd"></i>
+              <div class="lables"><div class="lable">Всего денег в системе</div><div class="total-users"> ${{ $totalInfo['allInvested']+ $totalInfo['allRewarded']- $totalInfo['allWithdraw']}}</div></div></div>
+            <div class="user-other"><div class="investors"><div class="lable">Ивестировали</div><div class="investor-users"><div class="easy-pie-chart">
+                <div class="number transactions" data-percent="{{ $totalInfo['allInvested'] * 100 / ($totalInfo['allInvested']+ $totalInfo['allRewarded']- $totalInfo['allWithdraw']) }}">
+                  <span>{{ $totalInfo['allInvested']}} $</span>
+                </div>
+              </div></div></div><div class="withdrawals"><div class="lable">Вывели</div><div class="all-withdrawals"><div class="easy-pie-chart">
+                <div class="number transactions" data-percent="{{ $totalInfo['allWithdraw'] * 100 / ($totalInfo['allInvested']+ $totalInfo['allRewarded']) }}">
+                  <span>{{ $totalInfo['allWithdraw']}} $</span>
+                </div>
+              </div></div></div></div>
+            
+            </div>
+            
+            </div>
+            <!--
+<div class="invested info-homepage"><div class="number">
               <div class="easy-pie-chart">
                 <div class="number transactions" data-percent="{{ $totalInfo['allInvested'] * 100 / 100 }}">
                   <span>{{ $totalInfo['allInvested'] * 100 / 100 }} $</span>
                 </div>
               </div>
             </div><div class="label">invested by users</div></div>
+-->
           </div>
         </div>
       </div>

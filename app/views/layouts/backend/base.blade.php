@@ -16,8 +16,10 @@
 		<div class="page-header navbar navbar-fixed-top	">
 		  <!-- BEGIN TOP NAVIGATION BAR -->
 		  <div class="page-header-inner">
-		  	<div class="page-logo"></div>
+		  	<div class="page-logo"><div class="name pull-left">Hello {{ Auth::user()->userInfo->first_name }}</div></div>
 		  	<div class="top-menu">
+		  	
+
 		  	  <ul class="nav navbar-nav pull-right">
 		  	    @include('layouts.backend.topnavigationbar')
 		  	  </ul>	  		

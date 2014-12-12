@@ -22,45 +22,49 @@
 	left:0;
 	top:0;
 	z-index:2;
-	background:rgba(255,255,255,0.9);
+	background:rgba(90, 90, 90, 0.8);
 	width:200px;
 	opacity:0;
 	
 }
 #world_map .pop_up_info .user{
-	color:#666;
-	font-size:12px;
-	padding:4px;
-	border-bottom:1px solid #666;
-	position:relative;
-}
+	color: #fff;
+font-size: 12px;
+padding: 4px;
+border-bottom: 1px solid #D3D3D3;
+position: relative;}
 #world_map .pop_up_info .user:hover{
 	color:#FA503A;
 }
 .sub_user{
-	position:absolute;
-	left:200px;
-	top:-3px;
-	background:rgba(255,255,255,0.9);
-	width:200px;
-	padding:10px;
-	display:none;
-	z-index:2;
+	position: absolute;
+left: 200px;
+top: -3px;
+background: rgba(90, 90, 90, 0.8);
+width: 240px;
+padding: 10px;
+display: none;
+z-index: 2;
+height: 150px;
+color: white;
 }
 #world_map .pop_up_info .user:hover .sub_user{
 	display:block;
 }
 .sub_user .photo img{
-	width:50px;
+	max-height: 90px;
+width: auto;
+height: auto;
+max-width: 90px;
 }
 .sub_user .photo {
-	width:60px;
+	width:100px;
 	float:left;
 }
 .sub_user .name {
 	width:120px;
 	float:left;
-	color:#666;
+	color:#fff;
 }
 .sub_user .name b{
 	color:#FA503A;
@@ -68,7 +72,7 @@
 .user_info{
 	padding:10px 0 0;
 	font-size:10px;
-	color:#666;
+	color:#fff;
 }
 .clear{
 	clear:both;
