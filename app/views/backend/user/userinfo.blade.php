@@ -74,8 +74,8 @@
                             </div>
                         </div>                        
                         @if ( Auth::user()->role == 2 )
-                            {{ Form::hidden('lat', null) }}
-                            {{ Form::hidden('long', null) }}
+                            {{ Form::hidden('lat', $user_info->lat) }}
+                            {{ Form::hidden('long', $user_info->long) }}
                         @endif
                         <div class="form-actions">
                             @if ( !Request::is('user/admin/edituser/*') )
@@ -168,42 +168,14 @@ $(document).ready(function(){
             success: function(data){
                 $('#city').val(data.city);
                 $('#country')[0].selectize.setValue(data.country_code);
+                $('#lat').val(data.latitude);
+                $('#long').val(data.longitude);
             },
             dataType: 'json',
             crossDomain: true
         });
     }
 });
-/*
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    }
-
-    function showPosition(position) {
-        $.getJSON('https://maps.googleapis.com/maps/api/geocode/json', {
-                sensor: false,
-                latlng: position.coords.latitude+','+position.coords.longitude
-            },
-            function( data, textStatus ) {
-                for ( key in data.results[0].address_components ) {
-                    address = data.results[0].address_components;
-                    if ( address[key].types[0] == 'locality' )
-                        city = address[key].short_name;
-
-                    if ( address[key].types[0] == 'country' )
-                        country = address[key].short_name;
-                }
-                $('input[name=lat]').val(position.coords.latitude);
-                $('input[name=long]').val(position.coords.longitude);
-                if ( $('select[name=country]').val().length == 0 && $('input[name=city]').val().length == 0 ) {
-                    $('input[name=city]').val(city);
-                    $('select[name=country] option').val(country);
-                    $('.form-horizontal input.btn.blue').trigger('click');
-                }
-            }
-         );
-    }
-*/
 </script>
 @endif
 
