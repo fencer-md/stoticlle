@@ -4,7 +4,6 @@ class MapController extends \BaseController {
 
     public function output () {
         $usersData = [];
-        $totalInfo = [];
 		$investors = 0;
 		$withdrawals = 0;
         $i = 0;
@@ -85,20 +84,6 @@ class MapController extends \BaseController {
                 $totalReward = 0;
             }
                 $allUsers++;
-				
-            foreach ($user->userTransaction as $transaction) {
-                if ( $transaction->transaction_direction == 'invested' && $transaction->confirmed == 1 ) {
-                    $allInvested += $transaction->ammount;
-                    $investors++;
-                }
-                if ( $transaction->transaction_direction == 'withdraw' && $transaction->confirmed == 1 ) {
-	                $allWithdraw += $transaction->ammount;
-                    $withdrawals++;
-                }
-                if ( $transaction->transaction_direction == 'reward' && $transaction->confirmed == 1 ) {
-	                $allRewarded += $transaction->ammount;
-                }
-            }
         }
 
         $totalInfo = [
@@ -109,13 +94,6 @@ class MapController extends \BaseController {
             'total_invested' => DB::table('user_money_info')->sum('ammount_invested'),
             'total_won' => DB::table('user_money_info')->sum('ammount_won'),
             'total_withdrew' => DB::table('user_money_info')->sum('ammount_withdrawn'),
-
-            'allInvested' => $allInvested,
-            'allUsers' => $allUsers,
-            'investors' => $investors,
-            'withdrawals' => $withdrawals,
-           'allWithdraw' => $allWithdraw,
-           'allRewarded' => $allRewarded,
         ];
         $data = json_encode($usersData);
 
