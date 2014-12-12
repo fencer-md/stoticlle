@@ -168,8 +168,8 @@ $(document).ready(function(){
             success: function(data){
                 $('#city').val(data.city);
                 $('#country')[0].selectize.setValue(data.country_code);
-                $('#lat').val(data.latitude);
-                $('#long').val(data.longitude);
+                $('input[name=lat]').val(data.latitude);
+                $('input[name=long]').val(data.longitude);
             },
             dataType: 'json',
             crossDomain: true
