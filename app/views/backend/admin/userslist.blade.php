@@ -119,8 +119,8 @@
                             </td>
                         @endif
                         @if ( Request::is('user/admin/edituserlist') )
-                            <td>{{ Form::checkbox('showContinent', '1', $user->show_continent == 1 ? true : false, ['class' => 'show-continent', 'uid' => $user->id]) }}</td>
-                            <td>{{ Form::checkbox('showDot', '1', $user->show_dot == 1 ? true : false, ['class' => 'show-dot', 'uid' => $user->id]) }}</td>
+                            <td>{{ Form::checkbox('showContinent', '1', $user->show_continent == 1 ? true : false, ['class' => 'show-continent', 'data-uid' => $user->id]) }}</td>
+                            <td>{{ Form::checkbox('showDot', '1', $user->show_dot == 1 ? true : false, ['class' => 'show-dot', 'data-uid' => $user->id]) }}</td>
                         @endif
     				</tr>
     			@endforeach
@@ -144,32 +144,25 @@
 
 @section('custom_scripts')
     <script>
-    $('input.show-continent').change(function() {
-        if ( $(this).is(":checked") ) {
-            temp = 1;
-            if ( $(this).attr('checked') == null ) temp = 0;
+        function updateMapFlag(url, $checkbox) {
+            value = $checkbox.is(":checked") ? 1 : 0;
             $.ajax({
                 type: 'post',
-                url: '/user/admin/edit/showcontinent?showRegion='+temp+'&uid='+$(this).attr('uid'),
-                beforeSend: function(request) {
+                url: url + value + '&uid=' + $checkbox.data('uid'),
+                beforeSend: function (request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                },
+                }
             });
         }
-    });
 
-    $('input.show-dot').change(function() {
-        if ( $(this).is(":checked") ) {
-            temp = 1;
-            if ( $(this).attr('checked') == null ) temp = 0;
-            $.ajax({
-                type: 'post',
-                url: '/user/admin/edit/showdot?showDot='+temp+'&uid='+$(this).attr('uid'),
-                beforeSend: function(request) {
-                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                },
+        $(document).ready(function(){
+            $('input.show-continent').change(function () {
+                updateMapFlag('/user/admin/edit/showcontinent?showRegion=', $(this));
             });
-        }
-    });
+
+            $('input.show-dot').change(function () {
+                updateMapFlag('/user/admin/edit/showdot?showDot=', $(this));
+            });
+        });
     </script>
 @stop
