@@ -271,4 +271,21 @@ class Helper
             $countries
         );
     }
+
+    public static function paymentMethods()
+    {
+        //TODO: May be usefull to store in DB.
+        $methods = array(
+            'okpay' => array('name' => 'OKPAY'),
+            'payeer' => array('name' => 'Payeer'),
+            'payza' => array('name' => 'Payza'),
+            'perfect_money' => array('name' => 'Perfect Money'),
+            'qiwi' => array('name' => 'QIWI'),
+            'skrill' => array('name' => 'Skrill'),
+            'webmoney' => array('name' => 'WebMoney'),
+            'yandex_money' => array('name' => 'Yandex Money'),
+        );
+
+        return $methods;
+    }
 }

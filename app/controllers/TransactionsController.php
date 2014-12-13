@@ -472,10 +472,13 @@ class TransactionsController extends \BaseController {
     public function addMoneyPage()
     {
         $uid = Auth::user()->id;
-        $wallets = PaymentMethod::select('id', 'title', 'account_id')->where('user_id', '=', $uid)->get();
+        $accounts = PaymentMethod::select('id', 'title', 'account_id')->where('user_id', '=', $uid)->get();
+        $wallets = array();
+        foreach ($accounts as $acc) {
+            $wallets[$acc->title] = $acc->account_id;
+        }
 
         return View::make('backend.user.addmoney')->with('wallets', $wallets);
-
     }
 
     public function addMoneyToAccount() 

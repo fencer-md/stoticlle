@@ -11,11 +11,16 @@
                 <div class="col-md-6">
                     <div class="form-group"> 
                         {{ Form::label('add_method', 'Add method', ['class' => 'col-md-2 control-label']) }}
-                        <div class="col-md-9">
+                        <div class="col-md-9" id="payment_methods">
                             <div class="radio-list">
-                                <div><label class="radio"><span>{{ Form::radio('add_method', 'webmoney', ['selected'=>'selected']) }}</span><img src="{{ URL::asset('images/payments/webmoney.png') }}"></label></div> 
-                                <div><label class="radio"><span>{{ Form::radio('add_method', 'paypal') }}</span><img src="{{ URL::asset('images/payments/paypal.png') }}"></label></div>
-                                <div><label class="radio"><span>{{ Form::radio('add_method', 'cards') }}</span><img src="{{ URL::asset('images/payments/cards.png') }}"></label></div>
+                                @foreach(Helper::paymentMethods() as $id => $method)
+                                    <div>
+                                        <label class="radio" @if (!empty($wallets[$id])) data-wallet="{{ $wallets[$id] }}" @endif>
+                                            <span>{{ Form::radio('add_method', $id) }}</span>
+                                            <img src="{{ URL::asset('public/backend/img/pay_met/' . $id . '.png') }}">
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -23,12 +28,7 @@
                         {{ Form::label('credentials', 'Credentials', ['class' => 'control-label']) }}
                         <div class="controls">
                             <div class="col-md-6">
-                                <select name="credentials" id="credentials" data-placeholder="Insert your credentials">
-                                    <option></option>
-                                    @foreach ( $wallets as $wallet )
-                                        <option value='{{ $wallet->account_id }}'>{{ $wallet->title }} - {{ $wallet->account_id }}</option>
-                                    @endforeach
-                                </select>
+                                {{ Form::text('credentials', '', ['class' => 'form-control', 'data-placeholder' => "Insert your credentials"]) }}
                             </div>
                         </div>
                     </div>
@@ -51,47 +51,29 @@
 @stop
 
 @section('custom_scripts')
-<script>
-    $('#credentials').selectize({
-        onDropdownClose: function() {
-        	value = $('.selectize-control.single .selectize-input div').text().split(' ');
-        	$('.radio-list div#uniform-add_method input').each(function() {
-        		if ( value[0] == $(this).val() ) {
-					$(this).trigger('click');
-        		}
-        		$('.selectize-input.items.has-options.full.has-items').trigger('click');
-			});
-        },
-        onChange: function() {
-        	value = $('.selectize-control.single .selectize-input div').text().split(' ');
-        	$('.radio-list div#uniform-add_method input').each(function() {
-        		if ( value[0] == $(this).val() ) {
-					$(this).trigger('click');
-        		}
-        		$('.selectize-input.items.has-options.full.has-items').trigger('click');
-			});
-        },
-        create: true,
-        persist: false,
-        sortField: {
-            field: 'text',
-            direction: 'asc'
-        },
-        dropdownParent: 'body'
-    });
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#payment_methods label.radio').click(function(){
+            var $this = $(this);
+            if ($this.data('wallet')) {
+                $('#credentials').val($this.data('wallet'));
+            } else {
+                $('#credentials').val('');
+            }
+        });
 
-    $('form#add-money-form input[type=submit]').click(function(e) {
-        $('.error-addmoney').remove();
-        if ( $('.selectize-input > div').text().length == 0 ) {
-            e.preventDefault();
-            $('form#add-money-form .credentials').addClass('has-error');
-            $('form#add-money-form .credentials').after('<div class="error-addmoney">Field is empty</div>');
-        }
-        if ( $('input#add_money').val() == '' ) {
-            e.preventDefault();
-            $('form#add-money-form .ammount').addClass('has-error');
-            $('form#add-money-form .ammount').after('<div class="error-addmoney">Field is empty</div>');
-        }
+        // TODO: Add proper form validation.
+        $('form#add-money-form ').submit(function(e) {
+            $('.error-addmoney').remove();
+            if ( $('.selectize-input > div').text().length == 0 ) {
+                e.preventDefault();
+                $('form#add-money-form .credentials').addClass('has-error');
+            }
+            if ( $('input#add_money').val() == '' ) {
+                e.preventDefault();
+                $('form#add-money-form .ammount').addClass('has-error');
+            }
+        });
     });
 </script>
 @stop
