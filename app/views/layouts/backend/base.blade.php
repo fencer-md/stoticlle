@@ -16,7 +16,9 @@
 		<div class="page-header navbar navbar-fixed-top	">
 		  <!-- BEGIN TOP NAVIGATION BAR -->
 		  <div class="page-header-inner">
-		  	<div class="page-logo"><div class="name pull-left"><i class="fa fa-anchor"></i> Привет {{ Auth::user()->userInfo->first_name }}</div></div>
+		  	<div class="page-logo"><div class="name pull-left"> Привет {{ Auth::user()->userInfo->first_name }}</div> <div class="icon"> <i class="fa fa-usd"></i></div>
+				<div class="number">{{ round($data['currentAmmount'], 2) }} $</div>
+				</div>
 		  	<div class="top-menu">
 		  	
 

@@ -16,7 +16,7 @@
             </div>
             <div class="invested info-homepage">
             <div class="number"><div class="block-header"><i class="fa fa-usd"></i>
-              <div class="lables"><div class="lable">Всего денег в системе</div><div class="total-users"> ${{ $totalInfo['total_invested']+ $totalInfo['total_won']- $totalInfo['total_withdrew']}}</div></div></div>
+              <div class="lables"><div class="lable">Всего в системе</div><div class="total-users"> ${{ $totalInfo['total_invested']+ $totalInfo['total_won']- $totalInfo['total_withdrew']}}</div></div></div>
             <div class="user-other"><div class="investors"><div class="lable">Ивестировали</div><div class="investor-users"><div class="easy-pie-chart">
                 <div class="number transactions" data-percent="{{ $totalInfo['total_invested'] * 100 / ($totalInfo['total_invested']+ $totalInfo['total_won']- $totalInfo['total_withdrew']) }}">
                   <span>{{ $totalInfo['total_invested']}} $</span>

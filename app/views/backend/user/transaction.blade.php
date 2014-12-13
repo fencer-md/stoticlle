@@ -1,7 +1,7 @@
 @extends('layouts.backend.base')
 
 @section('content')
-    <h3 class="page-title">User transactions</h3>
+    <h3 class="page-title">все транзакций</h3>
     <div class="row">
 		<table class="table table-striped table-hover">
 			<thead>

@@ -2,7 +2,7 @@
   <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
   <i class="fa fa-home"></i>
   	<span class="menu-title">
-  		Homepage
+  		Домашняя
   	</span>
   </a>
 </li>

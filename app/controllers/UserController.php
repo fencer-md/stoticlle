@@ -12,7 +12,7 @@ class UserController extends \BaseController {
 
 		if ( $validate->fails() )
 		{
-			$msg = 'User with this email exists already.';
+			$msg = 'Пользователь с этим емайлом уже существует на нашей платформе.';
 			return Redirect::to('/')
 		    	->withErrors($validate)
 		        ->withInput()
@@ -41,10 +41,10 @@ class UserController extends \BaseController {
 
 			$data = ['code' => $user->registration_code, 'password' => $password];
 			Mail::send('emails.confirmation', $data, function($message) {
-				$message->to(Input::get('email'), 'test')->subject('Welcome!');
+				$message->to(Input::get('email'), 'test')->subject('Спасибо за регистрацию на нашей платформе!');
 			});
 
-			$msg = 'You\'ve been sent an email, to activate your account please click on the link in the email.';
+			$msg = 'Вам был послан емайл, он содержит линк и пароль для подтверждения вашего емайла, ';
 
 			return Redirect::to('/')->with('msg', $msg);
 		}
@@ -52,7 +52,7 @@ class UserController extends \BaseController {
 
 	public function confirm($cc)
 	{
-		$msg = 'Thank you for registration, you now can login';
+		$msg = 'Ваш емайл был подтвержден, теперь вы можете войти в систему используя пароль который мы высылали на ваш емайл';
 		$user = User::where('registration_code', '=', $cc)->first();
 		$user->registration_status = 1;
 		$user->registration_code = 0;

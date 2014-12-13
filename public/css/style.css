@@ -98,7 +98,7 @@ section.content-region .video-list,section.content-region .text {
 }
 header .login-form input {
     padding: 2px 15px 0px;
-    width: 138px;
+    width: 220px;
     border: 1px solid #E6E6E6;
     background: #666;
     color: #E6E6E6;
@@ -382,7 +382,7 @@ position: relative;
 	display: inline-block;
 }
 .total-users {
-font-size: 24px;
+font-size: 22px;
 line-height: 26px;
 position: relative;
 top: 8px;
