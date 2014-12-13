@@ -106,22 +106,22 @@
             <div class="title"><span>Методы оплаты</span></div>
             <div class="list">
               <div class="logo">
-                <img src="../../public/backend/img/pay_met/imgres-1.png" alt="imgres-1" width="" height="" />
+                <img src="{{ asset('public/backend/img/pay_met/skrill.png') }}" alt="Skrill" />
               </div>
               <div class="logo">
-                <img src="../../public/backend/img/pay_met/imgres.png" alt="imgres" width="" height="" />
+                  <img src="{{ asset('public/backend/img/pay_met/webmoney.png') }}" alt="WebMoney" />
               </div>
               <div class="logo">
-                <img src="../../public/backend/img/pay_met/logo-footer.png" alt="logo-footer" width="" height="" />
+                  <img src="{{ asset('public/backend/img/pay_met/payza.png') }}" alt="Payza" />
               </div>
               <div class="logo">
-                <img src="../../public/backend/img/pay_met/logo.png" alt="logo" width="" height="" />
+                  <img src="{{ asset('public/backend/img/pay_met/payeer.png') }}" alt="Payeer" />
               </div>
               <div class="logo">
-                <img src="../../public/backend/img/pay_met/logo3.png" alt="logo3" width="" height="" />
+                  <img src="{{ asset('public/backend/img/pay_met/perfect_money.png') }}" alt="Perfect Money" />
               </div>
               <div class="logo">
-                <img src="../../public/backend/img/pay_met/okpay-logo-226x142-orange.png" alt="okpay-logo-226x142-orange" width="" height="" />
+                  <img src="{{ asset('public/backend/img/pay_met/okpay.png') }}" alt="OKPAY" />
               </div>
               <!--
 <div class="logo">
