@@ -183,22 +183,25 @@ class UserController extends \BaseController {
 
  	}
 
- 	public function usersList() 
- 	{
- 		$sortby = Input::get('sortby');
- 		$order = Input::get('order');
- 		$controller = 'usersList';
+	public function usersList()
+	{
+		$sortby = Input::get('sortby');
+		$order = Input::get('order');
+		$controller = 'usersList';
 
- 		if ( $sortby && $order ) 			
- 			$users = User::where('role', '=', '2')
- 						   ->orderBy($sortby, $order)
- 						   ->get();
- 		else
- 			$users = User::where('role', '=', '2')
- 						   ->get();
+		if ($sortby && $order) {
+			$users = User::where('role', '=', '2')
+				->orderBy($sortby, $order)
+				->get();
+		} else {
+			$users = User::where('role', '=', '2')->get();
+		}
 
- 		return View::make('backend.admin.userslist', ['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]); 		
- 	}
+		return View::make(
+			'backend.admin.userslist',
+			['users' => $users, 'controller' => $controller, 'sortby' => $sortby, 'order' => $order]
+		);
+	}
 
  	public function usersListNew() 
  	{
@@ -354,15 +357,12 @@ class UserController extends \BaseController {
  	public function showOnMap() 
  	{
  		$user = User::find(Input::get('uid'));
-
- 		if ( Input::get('showRegion') == 1 )
- 			$user->show_continent = 1;
- 		if ( Input::get('showDot') == 1 )
- 			$user->show_dot = 1;
- 		if ( Input::get('showRegion') == 0 )
- 			$user->show_continent = 0;
- 		if ( Input::get('showDot') == 0 )
- 			$user->show_dot = 0;
+		if (Input::has('showRegion')) {
+			$user->show_continent = (int)Input::get('showRegion');
+		}
+		if (Input::has('showDot')) {
+			$user->show_dot = (int)Input::get('showDot');
+		}
 
  		$user->save();
  	}
