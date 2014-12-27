@@ -1,5 +1,5 @@
 <?php
 		return array(
-'rate' => 12,
+'rate' => 0.007692307692,
 'days' => 26,
 );

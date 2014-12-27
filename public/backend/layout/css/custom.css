@@ -62,42 +62,112 @@ Change Quick Sidebar Width
   color: #fff;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle.simple-link {
-    padding-right: 10px;
+  padding-right: 10px;
 }
 .row.dialog {
-    margin: 0;
+  margin: 0;
 }
 .form-horizontal .control-label.dialog {
-    padding-left: 15px;
+  padding-left: 15px;
 }
 li.avlb-amount {
-    color: #fff;
-    font-size: 16px;
+  color: #fff;
+  font-size: 16px;
 }
 ul.page-sidebar-menu li {
-    color: #fff;
+  color: #fff;
 }
 .pie-chart-sidebar .details .number {
-    padding: 0;
-    margin: 0;
-    height: 70px;
+  padding: 0;
+  margin: 0;
+  height: 70px;
 }
 
 .easy-pie-chart {}
 
 .dashboard-stat.purple-plum .details .easy-pie-chart {
-    position: absolute;
-    right: 0px;
+  position: absolute;
+  right: 0px;
 }
 
 .pie-chart-sidebar .easy-pie-chart .number span {
-    position: absolute;
-    top: 20px;
-    right: 27px;
+  position: absolute;
+  top: 20px;
+  right: 27px;
 }
 .name.pull-left {
-font-size: 14px;
-line-height: 46px;
-color: #fff;
+  font-size: 14px;
+  line-height: 46px;
+  color: #fff;
 }
+i.fa.fa-bar-chart-o {
+  font-size: 50px;
+  padding: 5px;
+  background: #fefefe;
+  border-radius: 3px;
+  color: #FA503A;
+}
+li.dashboard-stat.current-invested {
+  background-color: #fff!important;
+}
+li.dashboard-stat.current-invested .number {
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  float: right;
+}
+.end-date {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin: 5px;
+  background: #4B8DF8;
+display: inline-block;
+}
+.end-date .day{
+  text-align: center;
+  position: relative;
+  font-size: 18px;
+  line-height: 18px;
+  top: 5px;
+}
+.end-date .month{
+  text-align: center;
+  font-size: 10px;
+  position: relative;
+  top: 5px;
+}
+.pay-logo{
+  height: 30px;
+  width:auto;
+}
+.radio-pay{
+  float: left;
+}
+.form-body.col-md-12 {
+  background: #fff;
+}
+.help .title{
+  font-size: 16px;
+  font-weight: 900;
+  position: relative;
+  bottom: 5px;
+}
+li.dashboard-stat.current-invested .lable {
+  color: #333;
+  float: left;
+}
+.invested, .will-be {
+  clear: both;
+}
+.dates {
+display: inline-block;
+position: relative;
+top: 11px;
+width: 160px;
+}
+#transactions thead {
+background: #4B8DF8;
+color: #fff;
 }

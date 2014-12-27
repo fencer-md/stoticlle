@@ -2821,7 +2821,7 @@ Theme Panel
 
 ul.page-sidebar-menu li.dashboard-stat {
 	margin:10px;
-	background:rgba(0,0,0,0.8);
+	background:rgba(100,100,100,0.8);
 }
 
 .icon i.fa.fa-usd,.icon i.fa.fa-usd,i.fa.fa-cloud-upload,i.fa.fa-cloud-download {
@@ -2889,7 +2889,7 @@ line-height: 40px;
 padding-right: 10px;
 }
 .offer {
-background: rgba(0, 0, 0, 0.8);
+background: #fff;
 height: 240px;
 margin: 10px;
 }
@@ -2914,8 +2914,8 @@ width: 170px;
 }
 p.information {
 padding: 10px;
-font-weight: 100;
-color: #fff;
+font-weight: 600;
+color: #666;
 text-align: justify;
 line-height: 12px;
 font-size: 11px;
@@ -2929,18 +2929,24 @@ font-weight: 900;
 display: inline-block;
 left: 5px;
 position: relative;
-font-weight: 100;
-color: #ccc;
+font-weight: 600;
+color: #333;
 }
 .invest-plan .number {
 display: inline-block;
 float: right;
 position: relative;
 right: 5px;
-color: #FFF;
+color: #1D409B;
+font-weight: 900;
 }
 .offer .desc{
-	color: #FA503A;
+	color: #4B8DF8;
 font-weight: 400;
 font-size: 14px;
+}
+li.dashboard-stat.current-invested .desc {
+	color: #4B8DF8;
+font-size: 14px;
+font-weight: 400;
 }

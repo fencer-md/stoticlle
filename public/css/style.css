@@ -420,3 +420,15 @@ border-right: none;
 .invested.info-homepage {
 height: 345px;
 }
+.social_links a{
+width: 20px;
+height: 20px;
+border-radius: 3px;
+text-align: center;
+background: #fefefe;
+float: left;
+display: inline-block;
+position: relative;
+padding-top: 1px;
+right: 2px;
+}

@@ -168,7 +168,7 @@ class UserController extends \BaseController {
 			$photo = Input::file('photo');
 			$filename = date('Ymdhis')."-".$photo->getClientOriginalName();
 			$path = 'uploads/user-photos/'.$filename;
-			Image::make(Input::file('photo'))->resize(200, 200)->save( public_path('uploads/user-photos/').$filename );
+			Image::make(Input::file('photo'))->heighten(200)->save( public_path('uploads/user-photos/').$filename );
 	        $user_info->photo = $path;
 	    }
 	    if ( Input::get('lat') && Input::get('long') ) {
