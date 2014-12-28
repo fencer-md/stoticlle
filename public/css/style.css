@@ -316,7 +316,7 @@ text-align: center;
 
 .info-homepage .number {
 }
-#successModal h3, #successModal .modal-body {
+.modal h3, .modal .modal-body {
     color: black!important;
 }
 .control-panel, .logout {
