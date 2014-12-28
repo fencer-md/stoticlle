@@ -164,12 +164,7 @@
 
 @section('custom_scripts')
 <script>
-    $('#country').selectize({
-        create: false,
-        persist: false,
-        dropdownParent: 'body',
-        allowEmptyOption: true
-    });
+    $('#country').selectize();
 </script>
 @if ( Auth::user()->role == 2 )
 <script type="text/javascript">
