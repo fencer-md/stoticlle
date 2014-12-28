@@ -11,10 +11,10 @@
         {{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal', 'id' => 'add-money-form']) }}
         <div class="form-body col-md-12">
 
-            <div class="form-group"> 
+            <div class="form-group @if ($errors->has('add_method')) has-error @endif">
                 {{ Form::label('add_method', 'Способы Проплаты', ['class' => 'col-md-3 control-label']) }}
                 <div class="col-md-9" id="payment_methods">
-                    <div class="radio-list">
+                    <div class="radio-list row">
                         @foreach(Helper::paymentMethods() as $id => $method)
                         <div class="radio-pay">
                             <label class="radio" @if (!empty($wallets[$id])) data-wallet="{{ $wallets[$id] }}" @endif>
@@ -24,21 +24,24 @@
                         </div>
                         @endforeach
                     </div>
+                    <div class="help-block">{{ $errors->first('add_method') }}</div>
                 </div>
             </div>
-            <div class="form-group  credentials">
+            <div class="form-group credentials @if ($errors->has('credentials')) has-error @endif">
                 {{ Form::label('credentials', 'Реквезиты', ['class' => 'control-label col-md-3']) }}
                 <div class="controls">
                     <div class="col-md-9">
                         {{ Form::text('credentials', '', ['class' => 'form-control', 'data-placeholder' => "Insert your credentials"]) }}
+                        <div class="help-block">{{ $errors->first('credentials') }}</div>
                     </div>
                 </div>
             </div>
-            <div class="form-group has-feedback ammount">
+            <div class="form-group has-feedback ammount  @if ($errors->has('add_money')) has-error @endif">
                 {{ Form::label('add_money', 'Сумма ($)', ['class' => 'control-label col-md-3']) }}
                 <div class="controls">
                     <div class="col-md-9">
                       {{ Form::text('add_money', null, ['class' => 'form-control']) }}
+                        <div class="help-block">{{ $errors->first('add_money') }}</div>
                   </div>
               </div>
           </div>

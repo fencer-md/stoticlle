@@ -482,7 +482,20 @@ class TransactionsController extends \BaseController {
     }
 
     public function addMoneyToAccount() 
-    {        
+    {
+        $rules = [
+            'add_method' => 'required',
+            'add_money' => 'required',
+            'credentials' => 'required',
+        ];
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator);
+        }
+
         $uid = Auth::user()->id;
 
         $wallet = PaymentMethod::where('account_id', '=', Input::get('credentials') )->first();
