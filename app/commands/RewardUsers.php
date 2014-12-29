@@ -24,8 +24,6 @@ class RewardUsers extends Command {
 
 	/**
 	 * Create a new command instance.
-	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -45,7 +43,7 @@ class RewardUsers extends Command {
 			$days = Config::get('rate.days');
 			$dateInvested->modify('+'.$days.' days');
 			$formattedDate = $dateInvested->format('Y-m-d H:i:s');
-			$currentDate = date(('Y-m-d H:i:s'));
+			$currentDate = date('Y-m-d H:i:s');
 
 			if ( $formattedDate <= $currentDate ) {
 
@@ -61,7 +59,7 @@ class RewardUsers extends Command {
 					$lastInvest = Transaction::where('user_id','=',$user->id)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 
 					$reward = new Transaction;
-					$reward->ammount = Helper::reward($ammount, $user->cycle_duration, Config::get('rate.rate'));
+					$reward->ammount = Helper::reward($ammount, $user->cycle_duration, $user->investment_rate);
 					$reward->transaction_direction = 'reward';
 					$reward->user_id = $user->id;
 					$reward->confirmed = 1;
@@ -73,6 +71,7 @@ class RewardUsers extends Command {
 					$user->awaiting_award = 0;
 					$user->invested_date = NULL;
 					$user->cycle_duration = NULL;
+					$user->investment_rate = 0;
 					$user->save();
 
 					$user->userMoney->current_available += $reward->ammount + $lastInvest->ammount;
@@ -81,13 +80,18 @@ class RewardUsers extends Command {
 					$user->userMoney->save();
 
 				}
-				elseif ( $user->investor == 1 ) {
+				elseif ( $user->investor == 1 )
+				{
 
 					$offer = Offer::where('recipient_id', '=', $user->id)->orderBy('id','DESC')->first();
 					if ( $offer != null )
-						$rate = $offer->rate;
+					{
+						$rate = $offer->daily_rate;
+					}
 					else
-						$rate = Config::get('rate.rate');
+					{
+						$rate = $user->investment_rate;
+					}
 
 					$lastInvest = Transaction::where('user_id','=',$user->id)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 
@@ -103,6 +107,7 @@ class RewardUsers extends Command {
 					$user->awaiting_award = 0;
 					$user->invested_date = NULL;
 					$user->cycle_duration = NULL;
+					$user->investment_rate = 0;
 					$user->save();
 
 					$user->userMoney->current_available += $reward->ammount + $lastInvest->ammount;

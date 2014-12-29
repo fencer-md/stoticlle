@@ -38,17 +38,15 @@ App::missing(function($exception)
 |
 */
 
-Route::filter('auth', function()
+Route::filter('auth', function ()
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
+	if (Auth::guest()) {
+		if (Request::ajax()) {
 			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('login');
+		} else {
+			return Redirect::guest('/')
+				->with('errorTitle', 'Session expired.')
+				->with('error', 'Please login.');
 		}
 	}
 });

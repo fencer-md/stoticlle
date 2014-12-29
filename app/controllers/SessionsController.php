@@ -25,9 +25,12 @@ class SessionsController extends \BaseController {
             }
         } else {
             Auth::logout();
-            return 'Failed login attempt';
-        }
 
+            // TODO: Localize error message.
+            return Redirect::to('/')
+                ->with('errorTitle', 'Login failed.') // Popup title.
+                ->with('error', 'Incorrect credentials. <a href="' . action('RemindersController@getRemind') . '">Forgot your password?</a>'); // Message in popup.
+        }
     }
 
     public function destroy()

@@ -96,7 +96,11 @@ class UserController extends \BaseController {
 		$user->commentary = Input::get('user_commentary');
 		$user->monitored = Input::get('monitored');
 
- 		if ( Input::get('showRegion') == 1 )
+		if (Input::get('password') == Input::get('re-password') && Input::get('re-password') != '') {
+			$user->password = Hash::make(Input::get('re-password'));
+		}
+
+		if ( Input::get('showRegion') == 1 )
  			$user->show_continent = 1;
  		if ( Input::get('showDot') == 1 )
  			$user->show_dot = 1;

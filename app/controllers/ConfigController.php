@@ -4,28 +4,21 @@ class ConfigController extends \BaseController {
 
 	public function update()
 	{
-		$rate = Input::get('rate');
-		$days = Input::get('days');
-		$contents = "<?php
-		return array(
-			'rate' => ".$rate."
-		);";
-		$filename = '../app/config/rate.php';
-		$fileContent = file($filename, FILE_IGNORE_NEW_LINES);
-		$fileContent[2] = "'rate' => ".$rate.",";
-		$fileContent[3] = "'days' => ".$days.",";
-		$lastLine = end($fileContent);
-		$lastLine = ");";
-		file_put_contents($filename, implode("\n", $fileContent));
+		$original = Input::get('rate');
+		$period = Input::get('days');
+		$rate = $original / 100 / $period;
 
-		if ($filename === false)
-		{
-		    die("Error");
-		}
+		$config = [
+			'original_rate' => $original,
+			'days' => $period,
+			'rate' => $rate,
+			'min' =>  Input::get('min'),
+		];
+
+		$filename = app_path() . '/config/rate.php';
+		$content = '<?php return ' . var_export($config, true) . ';';
+		file_put_contents($filename, $content);
 
 		return Redirect::back();
-
 	}
-
-
 }

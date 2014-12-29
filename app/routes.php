@@ -109,6 +109,7 @@ Route::get('user/confirm/{cc}', 'UserController@confirm');
 
 Route::resource('session', 'SessionsController');
 Route::resource('user', 'SessionsController');
+Route::controller('password', 'RemindersController');
 
 View::creator('layouts.backend.base', function($view)
 {
@@ -183,28 +184,30 @@ View::creator('layouts.backend.base', function($view)
 
 View::creator('includes.backend.cycles', function($view)
 {
-	$id = Auth::user()->id;
-	
-	$transactions = Transaction::where('user_id', '=', $id)->where('transaction_direction', '=', 'invested')->get();
-	$transactionsCount = count($transactions);
-	if ( count($transactions) == 0 )
-		$ammount = 0;
-	else
-		$ammount = $transactions[$transactionsCount-1]->ammount;
+	$user = Auth::user();
+	$id = $user->id;
+	$ammount = 0;
 
-	if ( Auth::user()->awaiting_award == 1 && Auth::user()->investor != 1 )
+	// Get last investment.
+	$transactions = Transaction::where('user_id', '=', $id)->where('transaction_direction', '=', 'invested')->orderBy('id', 'desc')->first();
+
+	if ($transactions) {
+		$ammount = $transactions->ammount;
+	}
+
+	if ( $user->awaiting_award == 1 && $user->investor != 1 )
 	{
-	    $data = Helper::reward($ammount, Config::get('rate.days'), Config::get('rate.rate'));
-	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 1000 ) {
+	    $data = Helper::reward($ammount, $user->cycle_duration, $user->investment_rate);
+	} elseif ( $user->awaiting_award == 1 && $user->investor == 1 && $ammount >= 1000 ) {
 		$offer = Offer::where('recipient_id', '=', $id)->orderBy('id','DESC')->first();
-		if ( $offer != null )
-			$rate = $offer->rate;
-		else
-			$rate = Config::get('rate.rate');
-		$days = Auth::user()->cycle_duration;
-	    $data = Helper::reward($ammount, $days, $rate);
-	} elseif ( Auth::user()->awaiting_award == 1 && Auth::user()->investor == 1 && $ammount >= 100 ) {
-	    $data = Helper::reward($ammount, Config::get('rate.days'), Config::get('rate.rate'));
+		if ( $offer != null ) {
+			$rate = $offer->daily_rate;
+		} else {
+			$rate = $user->investment_rate;
+		}
+	    $data = Helper::reward($ammount, $user->cycle_duration, $rate);
+	} elseif ( $user->awaiting_award == 1 && $user->investor == 1 && $ammount >= 100 ) {
+	    $data = Helper::reward($ammount, $user->cycle_duration, $user->investment_rate);
 	}
 
 	$view->with('data', $data);
@@ -224,10 +227,16 @@ View::creator('includes.backend.newoffer', function($view)
 	$offers = Auth::user()->userOffer;
 	$lastInvest = Transaction::where('user_id','=',$uid)->where('transaction_direction','=','invested')->orderBy('id','DESC')->first();
 	$offer = count($offers);
+	$data = [
+		'default_rate' => Config::get('rate.original_rate'),
+		'default_period' => Config::get('rate.days'),
+		'default_min' => Config::get('rate.min'),
+	];
+
 	if ( $offer > 0 && Auth::user()->investor == 1 ) {
 		$offer = $offers[$offer-1];
 
-		$currentDate = date(('Y-m-d H:i:s'));
+		$currentDate = date('Y-m-d H:i:s');
 
 		if ( Auth::user()->awaiting_award == 0
 			 && $currentDate <= $offer->offer_ends
@@ -239,10 +248,7 @@ View::creator('includes.backend.newoffer', function($view)
 			$data['rate'] = $offer->rate;
 			$data['offers'] = count($offers);
 			$data['lastInvest'] = $lastInvest;
-		} else $data = null;
-	}
-	else {
-		$data = null;
+		}
 	}
 
 	$view->with('data', $data)->with('moneyAvailable', $userMoneyAvailable)->with('lastInvest', $lastInvest);

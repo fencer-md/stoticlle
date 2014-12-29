@@ -125,6 +125,22 @@
         </div>
       </div>
       @endif
+
+        @if(Session::has('error'))
+            <div class="modal fade" id="errorModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a class="close" data-dismiss="modal">×</a>
+                            <h3>{{ Session::get('errorTitle') }}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{ Session::get('error') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </footer>
 
     @include('includes.frontend.scripts')
@@ -142,6 +158,7 @@
       });
       $(window).load(function(){
           $('#successModal').modal('show');
+          $('#errorModal').modal('show');
       });
     </script>
   </body>
