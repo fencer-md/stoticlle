@@ -95,8 +95,7 @@
 				<div class="lable">Прибыль</div>
 				<div class="number"> @include('includes.backend.cycles')</div>
 			</div>
-		</div>			
-		
+		</div>
 	</li>
 		@endif
 @if ( Auth::user()->awaiting_award == "0" )

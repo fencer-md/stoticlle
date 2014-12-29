@@ -1,5 +1,5 @@
 <?php
-
+// TODO: Split the file into 2 parts based on admin and user functionality.
 class TransactionsController extends \BaseController {
 
     //---------------Admin---------------
@@ -384,15 +384,23 @@ class TransactionsController extends \BaseController {
     public function investMoney()
     {
         $uid = Auth::user()->id;
-        $lastTransaction = Transaction::where('user_id', '=', $uid)->where('transaction_direction', '=', 'invested')->where('ammount', '>=', '1000')->orderBy('created_at', 'DESC')->first();
+
+        // Check for custom offer.
+        $lastTransaction = Transaction::where('user_id', '=', $uid)
+            ->where('transaction_direction', '=', 'invested')
+            ->where('ammount', '>=', '1000')
+            ->orderBy('created_at', 'DESC')->first();
+
+        // Approve offer.
         if ( $lastTransaction != null && $lastTransaction->confirmed == 0 )
-         {
+        {
             $lastTransaction->confirmed = 1;
-            $lastTransaction->date = date('Y-m-d H:i:s');            
+            $lastTransaction->date = date('Y-m-d H:i:s');
             $user = User::where('id', '=', $uid)->first();
             $user->awaiting_award = 1;
             $user->invested_date = date('Y-m-d H:i:s');
             $user->cycle_duration = Config::get('rate.days');
+            $user->investment_rate = Config::get('rate.rate');
             $user->userMoney->ammount_invested += $lastTransaction->ammount;
             $user->userMoney->current_available -= $lastTransaction->ammount;
             $user->userMoney->times_invested++;
@@ -414,9 +422,19 @@ class TransactionsController extends \BaseController {
             return Redirect::back();
         } elseif ( Input::get('ammount') > Input::get('moneyAvailable')  )
         {
-            return Redirect::to('user/addmoney')->with('msg', 'You don\'t have enough money to invest.');
+            return Redirect::to('user/addmoney')->with('msg', "You don't have enough money to invest.");
         } else
         {
+            // Input validation.
+            $rules = [
+                'ammount' => ['required', 'numeric', 'min:' . Config::get('rate.min')]
+            ];
+            $validator = Validator::make(Input::all(), $rules);
+
+            if ($validator->fails()) {
+                return Redirect::back()->withErrors($validator);
+            }
+
             $transaction = new Transaction;
             $transaction->ammount = Input::get('ammount');
             $transaction->transaction_direction = 'invested';
@@ -432,6 +450,7 @@ class TransactionsController extends \BaseController {
                 $user->awaiting_award = 1;
                 $user->invested_date = date('Y-m-d H:i:s');
                 $user->cycle_duration = Config::get('rate.days');
+                $user->investment_rate = Config::get('rate.rate');
                 $user->save();
             }
             elseif ( Auth::user()->investor == 1 ) 
@@ -451,6 +470,7 @@ class TransactionsController extends \BaseController {
                 $user->awaiting_award = 1;
                 $user->invested_date = date('Y-m-d H:i:s');
                 $user->cycle_duration = Config::get('rate.days');
+                $user->investment_rate = Config::get('rate.rate');
                 $user->save();
             }
             $transaction->user_id = $uid;
@@ -498,7 +518,9 @@ class TransactionsController extends \BaseController {
 
         $uid = Auth::user()->id;
 
-        $wallet = PaymentMethod::where('account_id', '=', Input::get('credentials') )->first();
+        $wallet = PaymentMethod::where('account_id', '=', Input::get('credentials'))
+            ->where('user_id', '=', $uid)
+            ->first();
 
         if ( $wallet == null ) {
             $payment = new PaymentMethod;
