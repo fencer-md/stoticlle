@@ -140,8 +140,8 @@
 @stop
 
 @section('custom_scripts')
-<script src="../../public/backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
-<link href="../../public/backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css" rel="stylesheet">
+<script src="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js') }}" type="text/javascript"></script>
+<link href="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pictonic.css') }}" rel="stylesheet">
 
 <script>
