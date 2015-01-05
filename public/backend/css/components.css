@@ -11426,3 +11426,9 @@ Transparent Button
   background: transparent;
   color: #888;
 }
+.modal-body a{
+	color:#2a6496;
+}
+.page-body form {
+margin: 50px auto;
+}
