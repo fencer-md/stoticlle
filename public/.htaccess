@@ -13,3 +13,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+#AuthUserFile var/www/vhosts/jarvis-tech.com/httpdocs/
+#AuthName "Authorized personnel only."
+#AuthType Basic
+#Require valid-user

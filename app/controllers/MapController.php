@@ -10,13 +10,13 @@ class MapController extends \BaseController {
         $continent = null;
         switch ($continentDb->name) {
             case 'Europe':
-                $continent = 'euro';
+                $continent = 'europe';
                 break;
             case 'North America':
-                $continent = 'america_n';
+                $continent = 'north_america';
                 break;
             case 'South America':
-                $continent = 'america_s';
+                $continent = 'south_america';
                 break;
             case 'Africa':
                 $continent = 'africa';
@@ -34,7 +34,7 @@ class MapController extends \BaseController {
     public function output () {
         $usersData = [];
 
-        $users = User::where('role', '=', 2)->where('show_continent', '=', 1)->get();
+        $users = User::where('role', '=', 2)->where('show_continent', '=', 1)->orderByRaw("RAND()")->get();
         foreach ($users as $user) {
             if (empty($user->userInfo->country)) {
                 continue;
@@ -52,6 +52,7 @@ class MapController extends \BaseController {
                 'totalReward' => $user->userMoney->ammount_won,
                 'registered' => $user->created_at,
                 'point' => $user->show_dot,
+                'online' => rand(0,1) == 1
             );
 
             // Social links.

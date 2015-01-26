@@ -74,12 +74,9 @@ Page Header
 }
 
 .page-header.navbar .page-logo {
-	float:left;
-	display:block;
-	width:320px;
-	height:46px;
-	padding-left:20px;
-	padding-right:20px;
+	float: left;
+display: block;
+padding-top: 15px;
 }
 
 .page-sidebar-closed.page-sidebar-closed-hide-logo .page-header.navbar .page-logo {
@@ -196,6 +193,8 @@ Page Header
 	margin:0;
 	padding:0;
 	float:right;
+	position: relative;
+	top:15px;
 }
 
 .page-header.navbar .top-menu .navbar-nav {
@@ -207,8 +206,9 @@ Page Header
 .page-header.navbar .top-menu .navbar-nav > li.dropdown {
 	margin:0;
 	padding:0 4px;
-	height:46px;
 	display:inline-block;
+		border: 1px solid #CCC;
+
 }
 
 .page-header.navbar .top-menu .navbar-nav > li.dropdown:last-child {
@@ -426,7 +426,7 @@ Page Header
 }
 
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {
-	padding:14px 6px 12px 8px;
+	padding:5px 6px 5px 8px;
 }
 
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle > .username {
@@ -1851,9 +1851,10 @@ Quick Sidebar Toggler
 
 .page-header,.page-sidebar-wrapper,.page-content-wrapper,.page-footer {
 	transition:margin .3s;
-	background-image:url(http://stoticlle.com/public/images/jar_bg.png);
+/* 	background-image:url(http://stoticlle.com/public/images/jar_bg.png); */
 	background-position-y:-230px;
 	background-position-x:-320px;
+	background-color: #d7d7d7;
 }
 
 /* Quick sidebar with push content */
@@ -2253,16 +2254,15 @@ Page content
 ***/
 /* Page title */
 .page-title {
-	padding: 0;
-font-size: 24px;
+padding: 20px;
+font-size: 32px;
 letter-spacing: -1px;
 display: block;
-color: #4B8DF8;
+color: #1e8bc3;
 margin: 0 0 15px;
-font-weight: 900;
-font-family: "Open Sans",sans-serif;
-text-align: center;	font-family:"Open Sans",sans-serif;
-/* subtitle */
+font-weight: 400;
+font-family: "Roboto";
+text-align: center;
 }
 
 .page-title small {
@@ -2380,7 +2380,8 @@ text-align: center;	font-family:"Open Sans",sans-serif;
 .page-content {
 	margin-top:0;
 	padding:0;
-	background-color:#fff;
+	background-color:#e5e5e5;
+	background-image: url('http://subtlepatterns.com/patterns/fabric_of_squares_gray.png');
 }
 
 .page-container-bg-solid .page-content {
@@ -2824,6 +2825,7 @@ ul.page-sidebar-menu li.dashboard-stat {
 	background:rgba(100,100,100,0.8);
 }
 
+/*
 .icon i.fa.fa-usd,.icon i.fa.fa-usd,i.fa.fa-cloud-upload,i.fa.fa-cloud-download {
 	background:#fefefe;
 	padding:10px;
@@ -2834,6 +2836,7 @@ ul.page-sidebar-menu li.dashboard-stat {
 	border-radius:3px;
 	font-weight:900;
 }
+*/
 
 i.fa.fa-cloud-upload,i.fa.fa-cloud-download {
 	color:#4b8df8;
@@ -2949,4 +2952,8 @@ li.dashboard-stat.current-invested .desc {
 	color: #4B8DF8;
 font-size: 14px;
 font-weight: 400;
+}
+.table>tbody>tr>td{
+	background: #fff;
+	color: #777;
 }

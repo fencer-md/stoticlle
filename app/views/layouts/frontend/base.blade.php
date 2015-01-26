@@ -16,39 +16,15 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="page-quick-sidebar-over-content">
     <header>
       <div class="container">
+      	<div class="menu-toggler sidebar-toggler hide">
+				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+			</div>
         <div class="row top-header">
-        <div class="col-md-2"><a href="#" class="logo-text">JARVIS TECH</a></div>
-            <div class="col-md-10 text-right">
+        <div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
             
-              @if ( Auth::user() == null )
-                <div class="login-form">              
-                  {{ Form::open(['action' => 'SessionsController@store', 'class' => 'login-form']) }}
-                      {{ Form::text('email', null, ['placeholder' => 'E-mail']) }}
-                      {{ Form::password('password', null, ['placeholder' => 'Password']) }}
-                      {{ Form::submit('войти') }}
-                  {{ Form::close() }}
-                </div>
-                <div class="register">
-                  вы еще не снами? <a href="#">Присоединяйтесь</a>
-                  <div class="register-form">
-                    {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
-                        {{ Form::text('email', null, ['placeholder' => 'E-mail']) }}
-                        {{ Form::submit('Submit') }}
-                    {{ Form::close() }}
-                  </div>
-                </div>
-              @else
-                <div class="control-panel">
-                  <a href="{{ URL::to('user/transactions') }}" class="btn btn-xs default red-stripe"><i class="fa fa-keyboard-o"></i> Панель управления</a>
-                </div>
-                <div class="logout">
-                  <a href="{{ URL::to('logout') }}" class="btn btn-xs default red-stripe"><i class="fa fa-sign-out"></i> Выйти</a>
-                </div>
-              @endif
-            </div>
             <!--
 <div class="col-md-2">
               <select class="language-picker">
@@ -58,9 +34,99 @@
               </select>
             </div>
 -->
+        
+        <div class="login">
+        @if ( Auth::user() == null )
+	      <div id="show-login"><i class="fa fa-user"></i></div>
+		  <div id="login-register">
+			  <div class="text-right">
+            
+              
+                <div class="login-form">              
+                  {{ Form::open(['action' => 'SessionsController@store', 'class' => 'login-form']) }}
+                      <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail', 'class'=>'form-control']) }}</div>
+                      <div class="input-icon"><i class="fa fa-lock"></i>{{ Form::password('password', ['placeholder' => 'Пароль','class'=>'form-control']) }}</div>
+                      <div class="form-actions">{{ Form::submit('войти', ['class'=>'btn blue']) }}</div>
+                  {{ Form::close() }}
+                </div>
+                <div class="register">
+                  <div class="login-msg" >вы еще не снами? <a id="join" href="#">Присоединяйтесь</a></div>
+                  <div class="register-form">
+                    {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
+                        <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail','class'=>'form-control']) }}</div>
+                        <div class="form-actions">{{ Form::submit('присоединиться', ['class'=>'btn blue']) }}</div>
+                    {{ Form::close() }}
+                  </div>
+                </div>
+              
+            </div>
+            @else
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+				<div class="dropdown dropdown-user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					
+					<span class="username username-hide-on-mobile">
+					{{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}</span>
+<!-- 					<img alt="" class="img-circle hide1" src="/{{ Auth::user()->userInfo->photo }}"/> -->
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+					<li class="dropdown">
+  <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
+  <i class="fa fa-home"></i>
+  	<span class="menu-title">
+  		Домашняя
+  	</span>
+  </a>
+</li>
+						<li class="dropdown">
+	  <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link"><i class="fa fa-group"></i>
+	  	<span class="menu-title">
+	  		Личный кабинет
+	  	</span>
+	  </a>
+	</li>
+	<li class="dropdown">
+	  <a href="{{ URL::to('user/transactions') }}" class="dropdown-toggle simple-link"><i class="fa fa-exchange"></i>
+	  	<span class="menu-title">
+	  		Транзакций
+	  	</span>
+	  </a>
+	</li>
+	<li class="dropdown">
+	  <a href="{{ URL::to('user/addmoney') }}" class="dropdown-toggle simple-link"><i class="fa fa-download"></i>
+	  	<span class="menu-title">
+	  		Пополнение средств
+	  	</span>
+	  </a>
+	</li>
+	<li class="dropdown">
+	  <a href="{{ URL::to('user/withdraw') }}" class="dropdown-toggle simple-link"><i class="fa fa-upload"></i>
+	  	<span class="menu-title">
+	  		Вывод средств
+	  	</span>
+	  </a>
+	</li>
+						<li class="divider">
+						</li>
+						<li class="dropdown">
+  <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link"><i class="fa fa-sign-out"></i>
+  	<span class="menu-title">
+  		Выход
+  	</span>
+  </a>
+</li>
+					</ul>
+				</div>
+				<!-- END USER LOGIN DROPDOWN -->
+              @endif
+		  </div>
+      </div>
         </div>
       </div>
+      
     </header>
+    
     @yield('content')
     <footer>
       <div class="container">
@@ -110,39 +176,8 @@
           </div>
         </div>
       </div>
-      @if(Session::has('msg'))
-      <div class="modal fade" id="successModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal">×</a>
-              <h3>Статус регестраций</h3>
-            </div>
-            <div class="modal-body">
-              <p>{{ Session::get('msg') }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      @endif
-
-        @if(Session::has('error'))
-            <div class="modal fade" id="errorModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <a class="close" data-dismiss="modal">×</a>
-                            <h3>{{ Session::get('errorTitle') }}</h3>
-                        </div>
-                        <div class="modal-body">
-                            <p>{{ Session::get('error') }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
+      
     </footer>
-
     @include('includes.frontend.scripts')
     @yield('custom_scripts')
     <script type="text/javascript">
@@ -155,10 +190,6 @@
       });
       $('.register-form').click(function(e) {
         e.stopPropagation();
-      });
-      $(window).load(function(){
-          $('#successModal').modal('show');
-          $('#errorModal').modal('show');
       });
     </script>
   </body>

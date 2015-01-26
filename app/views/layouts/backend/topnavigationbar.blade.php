@@ -1,3 +1,4 @@
+@if ( Auth::user()->role == "1" )
 <li class="dropdown">
   <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
   <i class="fa fa-home"></i>
@@ -6,7 +7,7 @@
   	</span>
   </a>
 </li>
-@if ( Auth::user()->role == "1" )
+
 	<li class="dropdown">
 	  	<a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 		  	<span class="menu-title">
@@ -152,9 +153,39 @@
 			</li>
 	  </ul>
 	</li>
+	<li class="dropdown">
+  <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link"><i class="fa fa-sign-out"></i>
+  	<span class="menu-title">
+  		Выход
+  	</span>
+  </a>
+</li>
+
 @endif
 @if ( Auth::user()->role == "2" )
-	<li class="dropdown">
+	
+
+<!-- BEGIN USER LOGIN DROPDOWN -->
+<li class="money">
+				<div class="number">{{ round($data['currentAmmount'], 2) }} $</div></li>
+				<li class="dropdown dropdown-user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					
+					<span class="username username-hide-on-mobile">
+					{{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}</span>
+<!-- 					<img alt="" class="img-circle hide1" src="/{{ Auth::user()->userInfo->photo }}"/> -->
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+					<li class="dropdown">
+  <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
+  <i class="fa fa-home"></i>
+  	<span class="menu-title">
+  		Домашняя
+  	</span>
+  </a>
+</li>
+						<li class="dropdown">
 	  <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link"><i class="fa fa-group"></i>
 	  	<span class="menu-title">
 	  		Личный кабинет
@@ -182,11 +213,16 @@
 	  	</span>
 	  </a>
 	</li>
-@endif
-<li class="dropdown">
+						<li class="divider">
+						</li>
+						<li class="dropdown">
   <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link"><i class="fa fa-sign-out"></i>
   	<span class="menu-title">
   		Выход
   	</span>
   </a>
 </li>
+					</ul>
+				</li>
+				<!-- END USER LOGIN DROPDOWN -->
+				@endif

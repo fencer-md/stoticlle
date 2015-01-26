@@ -3,7 +3,7 @@
 @section('content')
 <h3 class="page-title">все транзакций</h3>
 <div class="col-md-12">
-  <table id="transactions" class="table table-striped table-bordered table-hover">
+  <table id="transactions" class="table table-hover">
      <thead>
      <td>ID</td>
         <td>Число</td>

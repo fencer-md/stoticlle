@@ -168,6 +168,28 @@ top: 11px;
 width: 160px;
 }
 #transactions thead {
-background: #4B8DF8;
+background: #1e8bc3;
 color: #fff;
+}
+.page-header.navbar.navbar-fixed-top {
+background-color: #fff;
+height: 60px;
+-webkit-box-shadow: 0px 2px 10px 0px rgba(50, 50, 50, 0.5);
+-moz-box-shadow:    0px 2px 10px 0px rgba(50, 50, 50, 0.5);
+box-shadow:         0px 2px 10px 0px rgba(50, 50, 50, 0.5);
+}
+.page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {
+background-color: transparent;
+}
+.page-header.navbar .top-menu .navbar-nav > li.dropdown.open .dropdown-toggle {
+  background-color: transparent;
+}
+.page-header.navbar .top-menu .navbar-nav > li.dropdown.open:hover {
+  background-color: #e7e7e7;
+}
+li.money {
+background: #1E8BC3;
+color: #FFF;
+line-height: 20px;
+padding: 6px 10px;
 }

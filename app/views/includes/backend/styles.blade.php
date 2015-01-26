@@ -5,6 +5,8 @@
 <link href="{{ URL::asset('backend/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ URL::asset('backend/plugins/uniform/css/uniform.default.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ URL::asset('backend/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css"/>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL STYLES --> 
 <link href="{{ URL::asset('backend/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" type="text/css"/>

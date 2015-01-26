@@ -7,7 +7,7 @@ General reset
 /* Set default body */
 body {
   color: #333333;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto","Open Sans", sans-serif;
   padding: 0px !important;
   margin: 0px !important;
   font-size: 13px;
@@ -317,7 +317,6 @@ Utilities
 .text-align-reverse {
   text-align: right;
 }
-
 /* Margin and padding utilities */
 .no-space {
   margin: 0px !important;
@@ -1734,7 +1733,7 @@ Dropdown Menu
   background-color: #fffff;
   box-shadow: 5px 5px rgba(102, 102, 102, 0.1);
   border: 1px solid #eee;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
 }
 .dropdown-menu li.divider {
   background: #f1f3f6;
@@ -11431,4 +11430,12 @@ Transparent Button
 }
 .page-body form {
 margin: 50px auto;
+}
+div#errorModal {
+    background-color: rgb(255, 226, 226);
+    min-height: 60px;
+}
+div#successModal {
+    background-color: #dafed4;
+    min-height: 60px;
 }
