@@ -24,7 +24,8 @@
 			</div>
         <div class="row top-header">
         <div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
-            
+        <div class="col-md-6">@include('announcements.ticker')</div>
+
             <!--
 <div class="col-md-2">
               <select class="language-picker">

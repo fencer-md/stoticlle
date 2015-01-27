@@ -97,3 +97,6 @@ Route::filter('csrf', function()
       throw new Illuminate\Session\TokenMismatchException;
    }
 });
+
+// Load file with View::create directives.
+require app_path().'/view_creators.php';

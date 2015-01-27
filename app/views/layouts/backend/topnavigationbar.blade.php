@@ -153,6 +153,13 @@
 			</li>
 	  </ul>
 	</li>
+
+<li class="dropdown">
+	<a href="{{ URL::to('announcements') }}" class="simple-link dropdown-toggle">
+		<span class="menu-title">Announcements</span>
+	</a>
+</li>
+
 	<li class="dropdown">
   <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link"><i class="fa fa-sign-out"></i>
   	<span class="menu-title">
