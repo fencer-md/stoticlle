@@ -286,9 +286,10 @@ View::creator('homepage', function($view)
 {
 	$blocks = Block::all();
 
+	// TODO: Improve this part. Add validation.
 	foreach ($blocks as $block) {
 		$block->content = json_decode($block->content);
-	}
+		}
 
 	$view->with('blocks', $blocks);
 });
