@@ -154,4 +154,6 @@
   });
 </script>
 
+<script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/announcements-ticker.js') }}" type="text/javascript"></script>
 @stop

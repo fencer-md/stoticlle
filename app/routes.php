@@ -86,8 +86,10 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/edit/showdot', 'UserController@showOnMap');
 		Route::post('user/admin/edit/showcontinent', 'UserController@showOnMap');
 
-		Route::controller('announcements', 'AnnouncementsController');
+		Route::controller('admin/announcements', 'AnnouncementsController');
 	});
+	Route::get('announcements', 'AnnouncementsController@getNew');
+
 
 	Route::get('user/edit', 'UserController@editUserInfo');
 	Route::post('user/edit/update', 'UserController@updateInfo');

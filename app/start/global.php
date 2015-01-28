@@ -109,6 +109,3 @@ Event::listen(
         }
     }
 );
-
-// Register observer for Announcement model.
-Announcement::observe(new AnnouncementObserver);

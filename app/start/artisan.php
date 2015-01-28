@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new RewardUsers);
+Artisan::add(new AnnouncementsServer);

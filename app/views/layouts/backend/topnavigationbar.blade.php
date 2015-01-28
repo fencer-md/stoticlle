@@ -155,7 +155,7 @@
 	</li>
 
 <li class="dropdown">
-	<a href="{{ URL::to('announcements') }}" class="simple-link dropdown-toggle">
+	<a href="{{ URL::to('admin/announcements') }}" class="simple-link dropdown-toggle">
 		<span class="menu-title">Announcements</span>
 	</a>
 </li>
