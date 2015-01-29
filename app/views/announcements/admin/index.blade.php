@@ -35,15 +35,9 @@
 
 @section('custom_scripts')
     <script>
-        var ServerStatusChecking = false;
         $(document).ready(function(){
             function checkServer() {
-                if (ServerStatusChecking) {
-                    return;
-                }
-                ServerStatusChecking = true;
                 $.get('/admin/announcements/status', function(data){
-                    ServerStatusChecking = false;
                     var status = $('#server-status');
                     status.removeClass(function (index, css) {
                         return (css.match (/(^|\s)badge-\S+/g) || []).join(' ');

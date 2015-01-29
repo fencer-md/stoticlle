@@ -1,18 +1,19 @@
 <?php
-use Ratchet\Http\HttpServerInterface;
+use Ratchet\MessageComponentInterface;
+use Ratchet\ConnectionInterface;
 
-class AnnouncementsServerStatus implements HttpServerInterface
+class AnnouncementsServerStatus implements MessageComponentInterface
 {
-    function onClose(\Ratchet\ConnectionInterface $conn){}
+    function onClose(ConnectionInterface $conn){}
 
-    function onError(\Ratchet\ConnectionInterface $conn, \Exception $e){}
+    function onError(ConnectionInterface $conn, \Exception $e){}
 
-    public function onOpen(\Ratchet\ConnectionInterface $conn, \Guzzle\Http\Message\RequestInterface $request = null){
-        $payload = $request->getQuery()->get('ping');
-        $reply = new \Guzzle\Http\Message\Response(200,array(), 'pong '.$payload);
-        $conn->send($reply->getMessage());
-        $conn->close();
+    public function onOpen(ConnectionInterface $conn, $request = null){}
+
+    function onMessage(ConnectionInterface $from, $msg){
+        $msg = explode(' ', $msg);
+        $msg[0] = 'pong';
+        $from->send(implode(' ', $msg));
+        $from->close();
     }
-
-    function onMessage(\Ratchet\ConnectionInterface $from, $msg){}
 }

@@ -52,13 +52,16 @@ class AnnouncementsController extends BaseController
     {
         // Check AnnouncementServer status.
         $config = Config::get('announcements-server.status');
-        $statusSocket = 'http://'.$config['ip'].':'.$config['port'];
-
         $reply = null;
         $payload = md5(microtime());
 
         set_error_handler(array($this, 'socketError'));
-        $reply = file_get_contents($statusSocket.'/?ping='.$payload);
+        $sock = fsockopen($config['ip'], $config['port'], $errono, $errstr, 2);
+        if ($sock) {
+            fputs($sock, 'ping '.$payload);
+            $reply = fgets($sock);
+            fclose($sock);
+        }
         restore_error_handler();
 
         echo (int)($reply == 'pong '.$payload);

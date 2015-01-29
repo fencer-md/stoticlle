@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Console\Command;
-use Ratchet\ConnectionInterface;
 use React\ZMQ\Context as ZMQContext;
 use React\Socket\Server as SocketServer;
 use Ratchet\Server\IoServer;
@@ -45,16 +44,16 @@ class AnnouncementsServer extends Command {
 		$broadcastSocket->on('message', array($announcements, 'onBroadcast'));
 
 		// Listen for status check.
-		$status = 'http://'.$config['status']['ip'].':'.$config['status']['port'];
+		$status = 'tcp://'.$config['status']['ip'].':'.$config['status']['port'];
 		$this->info('Starting status socket on '.$status);
 		$statusSock = new SocketServer($loop);
 		$statusSock->listen($config['status']['port'], $config['status']['ip']);
-		new IoServer(new HttpServer(new AnnouncementsServerStatus), $statusSock);
+		new IoServer(new AnnouncementsServerStatus, $statusSock);
 
 		// Listen for WebSocket connections.
 		$wsPort = $config['websocket']['port'];
 		$wsIp = $config['websocket']['ip'];
-		$this->info('Starting WebSocket socket on tcp://'.$wsIp.':'.$wsPort);
+		$this->info('Starting WebSocket socket on ws://'.$wsIp.':'.$wsPort);
 		$webSock = new SocketServer($loop);
 		$webSock->listen($wsPort, $wsIp);
 		new IoServer(new HttpServer(new WsServer($announcements)), $webSock);
