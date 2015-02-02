@@ -31,13 +31,27 @@ class AnnouncementsMailer extends Command {
 		$mailer = 'tcp://'.$config['ip'].':'.$config['port'];
 		$this->info('Connecting mailer worker to '.$mailer);
 		$context = new ZMQContext();
-		$mailerSocket = $context->getSocket(ZMQ::SOCKET_SUB);
-		$mailerSocket->connect($mailer);
-		$mailerSocket->setSockOpt(ZMQ::SOCKOPT_SUBSCRIBE, "");
+		$mailerSocket = $context->getSocket(ZMQ::SOCKET_REP);
+		$mailerSocket->bind($mailer);
 
 		while (true) {
 			$msg = $mailerSocket->recv();
-			var_dump($msg);
+			$mailerSocket->send('OK');
+
+			$msg = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $msg);
+
+			// Ignore late alerts.
+			if (!$msg->isFuture()) {
+				continue;
+			}
+
+			$users = User::where('announcements', 1)->get();
+			foreach ($users as $user) {
+				Mail::send('emails.announcement', array('date' => $msg), function($message) use($user)
+				{
+					$message->to($user->email);
+				});
+			}
 		}
 	}
 

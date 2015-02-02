@@ -128,6 +128,14 @@
                         {{ Form::text('links[4]', $links[4], ['class' => 'form-control', $disabled]) }}
                     </div>
                 </div>
+                @if ($disabled)
+                    <div class="form-group">
+                        {{ Form::label('announcements', 'Анонсы', ['class' => 'col-md-3 control-label']) }}
+                        <div class="col-md-9">
+                            {{ Form::checkbox('announcements', 1, $user->announcements, ['class' => 'form-control']) }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 

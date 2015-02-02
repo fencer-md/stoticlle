@@ -12,7 +12,8 @@
     	"orangehill/iseed": "dev-master",
 		"barryvdh/laravel-debugbar": "~1.8",
 		"cboden/ratchet": "0.3.*",
-		"react/zmq": "0.3.*"
+		"react/zmq": "0.3.*",
+		"laracasts/flash": "~1.0"
 	},
 	"autoload": {
 		"classmap": [

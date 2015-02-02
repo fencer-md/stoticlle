@@ -14,8 +14,6 @@ class AnnouncementsTable extends Migration {
 		Schema::create('announcements', function($table)
 		{
 			/* @var $table \Illuminate\Database\Schema\Blueprint */
-			$table->engine = 'MyISAM';
-
 			$table->increments('id');
 			$table->string('message');
 			$table->double('coefficient', 15, 8);
@@ -23,6 +21,8 @@ class AnnouncementsTable extends Migration {
 			$table->timestamps();
 			$table->timestamp('expires_at');
 			$table->index('expires_at');
+			$table->integer('series_id');
+			$table->boolean('success')->default(false);
 		});
 	}
 

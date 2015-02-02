@@ -35,23 +35,13 @@ class AnnouncementsServer extends Command {
 		$loop = LoopFactory::create();
 		$announcements = new AnnouncementsWebSocket();
 
-		// Listen for mailer workers.
-		$mailer = 'tcp://'.$config['mailer']['ip'].':'.$config['mailer']['port'];
-		$this->info('Starting mailer socket on '.$mailer);
-		$context = new ZMQContext($loop);
-		$mailerSocket = $context->getSocket(ZMQ::SOCKET_PUB);
-		$mailerSocket->bind($mailer);
-
 		// Listen for the web server to make a message push.
 		$broadcast = 'tcp://'.$config['broadcast']['ip'].':'.$config['broadcast']['port'];
 		$this->info('Starting broadcast socket on '.$broadcast);
 		$context = new ZMQContext($loop);
 		$broadcastSocket = $context->getSocket(ZMQ::SOCKET_PULL);
 		$broadcastSocket->bind($broadcast);
-		$broadcastSocket->on('message', function($msg) use($announcements, $mailerSocket){
-			$announcements->onBroadcast($msg);
-			$mailerSocket->send($msg);
-		});
+		$broadcastSocket->on('message', array($announcements, 'onBroadcast'));
 
 		// Listen for status check.
 		$status = 'tcp://'.$config['status']['ip'].':'.$config['status']['port'];

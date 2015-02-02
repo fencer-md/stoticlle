@@ -2,7 +2,7 @@
 
 class Announcement extends Eloquent {
     protected $table = 'announcements';
-    protected $fillable = array('message', 'coefficient', 'announcement_type');
+    protected $fillable = array('message', 'coefficient', 'announcement_type', 'series_id', 'success');
 
     public function getDates()
     {

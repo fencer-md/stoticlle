@@ -89,7 +89,7 @@ Route::group(['before' => 'auth'], function()
 		Route::controller('admin/announcements', 'AnnouncementsController');
 	});
 	Route::get('announcements', 'AnnouncementsController@getNew');
-
+	Route::any('bet', 'AnnouncementsController@anyBet');
 
 	Route::get('user/edit', 'UserController@editUserInfo');
 	Route::post('user/edit/update', 'UserController@updateInfo');
@@ -102,7 +102,7 @@ Route::group(['before' => 'auth'], function()
 	Route::post('user/transactions/addmoney', 'TransactionsController@addMoneyToAccount');
 	Route::get('user/transactions/cashout', function()
 	{
-		return View::make('backend.user.cashout');		
+		return View::make('backend.user.cashout');
 	});
 	Route::post('user/transactions/cashout', 'TransactionsController@cashOutRequest');
 	Route::get('user/admin/transaction/commentary', 'TransactionsController@transactionComment');
