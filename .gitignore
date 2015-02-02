@@ -10,3 +10,4 @@ Thumbs.db
 /.idea
 /app/config/rate.php
 /app/config/dev
+*.log

@@ -16,11 +16,11 @@
 		<div class="page-header navbar navbar-fixed-top	">
 		  <!-- BEGIN TOP NAVIGATION BAR -->
 		  <div class="page-header-inner">
-		  	<div class="page-logo"><div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div>&nbsp;
-				</div>
+		  	<div class="page-logo">
+				<div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
+			</div>
+			  <div class="col-md-6">@include('announcements.ticker')</div>
 		  	<div class="top-menu">
-		  	
-
 		  	  <ul class="nav navbar-nav pull-right">
 		  	    @include('layouts.backend.topnavigationbar')
 		  	  </ul>	  		
@@ -41,6 +41,7 @@
 			<div class="page-content-wrapper">
 			  <!-- BEGIN PAGE CONTAINER-->
 			  <div class="page-content">
+				  @include('flash::message')
 			    <!-- BEGIN PAGE HEADER-->
 			    @yield('content')
 			    <!-- END PAGE HEADER-->
@@ -60,5 +61,7 @@
 		<!-- END FOOTER -->
 		@include('includes.backend.scripts')
 		@yield('custom_scripts')
+		<script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
+		<script src="{{ asset('js/announcements-ticker.js') }}" type="text/javascript"></script>
 	</body>
 </html>

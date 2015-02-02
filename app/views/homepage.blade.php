@@ -153,5 +153,4 @@
     $('iframe.'+firstClass).show();
   });
 </script>
-
 @stop
