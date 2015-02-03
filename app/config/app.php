@@ -127,6 +127,7 @@ return array(
 		'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
 		'Orangehill\Iseed\IseedServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'Laracasts\Flash\FlashServiceProvider',
 
 	),
 
@@ -198,6 +199,7 @@ return array(
 		'Image' 			=> 'Intervention\Image\Facades\Image',
     	'GeoIP' 			=> 'Torann\GeoIP\GeoIPFacade',
     	'Debugbar' 			=> 'Barryvdh\Debugbar\Facade',
+		'Flash' => 'Laracasts\Flash\Flash',
 
 	),
 

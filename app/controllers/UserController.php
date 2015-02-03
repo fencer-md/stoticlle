@@ -99,6 +99,7 @@ class UserController extends \BaseController {
 		if (Input::get('password') == Input::get('re-password') && Input::get('re-password') != '') {
 			$user->password = Hash::make(Input::get('re-password'));
 		}
+		$user->announcements = Input::get('announcements');
 
 		if ( Input::get('showRegion') == 1 )
  			$user->show_continent = 1;
