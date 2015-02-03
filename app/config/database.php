@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'stoticlle',
-			'username'  => 'root',
-			'password'  => 'zosima13',
+			'database'  => 'admin_jarvis',
+			'username'  => 'admin_jarvis',
+			'password'  => 'str787ef!',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
