@@ -15,6 +15,8 @@
 <script src="{{ URL::asset('backend/plugins/jquery.cokie.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('backend/plugins/uniform/jquery.uniform.min.js') }}" type="text/javascript" ></script>
 <script src="{{ URL::asset('backend/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript" ></script>
+<script src="{{ URL::asset('backend/plugins/jquery-scrollpane/jquery.jscrollpane.min.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('backend/plugins/jquery-scrollpane/jquery.mousewheel.min.js') }}" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <script src="{{ URL::asset('backend/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>

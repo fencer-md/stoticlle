@@ -60,72 +60,54 @@ var map;
 		AmCharts.theme = AmCharts.themes.dark;
 		map = new AmCharts.AmMap();
 		map.pathToImages = "http://www.amcharts.com/lib/3/images/";
+		
+		map.areasSettings = {		
+			autoZoom: true,
+			alpha: 0.8,
+			outlineColor: "#c1c1c1",
+			rollOverOutlineColor: "#c1c1c1",
+			rollOverColor:"#05478a",
+			selectedColor: "#05478a",
+			unlistedAreasColor: "#fff",
+			unlistedAreasAlpha: 1,
+			color: "#ffffff",
+			rollOverScale: 3
+		};
 
 		//map.addTitle("Population of the World in 2011", 14);
 		//map.addTitle("source: Gapminder", 11);
-		map.areasSettings = {
-			autoZoom: true,
-			unlistedAreasColor: "#fff",
-			unlistedAreasAlpha: 0.1,
-			selectedColor: "#fff"
-		};
 		
-		//map.imagesSettings.balloonText = "<div >[[title]]</div>";
-		
-				
 		var dataProvider = {
 			mapVar:  AmCharts.maps.continentsLow,
+			alpha: 1,
 			images: [],
 			areas: [{
 			"id": "africa",
 			"title": "Africa",
-			"pattern": {
-				"url": "http://subtlepatterns.com/patterns/squairy_light.png",
-				width: 200,
-				height: 200
-			}
 		}, {
 			"id": "asia",
 			"title": "Asia",
-			"pattern": {
-				"url": "http://subtlepatterns.com/patterns/squairy_light.png",
-				width: 200,
-				height: 200
-			}
 		}, {
 			"id": "australia",
 			"title": "Australia",
-			"pattern": {
-				"url": "http://subtlepatterns.com/patterns/squairy_light.png",
-				width: 200,
-				height: 200
-			}
 		}, {
 			"id": "europe",
 			"title": "Europe",
-			"pattern": {
-				"url": "http://subtlepatterns.com/patterns/squairy_light.png",
-				width: 200,
-				height: 200
-			}
 		}, {
 			"id": "north_america",
 			"title": "North America",
-			"pattern": {
-				"url": "http://subtlepatterns.com/patterns/squairy_light.png",
-				width: 200,
-				height: 200
-			}
 		}, {
 			"id": "south_america",
 			"title": "South America",
-			"pattern": {
-				"url": "http://subtlepatterns.com/patterns/squairy_light.png",
-				width: 200,
-				height: 200 			
-				}
 		}]
 		}
+		map.zoomControl = {
+			buttonFillColor:"#05478a", 
+			buttonRollOverColor:"#1E8BC3"
+		};
+		
+		//map.imagesSettings.balloonText = "<div >[[title]]</div>";
+		
 		
 		for (i in my_data)
 		{
@@ -150,16 +132,15 @@ var map;
 						type: "circle",
 						width: 7,
 						height: 7,
-						stroke: "#ccc",
+						stroke: "#ffffff",
 						"stroke-width":"1",
-						color: "red",
+						color: "#1E8BC3",
 						longitude: user_coord[1],
 						latitude: user_coord[0],
 						value: vall,
 						title: vall,
 						groupId: i,
 						outline:1,
-						rollOverScale: 2
 					});
 				}
 			}
@@ -186,7 +167,7 @@ var map;
 				if(user['online'] == 1){
 					pop_up +="<span class='online'>online</span>";
 				}
-				pop_up += "<div class='sub_user'><div class='triangle'></div>";
+				pop_up += "<div class='sub_user'>";
 				if (user.photo.length) {
 					pop_up += "<div class='photo'><img src='/" + user['photo'] + "' /></div>";
 				}
@@ -228,4 +209,3 @@ var map;
 		
 	})	
 })
-

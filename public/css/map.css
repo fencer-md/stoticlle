@@ -20,55 +20,47 @@
 }
 */
 #world_map .pop_up_info{
-	background:rgba(255, 255, 255, 0.8);
+	background:rgba(255, 255, 255, 0.4);
 	width:250px;
 	color: #474747;
 	position:absolute;
 }
 #world_map .pop_up_info .user{
+	border-left: 4px solid rgba(255, 255, 255, 0)!important;
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
 	color: #474747;
-font-size: 13px;
-padding: 6px 4px;
-border-top: 1px solid #fff;
-position: relative;
+	padding: 11px 0 9px;
+	border-top: 1px solid #fff;
+	position: relative;
 }
 #world_map .pop_up_info .user:hover{
 	border-left: 4px solid #1e8bc3!important;
-	background:rgba(255, 255, 255, 0.4);
+	background:rgba(255, 255, 255, 0.6);
 }
 .sub_user{
-background: rgba(255, 255, 255, 0.8);
-width: 255px;
-padding: 10px;
-/* height: 150px; */
-color: white;
+	background: rgba(255, 255, 255, 0.8);
+	width: 255px;
+	padding: 10px;
+	color: white;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
 }
 .user .sub_user{
 	display:none;
 	top:0;
-	left:250px;
+	left:246px;
 	position:absolute;
 }
 .user:hover .sub_user{display:block}
-.triangle{
-content: "";
-width: 9px;
-height: 0;
-border-style: solid;
-border-width: 8px 0 9px 9px;
-border-color: transparent transparent transparent rgba(255,255,255,0.6);
-position: relative;
-left: -19px;
-float:left;
-}
 #world_map .pop_up_info .user:hover .sub_user{
 	display:block;
 }
 .sub_user .photo img{
 	max-height: 130px;
-width: auto;
-height: auto;
-max-width: 90px;
+	width: auto;
+	height: auto;
+	max-width: 90px;
 }
 .sub_user .photo {
 	width:100px;

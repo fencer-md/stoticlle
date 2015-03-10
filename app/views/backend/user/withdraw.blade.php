@@ -1,19 +1,47 @@
 @extends('layouts.backend.base')
 
 @section('content')
-    <h3 class="page-title">Withdraw money</h3>
-    <div class="row">
-		{{ Form::open(['action' => 'TransactionsController@withdrawRequest', 'class' => 'form-horizontal']) }}
+<div class="center-big-width clearfix">
+    <!-- <h3 class="page-title">Withdraw money</h3> -->
+    <!-- <div class="row"> -->
+      <div class="col-lg-6 help clearfix">
+        <div class="title">Как снять деньги?</div>
+        <p class="description">
+        Для пополнения средств на платворму, вам необходимо иметь один из перечисленых Электроных кошельков:</p>
+        <div class="col-md-6">
+        	<ul>
+            <li>OK Pay</li>
+            <li>Payeer</li>
+            <li>Payza</li>
+            <li>Perfect Money</li>
+				  </ul>
+				</div>
+        <div class="col-md-6">
+          <ul>
+            <li>Qiwi</li>
+            <li>Skrill</li>
+            <li>WebMoney</li>
+            <li>Yandex</li>
+          </ul>
+        </div>
+        <p class="description">Отметьте галочкой какой электроный кошелек вы хотите использывать для перевода, в поле <span>реквезиты</span> впишите ваш номер кошелька который вы будете использывать и в графе <span>сумма</span> впишите сумму которую вы хотите перевести.
+        </p>
+      </div>
+			<div class="portlet box blue col-lg-6">
+				<div class="portlet-title"><div class="caption">Пополнение Средств</div></div>
+				<div class="portlet-body form">
+      		{{ Form::open(['action' => 'TransactionsController@withdrawRequest', 'class' => 'form-horizontal']) }}
             {{ Form::hidden('moneyAvailable', $moneyAvailable) }}
             {{ Form::hidden('payment_title') }}
             {{ Form::hidden('payment_credentials') }}
             <div class="form-body col-md-12">
-                <div class="col-md-6">
+                
                     <div class="form-group"> 
-                        {{ Form::label('add_method', 'Add method', ['class' => 'col-md-2 control-label']) }}
+                        {{ Form::label('add_method', 'Выбрать метод', ['class' => 'col-md-3 control-label']) }}
                         <div class="col-md-9">
-                            <div class="radio-list withdraw-wallets">
-                                @foreach ( $payments as $payment )
+                            <div class="radio-list withdraw-wallets"> 
+<!-- Needs to be created a new araay based on this:
+ 																@foreach ( $payments as $payment )
                                     @if ( $payment->title == 'webmoney' )
                                         <div><label class="radio"><span>{{ Form::radio('withdraw_method', 'webmoney', ['selected'=>'selected']) }}</span><img src="{{ URL::asset('images/payments/webmoney.png') }}"><div class="credentials">{{ $payment->account_id }}</div>{{ Form::hidden('payment_method_id', $payment->id) }}</label></div> 
                                     @elseif ( $payment->title == 'paypal' )
@@ -22,25 +50,44 @@
                                         <div><label class="radio"><span>{{ Form::radio('withdraw_method', 'cards') }}</span><img src="{{ URL::asset('images/payments/cards.png') }}"><div class="credentials">{{ $payment->account_id }}</div>{{ Form::hidden('payment_method_id', $payment->id) }}</label></div>
                                     @endif
                                 @endforeach
+    So it chould be possible to create a ncie select list like:
+-->
+ 														<?php $options = array(
+ 																										/*In every <option> */"'Payment image' 'Payment id'"
+ 														); ?>
+                           {{ Form::select('payments',$options, 'selected',['class' => 'nice-select'] )}}
+
+
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ Form::label('ammount', 'Ammount to withdraw', ['class' => 'control-label']) }}
+                        {{ Form::label('credentials', 'Реквезиты', ['class' => 'control-label col-md-3']) }}
                         <div class="controls">
-                            <div class="col-md-3">
-                              {{ Form::text('ammount', null, ['class' => 'form-control']) }}
+                            <div class="col-md-9">
+                              {{ Form::text('credentials', '', ['class' => 'form-control', 'data-placeholder' => "Insert your credentials"]) }}
                             </div>
-                          {{ Form::submit('Submit', ['class' => 'btn blue']) }}
+                          
                         </div>
                     </div>
-                </div> 
-                <div class="col-md-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et imperdiet neque, ut pharetra libero. Maecenas accumsan hendrerit semper. Nullam vestibulum diam ut elit iaculis condimentum vitae in erat. Aliquam venenatis, nulla tincidunt lacinia tincidunt, mi felis pharetra erat, sit amet mollis justo arcu vel nisl. Quisque luctus finibus turpis, et aliquam libero tempor sit amet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus commodo orci at gravida venenatis. Curabitur laoreet nulla et malesuada faucibus. Vestibulum tincidunt ligula est, nec faucibus lectus fringilla non.
-                </div>
+                    <div class="form-group">
+                        {{ Form::label('ammount', 'Сумма вывода($)', ['class' => 'control-label col-md-3']) }}
+                        <div class="controls">
+                            <div class="col-md-9">
+                              {{ Form::text('ammount', null, ['class' => 'form-control']) }}
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <div class="pull-right col-xs-3">
+											{{ Form::submit('Изъять', ['class' => 'btn blue pull-right']) }} 
+                    </div>  
             </div>
         {{ Form::close() }}
-	</div>
+			</div>
+			</div>
+	<!-- </div> -->
+</div>
 @stop
 
 @section('custom_scripts')

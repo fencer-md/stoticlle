@@ -500,3 +500,15 @@ var Layout = function () {
     };
 
 }();
+$(document).ready(function(){
+	var leftHeight = $(".center-big-width .help").outerHeight();
+	var rightHeight = $(".center-big-width .portlet.box.blue").outerHeight();
+	if ( leftHeight < rightHeight ) {
+		$(".center-big-width .help").outerHeight(rightHeight);
+	} else {
+		$(".center-big-width .portlet.box.blue").outerHeight(leftHeight);
+	}
+	$(function() {
+		$('.nice-select').selectize();
+	})
+});

@@ -14,7 +14,7 @@ Page Header
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i {
   color: #999999;
   position: relative;
-  top: 2px;
+  top: 0px;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle .badge.badge-default {
   background-color: #d64635;
@@ -27,7 +27,11 @@ Page Header
   background-color: #151515;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle .username {
-  color: #999999;
+  color: #fff;
+  font-size:17px;
+}
+.page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle .username + i {
+	color:#fff;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle > i {
   color: #999999;
