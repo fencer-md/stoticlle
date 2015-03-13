@@ -130,9 +130,9 @@
                 </div>
                 @if ($disabled)
                     <div class="form-group">
-                        {{ Form::label('announcements', 'Анонсы', ['class' => 'col-md-3 control-label']) }}
+                        {{ Form::label('announcement_stream', 'Анонсы', ['class' => 'col-md-3 control-label']) }}
                         <div class="col-md-9">
-                            {{ Form::checkbox('announcements', 1, $user->announcements, ['class' => 'form-control']) }}
+                            {{ Form::select('announcement_stream', $announcements_streams, $user->announcement_stream, ['class' => 'form-control']) }}
                         </div>
                     </div>
                 @endif

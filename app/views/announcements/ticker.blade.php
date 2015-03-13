@@ -1,8 +1,8 @@
 @if ($show)
     @if ($ajax)
-        <div id="announcements-ticker-ajax" class="announcements-ticker">{{ $message }}</div>
+        <div id="announcements-ticker-ajax" class="announcements-ticker clearfix">{{ $message }}</div>
     @else
-        <div id="announcements-ticker-ws" class="announcements-ticker">{{ $message }}</div>
+        <div id="announcements-ticker-ws" class="announcements-ticker clearfix">{{ $message }}</div>
         <script>
             var Announcements = {
                 init: function(ws, options){

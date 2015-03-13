@@ -100,3 +100,4 @@ Route::filter('csrf', function()
 
 // Load file with View::create directives.
 require app_path().'/view_creators.php';
+require app_path().'/blade.php';

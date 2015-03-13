@@ -5,7 +5,7 @@ use Carbon\Carbon;
 class AnnouncementsController extends BaseController
 {
     /**
-     * Handle ajax announcements update.
+     * User: Handle ajax announcements update.
      */
     public function getNew()
     {
@@ -14,68 +14,52 @@ class AnnouncementsController extends BaseController
         echo $message;
     }
 
+    /**
+     * Admin: Index page.
+     * @return \Illuminate\View\View
+     */
     public function getIndex()
     {
-        $announcements = Announcement::orderBy('id', 'DESC')->get();
-        $countdown = AnnouncementCounter::first();
-        $countdownEnd = null;
-        if ($countdown && $countdown->ends_at->isFuture()) {
-            $countdownEnd = $countdown->ends_at->getTimestamp();
-        }
+        $streams = AnnouncementSeries::all();
+        $announcements = Announcement::where('success', '=', 0)
+            ->orderBy('id', 'desc')->get();
+
 
         return View::make(
             'announcements.admin.index',
             array(
+                'streams' => $streams,
                 'announcements' => $announcements,
-                'countdownEnd' => $countdownEnd,
             )
         );
     }
 
-    public function getCreate()
-    {
-        if (!AnnouncementSeries::latest()) {
-            Flash::error('Начните серию.');
-            return Redirect::to('admin/announcements');
-        }
-
-        if (!AnnouncementCounter::first()->ends_at->isFuture()) {
-            Flash::error('Начните отчет.');
-            return Redirect::to('admin/announcements');
-        }
-
-        $data = new Announcement();
-        return View::make(
-            'announcements.admin.form',
-            array(
-                'data' => $data,
-            )
-        );
-    }
-
+    /**
+     * Admin: Save new announcement.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postCreate()
     {
-        $data = new Announcement(Input::all());
-        $series = AnnouncementSeries::latest();
-        $counter = AnnouncementCounter::first();
-        $data->series_id = $series->id;
-        $data->expires_at = $counter->ends_at;
-        $data->save();
+        $data = Input::all();
+
+        $announcement = new Announcement($data);
+        $announcement->save();
 
         // Send message to WebSocket server.
         $config = Config::get('announcements-server.broadcast');
         $context = new ZMQContext();
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'web-broadcast');
         $socket->connect('tcp://'.$config['ip'].':'.$config['port']);
-        $socket->send($data->message);
+        $socket->send($announcement->getMessage());
 
+        Flash::success('Анонс сохранен.');
         return Redirect::to('admin/announcements');
     }
 
     /**
-     * Check announcements server online/offline status.
+     * Admin: Check announcements server online/offline status.
      */
-    public function getStatus()
+    public function getServerStatus()
     {
         // Check AnnouncementServer status.
         $config = Config::get('announcements-server.status');
@@ -100,51 +84,9 @@ class AnnouncementsController extends BaseController
     protected function socketErrorHandler(){}
 
     /**
-     * Create new series.
+     * @deprecated ???
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function getSeriesStart()
-    {
-        // Check if another open series exists.
-        if (AnnouncementSeries::latest()) {
-            Flash::error('Предыдущая серия не была завершена.');
-            return Redirect::to('admin/announcements');
-        }
-        $series = new AnnouncementSeries();
-        $series->save();
-
-        Flash::success('Cерия началась.');
-        return Redirect::to('admin/announcements');
-    }
-
-    /**
-     * End current series.
-     */
-    public function getSeriesEnd()
-    {
-        $series = AnnouncementSeries::latest();
-        $data = Announcement::where('series_id', $series->id)->get();
-
-        return View::make(
-            'announcements.admin.series',
-            array(
-                'data' => $data,
-            )
-        );
-    }
-    public function postSeriesEnd()
-    {
-        $success = Input::get('success', array());
-        $ids = array_keys($success);
-        Announcement::whereIn('id', $ids)->update(array('success' => true));
-
-        $series = AnnouncementSeries::latest();
-        $series->ended_at = new Carbon();
-        $series->save();
-
-        Flash::success('Cерия закончилась.');
-        return Redirect::to('admin/announcements');
-    }
-
     public function getCountdown()
     {
         if (!AnnouncementSeries::latest()) {
@@ -173,6 +115,10 @@ class AnnouncementsController extends BaseController
         return Redirect::to('admin/announcements');
     }
 
+    /**
+     * @deprecated ???
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function anyBet()
     {
         $data = Announcement::where('expires_at', '>', new Carbon())->first();
@@ -197,5 +143,46 @@ class AnnouncementsController extends BaseController
                 'data' => $data,
             )
         );
+    }
+
+    /**
+     * Admin: Create new stream page.
+     */
+    public function getStreamCreate()
+    {
+        $stream = new AnnouncementSeries();
+        return View::make('announcements.admin.stream',
+            array('data' => $stream)
+        );
+    }
+
+    /**
+     * Admin: Save new stream.
+     */
+    public function postStreamCreate()
+    {
+        $stream = new AnnouncementSeries();
+        $stream->name = Input::get('name');
+        $stream->save();
+
+        Flash::success('Поток создан.');
+        return Redirect::to('admin/announcements');
+    }
+
+    /**
+     * Admin: Set result for an announcement.
+     *
+     * @param int $id Announcement ID
+     * @param int $value Value see Announcement::SUCCESS, Announcement::FAIL
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getResult($id, $value)
+    {
+        $announcement = Announcement::find($id);
+        $announcement->success = $value;
+        $announcement->save();
+
+        Flash::success('Результат сохранен.');
+        return Redirect::to('admin/announcements');
     }
 }

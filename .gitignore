@@ -11,3 +11,4 @@ Thumbs.db
 /app/config/rate.php
 /app/config/dev
 *.log
+/_ide_helper*

@@ -17,11 +17,11 @@ View::creator('announcements.ticker', function($view)
         // Paid users get latest.
         if (Auth::user()->announcements) {
             $ajax = false;
-            $announcement = Announcement::latest(false);
+            $announcement = Announcement::latestInStream(Auth::user()->announcements);
         } else {
-            $announcement = Announcement::latest();
+            $announcement = Announcement::latestExpired();
         }
-        $message = empty($announcement) ? null : $announcement->message;
+        $message = empty($announcement) ? null : $announcement->getMessage();
     }
 
     /*
