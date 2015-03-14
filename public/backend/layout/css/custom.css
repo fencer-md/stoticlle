@@ -475,7 +475,7 @@ padding: 6px 10px;
     font-size: 21px;
 }
 
-.buttons span {
+.buttons a {
     display: inline-block;
     height: 32px;
     width: 32px;
@@ -483,6 +483,7 @@ padding: 6px 10px;
     vertical-align: middle;
     line-height: 32px;
     cursor: pointer;
+    color: #fff;
 }
 
 .clock {
@@ -496,6 +497,7 @@ padding: 6px 10px;
 
 .timer {
     margin-top: 20px;
+    display: none;
 }
 
 .announcements {

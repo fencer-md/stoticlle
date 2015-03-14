@@ -37,8 +37,12 @@
                 <div class="stream">
                     <div class="name">{{$stream->name}}</div>
                     <div class="buttons">
-                        <span class="clock"><i class="fa fa-clock-o"></i></span>{{--
-                    --}}<span class="cancel"><i class="fa fa-times"></i></span>
+                        <a class="clock"
+                           href="{{ URL::to('admin/announcements/start-countdown', array('id' => $stream->id)) }}"
+                                ><i class="fa fa-clock-o"></i></a>{{--
+                    --}}<a class="cancel"
+                           href="{{ URL::to('admin/announcements/stop-countdown', array('id' => $stream->id)) }}"
+                                ><i class="fa fa-times"></i></a>
                     </div>
                     <div class="timer" id="timer-{{$stream->id}}">{{$stream->getCountdownTimestamp()}}</div>
                 </div>
@@ -192,7 +196,7 @@
                     compact: true,
                     format: 'MS',
                     description: ''
-                });
+                }).show();
             });
 
             //$('.announcements-packages .package-body').jScrollPane();
