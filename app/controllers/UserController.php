@@ -99,7 +99,15 @@ class UserController extends \BaseController {
 		if (Input::get('password') == Input::get('re-password') && Input::get('re-password') != '') {
 			$user->password = Hash::make(Input::get('re-password'));
 		}
-		$user->announcements = Input::get('announcements');
+        // Update announcement info.
+        $oldAnnouncement = $user->announcement_stream;
+        $user->announcement_stream = Input::get('announcement_stream');
+        // New announcements will start next day.
+        if ($oldAnnouncement != $user->announcement_stream) {
+            $start = new Carbon\Carbon();
+            $start->setTime(0, 0, 0)->addDay();
+            $user->announcement_start = $start;
+        }
 
 		if ( Input::get('showRegion') == 1 )
  			$user->show_continent = 1;
@@ -131,6 +139,12 @@ class UserController extends \BaseController {
         }
         $links = array_pad($links, 5, null);
 
+        $streams = AnnouncementSeries::all();
+        $announcementsStreams = array(0 => 'Отключены');
+        foreach ($streams as $s) {
+            $announcementsStreams[$s->id] = $s->name;
+        }
+
 		return View::make(
             'backend.user.userinfo',
             [
@@ -138,7 +152,8 @@ class UserController extends \BaseController {
                 'user_info' => $user_info,
                 'birth_date' => $birth_date,
                 'links' => $links,
-                'disabled' => $disabled
+                'disabled' => $disabled,
+                'announcements_streams' => $announcementsStreams,
             ]
         );
 	}

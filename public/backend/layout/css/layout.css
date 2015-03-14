@@ -78,9 +78,7 @@ Page Header
 }
 
 .page-header.navbar .page-logo {
-	float: left;
-display: block;
-padding-top: 15px;
+    padding-top: 15px;
 }
 
 .page-sidebar-closed.page-sidebar-closed-hide-logo .page-header.navbar .page-logo {
@@ -211,7 +209,7 @@ padding-top: 15px;
 	margin:0;
 	padding:0 4px;
 	display:inline-block;
-	/*border: 1px solid #CCC;*/
+	/*border: 1px solid #CCC;*/
 	background:#1e8bc3; 
 }
 
@@ -242,8 +240,8 @@ padding-top: 15px;
 	position:absolute;
 	top:10px;
 	right:20px;
-	font-weight:300px;
-	padding:3px 6px;
+	font-weight: 300;
+	padding: 3px 6px;
 }
 
 .page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle:focus {
@@ -1270,7 +1268,7 @@ Page sidebar
 	font-size:14px;
 	padding:0;
 	height:auto;
-	line-height:auto;
+	line-height: auto;
 }
 
 .page-sidebar .sidebar-search .input-group .input-group-btn .btn,.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-search .input-group .input-group-btn .btn {
@@ -1570,7 +1568,7 @@ Page sidebar
 	
 	.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover {
 		width:235px!important;
-		display:absolute;
+		display: absolute;
 		z-index:10000;
 	}
 	
