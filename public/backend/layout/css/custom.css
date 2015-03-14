@@ -546,3 +546,7 @@ padding: 6px 10px;
     color: #D51919;
     font-size: 18px;
 }
+
+.announcements-ticker {
+    overflow: hidden;
+}
