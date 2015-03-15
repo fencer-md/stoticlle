@@ -2,6 +2,7 @@
 
 class AnnouncementCounter extends Eloquent {
     protected $table = 'announcements_counter';
+    protected $fillable = array('series_id');
 
     public function getDates()
     {
