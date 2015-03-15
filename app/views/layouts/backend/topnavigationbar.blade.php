@@ -1,8 +1,7 @@
 @if ( Auth::user()->role == "1" )
     <li class="dropdown">
-        <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
+        <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link" title="Домашняя">
             <i class="fa fa-home"></i>
-            <span class="menu-title">Домашняя</span>
         </a>
     </li>
 
@@ -116,9 +115,8 @@
     </li>
 
     <li class="dropdown">
-        <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link">
+        <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link" title="Выход">
             <i class="fa fa-sign-out"></i>
-            <span class="menu-title">Выход</span>
         </a>
     </li>
 

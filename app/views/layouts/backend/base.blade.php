@@ -13,20 +13,20 @@
 	   <link rel="shortcut icon" href="favicon.ico" />
 	</head>
 	<body class="page-header-fixed">
-		<div class="page-header navbar navbar-fixed-top	">
-		  <!-- BEGIN TOP NAVIGATION BAR -->
-		  <div class="page-header-inner">
-		  	<div class="page-logo">
-				<div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
-			</div>
-			  <div class="col-md-6">@include('announcements.ticker')</div>
-		  	<div class="top-menu">
-		  	  <ul class="nav navbar-nav pull-right">
-		  	    @include('layouts.backend.topnavigationbar')
-		  	  </ul>	  		
-		  	</div>
-		  </div>
-		  <!-- END TOP NAVIGATION BAR -->
+		<div class="page-header navbar navbar-fixed-top">
+            {{-- BEGIN TOP NAVIGATION BAR --}}
+            <div class="page-header-inner">
+                <div class="col-md-2 page-logo">
+                    <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
+                </div>
+                <div class="col-md-4">@include('announcements.ticker')</div>
+                <div class="col-md-6">
+                    <ul class="nav navbar-nav pull-right">
+                        @include('layouts.backend.topnavigationbar')
+                    </ul>
+                </div>
+            </div>
+            {{-- END TOP NAVIGATION BAR --}}
 		</div>
 		<div class="clearfix"></div>
 		<div class="page-container">

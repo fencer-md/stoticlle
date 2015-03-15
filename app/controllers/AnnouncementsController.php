@@ -84,34 +84,36 @@ class AnnouncementsController extends BaseController
     protected function socketErrorHandler(){}
 
     /**
-     * @deprecated ???
+     * Admin: Start stream countdown.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getCountdown()
+    public function getStartCountdown($stream)
     {
-        if (!AnnouncementSeries::latest()) {
-            Flash::error('Начните серию.');
-            return Redirect::to('admin/announcements');
-        }
+        $counter = AnnouncementCounter::getByStream($stream);
 
-        $counter = AnnouncementCounter::first();
-        if (!$counter) {
-            $counter = new AnnouncementCounter();
-        }
         $endTime = new Carbon();
         $endTime->addMinutes(10);
         $counter->ends_at = $endTime;
         $counter->save();
 
-        // Send email.
-        $config = Config::get('announcements-server');
-        $mailer = 'tcp://'.$config['mailer']['ip'].':'.$config['mailer']['port'];
-        $context = new ZMQContext();
-        $mailerSocket = $context->getSocket(ZMQ::SOCKET_REQ);
-        $mailerSocket->connect($mailer);
-        $mailerSocket->send($endTime->format('Y-m-d H:i:s'));
-
         Flash::success('Отчет завершится в ' . $endTime->format('H:i:s'));
+        return Redirect::to('admin/announcements');
+    }
+
+    /**
+     * Admin: Stop stream countdown.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getStopCountdown($stream)
+    {
+        $counter = AnnouncementCounter::getByStream($stream);
+
+        $endTime = new Carbon();
+        $endTime->subSecond();
+        $counter->ends_at = $endTime;
+        $counter->save();
+
+        Flash::success('Отчет остоновлен');
         return Redirect::to('admin/announcements');
     }
 
