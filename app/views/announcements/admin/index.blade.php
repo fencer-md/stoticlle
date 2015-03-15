@@ -155,7 +155,7 @@
             }
 
             checkServer();
-            setInterval(checkServer, 30000); // Check status each 30sec.
+            setInterval(checkServer, 300000); // Check status each 5 minutes.
 
             // Update countdowns for each stream.
             $('.stream .timer').each(function () {
