@@ -27,7 +27,7 @@ class AnnouncementSeries extends Eloquent {
      * Group stream announcements by date and by "-/+" logic.
      *
      * @param string $format Date format for output.
-     * @param null|int $user Show only stream for specific user.
+     * @param User $user Show only stream for specific user.
      * @return array
      */
     public function groupedByDate($format, $user=null)
@@ -36,12 +36,13 @@ class AnnouncementSeries extends Eloquent {
 
         $query = $this->announcements()->orderBy('created_at');
         if ($user) {
-            $user = User::find($user);
-            $query->where('id', '=', $user->announcement_stream);
+            $query->where('series_id', '=', $user->announcement_stream)
+                ->where('created_at', '>=', $user->announcement_start);
         }
 
         // Group by date.
         $result = array();
+        $count = 0;
         foreach($query->get() as $a) {
             $date = $a->created_at->format($format);
 
@@ -52,6 +53,7 @@ class AnnouncementSeries extends Eloquent {
                 $result[$date] = $day;
             }
             $result[$date]->announcements[] = $a;
+            $count++;
         }
 
         // Group by "+/-".
@@ -89,7 +91,12 @@ class AnnouncementSeries extends Eloquent {
             $output[$date] = $day;
         }
 
-        return $output;
+        $result = array(
+            'count' => $count,
+            'data' => $output,
+        );
+
+        return $result;
     }
 
     public function getCountdownTimestamp()

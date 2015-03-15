@@ -1,22 +1,6 @@
 @extends('layouts.backend.base')
 
-@macro('announcementStatus', $announcement)
-@if ($announcement->success == Announcement::FAIL) <i class="fa fa-minus"></i>
-@elseif($announcement->success == Announcement::SUCCESS) <i class="fa fa-plus"></i>
-@endif
-@endmacro
-
-@macro('inlineAnnouncementStatus', $announcement)
-@if ($announcement->success == Announcement::FAIL) <span class="text-red"><i class="fa fa-minus"></i></span>
-@elseif($announcement->success == Announcement::SUCCESS) <span class="text-green"><i class="fa fa-plus"></i></span>
-@endif
-@endmacro
-
-@macro('groupMessage', $group)
-@foreach($group as $a)
-    {{inlineAnnouncementStatus($a)}} {{$a->getMessage()}}<br />
-@endforeach
-@endmacro
+@include('announcements.common.stream-helpers')
 
 @section('content')
     <h3 class="page-title">Announcements</h3>
@@ -46,22 +30,8 @@
                     </div>
                     <div class="timer" id="timer-{{$stream->id}}">{{$stream->getCountdownTimestamp()}}</div>
                 </div>
-                <div class="announcements">
-                    @foreach($stream->groupedByDate('d.m.Y') as $day)
-                        <div class="pull-left day">
-                            <div class="date">{{$day->date}}</div>
-                            <div class="results">
-                                @foreach($day->announcements as $group){{--
-                                --}}<div class="result
-                                @if($group[count($group)-1]->success == 1) text-red
-                                @elseif($group[count($group)-1]->success == 2) text-green
-                                @endif" data-placement="top" data-toggle="popover" title=""
-                                         data-content="{{{groupMessage($group)}}}">{{announcementStatus($group[count($group)-1])}}</div>{{--
-                            --}}@endforeach
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+                {? $grouped = $stream->groupedByDate('d.m.Y') ?}
+                @include('announcements.common.stream')
             </div>
         </div>
     @endforeach

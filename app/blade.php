@@ -29,3 +29,14 @@ Blade::extend(function($view, $compiler) {
     $code = "\n<?php return ob_get_clean(); } ?".">\n";
     return preg_replace($pattern, $code, $view);
 });
+
+/**
+ * <code>
+ * {? $old_section = "whatever" ?}
+ * </code>
+ *
+ * @see http://stackoverflow.com/questions/13002626/laravels-blade-how-can-i-set-variables-in-a-template
+ */
+Blade::extend(function($value) {
+    return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);
+});
