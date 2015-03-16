@@ -9,6 +9,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
+    const ROLE_ADMIN = 1;
+    const ROLE_USER = 2;
+
 	/**
 	 * The database table used by the model.
 	 *
@@ -23,7 +26,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
-	public function userInfo()
+    public function getDates()
+    {
+        return array('created_at', 'updated_at', 'session_expires');
+    }
+
+    public function userInfo()
 	{
 		return $this->hasOne('UserInfo', 'id', 'user_info_id');
 	}
