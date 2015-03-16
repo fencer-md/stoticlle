@@ -119,7 +119,7 @@ var map;
 				if (user['point'])
 				{
 					var user_coord = user['coord'].split(",");
-					var vall= "<span class='sub_user' id='user_info_"+user['id']+"' ><span class='photo'><img src='/" + user['photo'] + "' /></span><span class='name'><b>" + user['first_name'] + " " + user['last_name'] + "</b><br />" + user['city'] +"</span><span class='clear'></span>";
+					var vall= "<span class='sub_user sub_user_map' id='user_info_"+user['id']+"' ><span class='photo'><img src='/" + user['photo'] + "' /></span><span class='name'><b>" + user['first_name'] + " " + user['last_name'] + "</b><br />" + user['city'] +"</span><span class='clear'></span>";
 					vall += "<span class='user_info'>Invested: "; 
 					vall += user['totalInvested'];
 					vall += "$ <br />Gained: ";
@@ -147,22 +147,28 @@ var map;
 		}
 		
 		map.dataProvider = dataProvider;
+		
 
+		
 		map.addListener("clickMapObject", function (event) {
-		   $(".pop_up_info").remove();
+		   $(".pop_up_overlay").remove();/*pop_up_info*/
+		   $(".op_up_overlay2").remove();
+		   $("#login-register").hide();
+
 		   var info = event.chart.getDevInfo();
 		   var id = event.mapObject.id;
 		   console.log(info);
-		   var pop_up = "<div class='pop_up_info' style='margin:10px 20%;'>";
+		   var pop_up = "<div class='pop_up_overlay'><div class='pop_up_info' style='margin:32px auto 0;'>";
 			
-			var users = my_data[id];
-			for (i in users)
-			{
-				if(i>10){break}
+			 var users = my_data[id];
+			 for (i in users)
+			 {
+				if(i>10){break} 
+				
 				var user = users[i];
 				//var rand = Math.random()<.5;
 			
-				pop_up += "<div class='user'>" + user['first_name'] + " " + user['last_name'] + " – <span class='city'>" + user['city']+"</span>";
+				pop_up += "<div class='user'><div class='sub-user-border'>" + user['first_name'] + " " + user['last_name'] + " – <span class='city'>" + user['city']+"</span>";
 				
 				if(user['online'] == 1){
 					pop_up +="<span class='online'>online</span>";
@@ -193,19 +199,66 @@ var map;
 					pop_up += "</div>";
 				}
 
-				pop_up += "</div></div>";
+				pop_up += "</div></div></div>";
 			}
-			pop_up += "</div>";
+			pop_up += "</div></div>";
 				//event.mapObject - obiectul
 			// print out dev info
 			
 			
 			$(".amcharts-chart-div").append(pop_up);
 			
-		});
+		});  
+		/* Custom*/
+		var pop_up_generator = "<div class='pop_up_overlay'><div class='pop_up_info' style='margin:32px auto 0;'>";
+		
+		for ( i in my_data ) {
+			var region = my_data[i]
+			for (j in region) {
+				var person = region[j];
+				
+				pop_up_generator += "<div class='user'><div class='sub-user-border'>" + person['first_name'] + " " + person['last_name'] + " – <span class='city'>" + person['city']+"</span>";
+				if( person['online'] == 1) {
+					pop_up_generator +="<span class='online'>online</span>";
+				}
+				/*Start Sub-user*/
+				pop_up_generator += "<div class='sub_user'>";
+				if (person.photo.length) {
+					pop_up_generator += "<div class='photo'><img src='/" + person['photo'] + "' /></div>";
+				}
+				pop_up_generator += "<div class='name'><b>" + person['first_name'] + " " + person['last_name'] + "</b><br />" + person['city'] + "</div>";
+				
+				if(person['totalInvested']!=null || person['totalInvested']>1){
+				pop_up_generator += "<div class='user_info'>Invested: ";
+				pop_up_generator += person['totalInvested'];
+				pop_up_generator += "$ <br />";
+				
+				if(user['totalReward']!=null || person['totalReward']>1){
+				pop_up_generator += "Gained: " ;
+				pop_up_generator += person['totalReward']; 
+				pop_up_generator += "$";
+				}
+				pop_up_generator += "</div>";
+				}
+				if (person.social != null) {
+					pop_up_generator += '<div class="social_links">';
+					for (var l in person.social) {
+						pop_up_generator += '<a href="' + person.social[l] + '" class="social_link"><span class="' + social_link_class(l) + '"></span></a>';
+					}
+					pop_up_generator += "</div>";
+				}
+
+				/*End Sub user*/
+				pop_up_generator += "</div></div>";
+				/*End User*/
+			  pop_up_generator += "</div>";
+			}
+		}
+		pop_up_generator += "</div>";
+		/*End Custom*/
 		
 		map.write("world_map");
-		
+		$(".amcharts-chart-div").append(pop_up_generator);
 		
 	})	
 })
