@@ -1,5 +1,5 @@
+@if ( Auth::user()->role == "1" )
 <ul class="page-sidebar-menu">
-	@if ( Auth::user()->role == "1" )
 	<li class="dashboard-stat purple-plum avlb-amount pie-chart-sidebar">
 		<div class="visual">
 			<i class="fa fa-globe"></i>
@@ -57,15 +57,17 @@
 			<div class="desc">Cycles</div>
 		</div>
 	</li>
-	@endif
-	@if ( Auth::user()->role == "2" )
+</ul>
+@endif
+	
+@if ( Auth::user()->role == "2" )
+<!--
 
 	<li class="dashboard-stat  avlb-amount">
-		<!--
-<div class="icon"> <i class="fa fa-usd"></i></div>
+		<div class="icon"> <i class="fa fa-usd"></i></div>
 				<div class="number">{{ round($data['currentAmmount'], 2) }}$</div>
 				<div class="desc">У вас на счету</div>
-			-->
+			
 		</li>
 		<li class="dashboard-stat  total-investment">
 			<div class="icon"> <i class="fa fa-cloud-download"></i></div>
@@ -101,5 +103,25 @@
 @if ( Auth::user()->awaiting_award == "0" )
 <li class="cycle-end">@include('includes.backend.newoffer')</li>
 @endif
+-->
+<div class="side-bar-user">
+	<div class="warning">
+		<div class="text">Внимание!</div>
+		<div class="info">сейчас будет ставка</div>
+	</div>
+	<div class="remaining-time">
+		<img src="{{ URL::asset('images/timer.png') }}" alt="timer">
+		<div class="text">7 дней</div>
+		<div class="info">осталось времени</div>
+	</div>
+	<div class="special-news">
+		<div class="header">Спецыальные новости</div>
+		<div class="news">
+			<span class="date">12.03.2014</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+		</div>
+		<div class="news">
+			<span class="date">12.03.2014</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+		</div>
+	</div>
+</div>
 @endif
-</ul>

@@ -435,10 +435,11 @@ background-color: transparent;
   background-color: #333;
 }
 li.money {
-background: #1E8BC3;
-color: #FFF;
-line-height: 20px;
-padding: 6px 10px;
+	background: #1E8BC3;
+	color: #FFF;
+	line-height: 20px;
+	padding: 6px 10px;
+	margin-top:9px;
 }
 
 .announcements-ticker {
@@ -555,4 +556,66 @@ padding: 6px 10px;
 
 .announcements-ticker {
     overflow: hidden;
+}
+
+
+/*      USER SIDE BAR       */
+.page-sidebar-wrapper, 
+.page-content-wrapper {
+	background:#1e8bc3;
+}
+.side-bar-user {
+	background:#1e8bc3;
+	padding:80px 20px 0;
+}
+.side-bar-user .warning {
+	background-color: #feec56;
+	font-family:"Open Sans", sans-serif;
+	font-weight:300;
+	padding: 20px 35px;
+	line-height: 1;
+	margin-bottom: 30px;
+}
+.side-bar-user .warning .text {
+	margin-bottom: 5px;
+}
+.side-bar-user .warning .text,
+.side-bar-user .remaining-time .text {
+	font-size: 28px;
+}
+.side-bar-user .warning .info,
+.side-bar-user .remaining-time .info {
+	font-size: 16px;
+}
+.side-bar-user .remaining-time {
+	border-top:1px solid #186f9c;
+	border-bottom:1px solid #186f9c;
+	padding:15px;
+	line-height: 1;
+	color:#fff;
+	font-family: "Open Sans", sans-serif;
+	font-weight:300;
+	margin-bottom: 60px;
+}
+.side-bar-user .remaining-time img {
+	float:right; 
+}
+.side-bar-user .special-news .header {
+	color: #0f4561;
+	font-family: "Open Sans", sans-serif;
+	font-size: 16px;
+	font-weight:300;
+	margin-bottom:20px;
+}
+.side-bar-user .special-news .news {
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	font-weight: 300;
+	line-height: 20px;
+	color:#bbdced;
+	margin-bottom:20px;
+}
+.side-bar-user .special-news .news .date {
+	color:#fff;
+	margin-right:10px;
 }

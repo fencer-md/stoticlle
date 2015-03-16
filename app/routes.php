@@ -301,3 +301,15 @@ View::creator('homepage', function($view)
 App::missing(function($exception) {
 		return Response::view('errors/404', array(), 404);
 });
+Route::get('rules', function()
+    {
+        return View::make('rules');
+    });
+Route::get('news', function()
+    {
+        return View::make('news');
+    });
+Route::get('about-us', function()
+    {
+        return View::make('about_us');
+    });

@@ -1,7 +1,8 @@
 #world_map {
 	position:relative;
-	width:80%;
+	/* width:80%; */
 	height:500px;
+	padding-right: 0;
 }
 /*
 #world_map svg{
@@ -20,51 +21,77 @@
 }
 */
 #world_map .pop_up_info{
-	background:rgba(255, 255, 255, 0.4);
-	width:250px;
+	/* background:rgba(255, 255, 255, 0.4); */
+	width:100%;
 	color: #474747;
-	position:absolute;
+	/* position:absolute; */
 }
 #world_map .pop_up_info .user{
-	border-left: 4px solid rgba(255, 255, 255, 0)!important;
+/* 	border-left: 4px solid rgba(255, 255, 255, 0)!important; */
 	font-family: "Open Sans", sans-serif;
 	font-size: 13px;
 	color: #474747;
-	padding: 11px 0 9px;
+/* 	padding: 11px 20px 9px; */
 	border-top: 1px solid #fff;
 	position: relative;
 }
-#world_map .pop_up_info .user:hover{
-	border-left: 4px solid #1e8bc3!important;
+#world_map .pop_up_info .user .sub-user-border {
+	padding:11px 20px 9px;
+}
+#world_map .pop_up_info .user:hover .sub-user-border {
+	border-right: 4px solid #1e8bc3!important;
 	background:rgba(255, 255, 255, 0.6);
 }
+/*
+#world_map .pop_up_info .user:hover{
+	border-right: 4px solid #1e8bc3!important;
+	background:rgba(255, 255, 255, 0.6);
+}
+*/
+#world_map .pop_up_overlay {
+	height: 100%;
+  /* margin: 0px 2%; */
+  right: 0;
+  position: absolute;
+  width: 300px;
+  background:rgba(255,255,255,0.3);
+}
 .sub_user{
-	background: rgba(255, 255, 255, 0.8);
+	background: rgba(255, 255, 255, 0.77);
 	width: 255px;
 	padding: 10px;
 	color: white;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #fff;
 }
+.sub_user_map {
+	border:none;
+}
 .user .sub_user{
 	display:none;
 	top:0;
-	left:246px;
+	left:-255px;/**/
 	position:absolute;
 }
 .user:hover .sub_user{display:block}
 #world_map .pop_up_info .user:hover .sub_user{
 	display:block;
 }
-.sub_user .photo img{
-	max-height: 130px;
-	width: auto;
-	height: auto;
-	max-width: 90px;
+.map-region .sub_user .photo img{
+	max-width:100%;
+	max-height:100%;
+	position:relative;
+	top:50%;
+	transform: translateY(-50%);
+	width:auto;
 }
 .sub_user .photo {
 	width:100px;
+	height:100px;
 	float:left;
+	text-align: center;
+  border: 1px solid #d3d3d3;
+  margin-right: 10px;
 }
 .sub_user .name {
 	width:120px;
@@ -73,6 +100,14 @@
 }
 .sub_user .name b{
 	color:#474747;
+}
+.sub_user .social_links {
+	position: absolute;
+  bottom: 10px;
+  left: 115px;
+}
+.sub_user .social_links a {
+	background:transparent;
 }
 .user_info{
 	padding:10px 0 0;

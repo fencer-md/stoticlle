@@ -18,13 +18,26 @@
   </head>
   <body class="page-quick-sidebar-over-content">
     <header>
+    <div class="logo-wrapper pull-left">
+   	  <div class="header-logo">
+   	  	<div class="pull-left sidebar-menu-button">
+   	  		<span></span>
+   	  		<span></span>
+   	  		<span></span>
+   	  	</div>
+        <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
+		  </div>
+      <div class="blurry"></div>
+      
+    </div>
+    <div class="col-md-6">@include('announcements.ticker')</div>
       <div class="container">
       	<div class="menu-toggler sidebar-toggler hide">
 				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
 			</div>
         <div class="row top-header">
-        <div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div>
-        <div class="col-md-6">@include('announcements.ticker')</div>
+        <!-- <div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div> -->
+        <!-- <div class="col-md-6">@include('announcements.ticker')</div> -->
 
             <!--
 <div class="col-md-2">
@@ -127,11 +140,21 @@
       </div>
       
     </header>
-    
+    <div class="front-page-wrapper">
+    	<div class="sidebar-menu">
+	    	<div class="sidebar-elements">
+	    		<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase"></div>О проекте</a>
+					<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/roopor.png') }}" alt="roopor"></div>Связь с нами</a>
+					<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/info.png') }}" alt="info"></div>Правила поьзования</a>
+					<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/news.png') }}"alt="news"></div>Новости</a>
+				</div>
+			</div>
     @yield('content')
+    </div>
     <footer>
       <div class="container">
-        <div class="row footer">
+        <!--
+<div class="row footer">
           <div class="columns">
             <div class="col-lg-6">
               <h3 class="title">Кратко о нас</h3>
@@ -152,15 +175,13 @@
                 </ul>
               </div>
             </div>
-            <!--
-<div class="clmn">
+            <div class="clmn">
               <div class="title">Свяжитесь с нами</div>
               <div class="text">
                 е-майл: info@stoticlle.com<br>
                 Кишинев, Молдова ул Московский проспект, 26/5
               </div>
             </div>
--->
             <div class="col-lg-3">
               <h3 class="title">Присоединяйтесь!</h3>
               <div class="text">
@@ -176,9 +197,14 @@
                 <div class="copyright clearfix text-right">© Jarvis-Tech 2014. Все права зашишены.</div>
           </div>
         </div>
+-->
+				<div class="row">
+					<div class="copyright">© Jarvis-Tech 2014. Все права зашишены.</div>
+				</div>
       </div>
       
     </footer>
+    
     @include('includes.frontend.scripts')
     @yield('custom_scripts')
     <script type="text/javascript">
@@ -191,6 +217,12 @@
       });
       $('.register-form').click(function(e) {
         e.stopPropagation();
+      });
+      $(document).ready(function(){
+      	$(".sidebar-menu-button").on("click",function() {
+      		$(this).toggleClass("active");
+	      	$(".sidebar-menu").toggleClass("active");
+				});
       });
     </script>
     <script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
