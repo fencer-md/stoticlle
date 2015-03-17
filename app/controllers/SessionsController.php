@@ -17,7 +17,7 @@ class SessionsController extends \BaseController {
         $user = User::where('email', '=', Input::get('email'))->first();
 
         // Check previous session for users.
-        if ($user->role == User::ROLE_USER) {
+        if ($user && $user->role == User::ROLE_USER) {
             if (!empty($user->session) && Session::getId() != $user->session && !$user->session_expires->isPast()) {
                 $errors = true;
             }
