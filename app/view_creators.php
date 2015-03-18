@@ -15,16 +15,9 @@ View::creator('announcements.ticker', function($view)
     // Show announcements only for logged in users.
     if (Auth::check()) {
         // Paid users get latest.
-        /* @var $user \User */
-        $user = Auth::user();
-        if ($user->announcement_stream && !empty($user->announcement_start) && $user->announcement_start->isPast()) {
+        if (Auth::user()->announcements) {
             $ajax = false;
-            $announcement = Announcement::latestInStream(Auth::user()->announcement_stream);
-            $config = Config::get('announcements-server.websocket');
-
-            $view
-                ->with('websocketPort', $config['port'])
-                ->with('user', Auth::user()->id);
+            $announcement = Announcement::latestInStream(Auth::user()->announcements);
         } else {
             $announcement = Announcement::latestExpired();
         }

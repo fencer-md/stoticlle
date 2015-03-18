@@ -28,7 +28,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function getDates()
     {
-        return array('created_at', 'updated_at', 'session_expires', 'announcement_start');
+        return array('created_at', 'updated_at', 'session_expires');
     }
 
     public function userInfo()

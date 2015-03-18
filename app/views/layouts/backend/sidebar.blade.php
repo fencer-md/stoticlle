@@ -105,7 +105,7 @@
 @endif
 -->
 <div class="side-bar-user">
-	<div class="warning" id="announcement-notification" style="display: none">
+	<div class="warning">
 		<div class="text">Внимание!</div>
 		<div class="info">сейчас будет ставка</div>
 	</div>

@@ -29,7 +29,7 @@ class Announcement extends Eloquent
     public static function latestInStream($stream)
     {
         $query = self::orderBy('created_at', 'DESC')
-            ->where('series_id', '=', $stream);
+            ->where('serias_id', '=', $stream);
 
         return $query->first();
     }
