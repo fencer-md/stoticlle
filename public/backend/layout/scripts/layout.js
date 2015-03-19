@@ -508,7 +508,27 @@ $(document).ready(function(){
 	} else {
 		$(".center-big-width .portlet.box.blue").outerHeight(leftHeight);
 	}
-	$(function() {
-		$('.nice-select').selectize();
-	})
+	$(".dashboard-sidebar-menu-button").on("click",function() {
+    $(this).toggleClass("active");
+	  $(".sidebar-menu-top").toggleClass("active");
+	});
+	
+	setInterval(function() {
+		
+		var userW = $(".user-slide-menu").outerWidth();
+		
+		userWw = $(window).width() - userW - 301;
+		$(".announce").width(userWw);
+		},300);
+		
+	$(".dashboard-user-sliding-menu").on({
+		
+		mouseenter: function() {	var userD = $(".dashboard-user-sliding-menu").outerWidth();	$(".dashboard-user-slide-menu").addClass("active").css("right",userD);		},
+		mouseleave:	function() {		$(".dashboard-user-slide-menu").removeClass("active").css("right","-1000px");			}
+	});
+	$(".center-big-width").parent().addClass("bg-image");
+	
+		/* $('.nice-select').selectize(); */
+	
+
 });

@@ -149,7 +149,7 @@ display: inline-block;
   background: #fff;
 }
 .center-big-width {
-	padding-top:50px;
+	/* padding-top:50px; */
 }
 .center-big-width .help {
 	padding:30px 20px 0px;
@@ -443,7 +443,8 @@ li.money {
 }
 
 .announcements-ticker {
-    padding-top: 15px;
+    padding-top: 20px;
+    line-height: 20px;
 }
 
 .stream-row {
@@ -560,6 +561,11 @@ li.money {
 
 
 /*      USER SIDE BAR       */
+.bg-image {
+	background: transparent url("../../../images/background-video.png") repeat top left;
+}
+
+
 .page-sidebar-wrapper, 
 .page-content-wrapper {
 	background:#1e8bc3;
@@ -618,4 +624,105 @@ li.money {
 .side-bar-user .special-news .news .date {
 	color:#fff;
 	margin-right:10px;
+}
+/*       USER EDIT PAGE      */
+.user-edit-info {
+	padding:40px 5px;
+}
+.user-edit-info .form-group {
+	font-family: "Open Sans";
+}
+.user-edit-info .form-group label {
+	padding-right:0;
+	color:#5e5e5e;
+	font-family: "Open Sans", sans-serif;
+}
+.user-edit-info .form-group input {
+	border-left:2px solid #1e8bc3;
+	color:#919191;
+	font-family: "Open Sans", sans-serif;
+}
+.user-edit-info .form-group input:focus {
+	outline: 0;
+	border-top:1px solid #9bc4da;
+	border-right:1px solid #9bc4da;
+	border-bottom:1px solid #9bc4da;
+}
+.user-edit-info .selectize-input {
+	border-left:2px solid #1e8bc3;
+	color:#919191;
+	font-family: "Open Sans", sans-serif;
+}
+.user-edit-info .selectize-input.focus {
+	border-top:1px solid #9bc4da;
+	border-right:1px solid #9bc4da;
+	border-bottom:1px solid #9bc4da;
+}
+.user-edit-info  .selectize-control.single .selectize-input::after { 
+	border-color:#5e5e5e transparent transparent;
+}
+.user-edit-info .line {
+	border-top:1px solid #d9d9d9;
+	margin-top:-20px;
+}
+.user-edit-info .page-title span {
+	font-family: "Open Sans", sans-serif;
+	font-size:18px;
+	text-align: center;
+	color:#1e8bc3;
+	padding:0px 10px;
+	background: #fff;
+}
+.user-edit-info .radio-list .radio {
+	margin:0;
+	min-height:18px; 
+}
+.user-edit-info .radio-inline + .radio-inline {
+	margin:0;
+}
+.user-edit-info .form-actions {
+	text-align: right;
+	padding-right:5px;
+}
+.user-edit-info .form-actions input {
+	background: #1e8bc3;
+	color:#fff;
+}
+.user-edit-info #photo {
+	margin-bottom:15px;
+}
+.user-edit-info img {
+	max-width: 150px;
+	max-height:150px;
+	width:100%;
+	height:auto;
+}
+.user-edit-info #uniform-photo {
+	margin-bottom:15px;
+	height:34px;
+}
+.user-edit-info div.uploader {
+	background:none;
+	width:100%;
+}
+.user-edit-info #uniform-photo .filename {
+	width:60%;
+	border-top:1px solid #9bc4da;
+	border-bottom:1px solid #9bc4da;
+	border-left:1px solid #9bc4da;
+	border-right:none;
+	margin:0;
+}
+.user-edit-info #uniform-photo .action {
+	width:39%;
+	background:#1e8bc3;
+	color:#fff;
+}
+.user-edit-info #uniform-photo  span {
+	height:32px;
+	line-height: 32px;
+	font-family: "Open Sans", sans-serif;
+	font-size:13px;
+	text-shadow: none;
+	font-weight:400;
 }

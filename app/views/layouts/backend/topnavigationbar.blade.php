@@ -1,4 +1,5 @@
 @if ( Auth::user()->role == "1" )
+<ul class="nav navbar-nav pull-right">
     <li class="dropdown">
         <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link" title="Домашняя">
             <i class="fa fa-home"></i>
@@ -119,70 +120,22 @@
             <i class="fa fa-sign-out"></i>
         </a>
     </li>
-
+</ul>
 @endif
 @if ( Auth::user()->role == "2" )
-
-
-    <!-- BEGIN USER LOGIN DROPDOWN -->
-    <li class="money">
-        <div class="number">{{ round($data['currentAmmount'], 2) }} $</div>
-    </li>
-    <li class="dropdown dropdown-user">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-            <span class="username username-hide-on-mobile">
-                {{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}
-            </span>
-            <i class="fa fa-angle-down"></i>
-        </a>
-        <ul class="dropdown-menu">
-            <li class="dropdown">
-                <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
-                    <i class="fa fa-home"></i>
-                    <span class="menu-title">Домашняя</span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link">
-                    <i class="fa fa-group"></i>
-                    <span class="menu-title">Личный кабинет</span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a href="{{ URL::to('user/transactions') }}" class="dropdown-toggle simple-link">
-                    <i class="fa fa-exchange"></i>
-                    <span class="menu-title">Транзакций</span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a href="{{ URL::to('user/addmoney') }}" class="dropdown-toggle simple-link">
-                    <i class="fa fa-download"></i>
-                    <span class="menu-title">Пополнение средств</span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a href="{{ URL::to('user/withdraw') }}" class="dropdown-toggle simple-link">
-                    <i class="fa fa-upload"></i>
-                    <span class="menu-title">Вывод средств</span>
-                </a>
-            </li>
-
-            <li class="divider"></li>
-
-            <li class="dropdown">
-                <a href="{{ URL::to('bet') }}" class="dropdown-toggle simple-link">
-                    <span class="menu-title">Ставки</span>
-                </a>
-            </li>
-
-            <li class="divider"></li>
-
-            <li class="dropdown">
-                <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link">
-                    <i class="fa fa-sign-out"></i>
-                    <span class="menu-title">Выход</span>
-                </a>
-            </li>
-        </ul>
-    </li>
+<div class="dashboard-user-sliding-menu pull-right">
+	<div class="username username-hide-on-mobile pull-left">
+  	Hello <strong >{{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}</strong> 
+  </div>
+  <a href="{{ URL::to('logout') }}" class="icon"><i class="fa fa-sign-out"></i></a>
+	  <div class="dashboard-user-slide-menu">
+  	<ul class="menu clearfix">
+  		<li class="user-menu-element"><a href="{{ URL::to('user/edit') }}"><span class="menu-title">Личный кабинет</span></a></li>
+  		<li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}"><span class="menu-title">Транзакций</span></a></li>
+  		<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}"><span class="menu-title">Пополнение средств</span></a></li>
+  		<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}"><span class="menu-title">Вывод средств</span></a></li>
+  		<li class="user-menu-element"><a href="{{ URL::to('bet') }}"><span class="menu-title">Ставки</span></a></li>
+  	</ul>
+  </div>
+</div>
 @endif

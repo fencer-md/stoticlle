@@ -16,20 +16,32 @@
 		<div class="page-header navbar navbar-fixed-top">
             {{-- BEGIN TOP NAVIGATION BAR --}}
             <div class="page-header-inner">
-                <div class="col-md-2 page-logo">
+                <div class="pull-left page-logo">
+                	<div class="pull-left dashboard-sidebar-menu-button">
+										<span></span>
+										<span></span>
+										<span></span>
+									</div>
                     <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
                 </div>
+                <div class="blurry"></div>
                 <div class="col-md-4">@include('announcements.ticker')</div>
-                <div class="col-md-6">
-                    <ul class="nav navbar-nav pull-right">
-                        @include('layouts.backend.topnavigationbar')
-                    </ul>
+                <div class="pull-right">
+                    @include('layouts.backend.topnavigationbar')
                 </div>
             </div>
             {{-- END TOP NAVIGATION BAR --}}
 		</div>
 		<div class="clearfix"></div>
 		<div class="page-container">
+			<div class="sidebar-menu-top">
+	    	<ul class="sidebar-elements clearfix">
+	    		<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase">О проекте</a></li>
+					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">Связь с нами</a></li>
+					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/info.png') }}" alt="info">Правила поьзования</a></li>
+					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/news.png') }}"alt="news">Новости</a></li>
+				</ul>
+			</div>
 			<!-- BEGIN SIDEBAR -->
 			<div class="page-sidebar-wrapper">
 				<div class="page-sidebar navbar-collapse collapse">

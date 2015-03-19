@@ -17,7 +17,7 @@
     <![endif]-->
   </head>
   <body class="page-quick-sidebar-over-content">
-    <header>
+    <header class="clearfix">
     <div class="logo-wrapper pull-left">
    	  <div class="header-logo">
    	  	<div class="pull-left sidebar-menu-button">
@@ -27,127 +27,68 @@
    	  	</div>
         <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
 		  </div>
-      <div class="blurry"></div>
-      
+      <div class="blurry"></div>  
     </div>
-    <div class="col-md-6">@include('announcements.ticker')</div>
-      <div class="container">
-      	<div class="menu-toggler sidebar-toggler hide">
-				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+    <div class="announce pull-left">@include('announcements.ticker')</div>
+    <div class="user-slide-menu pull-right">
+    	<div class="menu-toggler sidebar-toggler hide">
+			<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
 			</div>
-        <div class="row top-header">
+<!--     	<div class="row top-header"> -->
         <!-- <div class="col-md-2"><a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a></div> -->
         <!-- <div class="col-md-6">@include('announcements.ticker')</div> -->
-
-            <!--
-<div class="col-md-2">
-              <select class="language-picker">
-                <option>Руский</option>
-                <option>English</option>
-                <option>Romina</option>
-              </select>
-            </div>
--->
-        
-        <div class="login">
+        <!-- <div class="col-md-2"><select class="language-picker"><option>Руский</option><option>English</option><option>Romina</option></select></div>-->
         @if ( Auth::user() == null )
-	      <div id="show-login"><i class="fa fa-user"></i></div>
-		  <div id="login-register">
-			  <div class="text-right">
-            
-              
-                <div class="login-form">              
-                  {{ Form::open(['action' => 'SessionsController@store', 'class' => 'login-form']) }}
-                      <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail', 'class'=>'form-control']) }}</div>
-                      <div class="input-icon"><i class="fa fa-lock"></i>{{ Form::password('password', ['placeholder' => 'Пароль','class'=>'form-control']) }}</div>
-                      <div class="form-actions">{{ Form::submit('войти', ['class'=>'btn blue']) }}</div>
-                  {{ Form::close() }}
-                </div>
-                <div class="register">
-                  <div class="login-msg" >вы еще не снами? <a id="join" href="#">Присоединяйтесь</a></div>
-                  <div class="register-form">
-                    {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
-                        <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail','class'=>'form-control']) }}</div>
-                        <div class="form-actions">{{ Form::submit('присоединиться', ['class'=>'btn blue']) }}</div>
-                    {{ Form::close() }}
-                  </div>
-                </div>
-              
+        <div class="login clearfix">
+					<div id="login-register">
+						<div class="text-right">
+               <div class="login-form">              
+                 {{ Form::open(['action' => 'SessionsController@store', 'class' => 'login-form']) }}
+                     <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail', 'class'=>'form-control']) }}</div>
+                     <div class="input-icon"><i class="fa fa-lock"></i>{{ Form::password('password', ['placeholder' => 'Пароль','class'=>'form-control']) }}</div>
+                     <div class="form-actions">{{ Form::submit('Войти', ['class'=>'btn blue']) }}</div>
+                     
+                 {{ Form::close() }}
+                 <div class="form-actions register-button">{{ Form::submit('Присоединяйтесь', ['id'=>'join'])}}</div>
+               </div>
+               <div class="register">
+                 <!-- <div class="login-msg" >вы еще не снами? <a id="join" href="#">Присоединяйтесь</a></div> -->
+                 <div class="register-form">
+                   {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
+                       <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail','class'=>'form-control']) }}</div>
+                       <div class="form-actions">{{ Form::submit('присоединиться', ['class'=>'btn blue']) }}</div>
+                   {{ Form::close() }}
+               </div>
             </div>
-            @else
-                <!-- BEGIN USER LOGIN DROPDOWN -->
-				<div class="dropdown dropdown-user">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-					
-					<span class="username username-hide-on-mobile">
-					{{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}</span>
-<!-- 					<img alt="" class="img-circle hide1" src="/{{ Auth::user()->userInfo->photo }}"/> -->
-					<i class="fa fa-angle-down"></i>
-					</a>
-					<ul class="dropdown-menu">
-					<li class="dropdown">
-  <a href="{{ URL::to('/') }}" class="dropdown-toggle simple-link">
-  <i class="fa fa-home"></i>
-  	<span class="menu-title">
-  		Домашняя
-  	</span>
-  </a>
-</li>
-						<li class="dropdown">
-	  <a href="{{ URL::to('user/edit') }}" class="dropdown-toggle simple-link"><i class="fa fa-group"></i>
-	  	<span class="menu-title">
-	  		Личный кабинет
-	  	</span>
-	  </a>
-	</li>
-	<li class="dropdown">
-	  <a href="{{ URL::to('user/transactions') }}" class="dropdown-toggle simple-link"><i class="fa fa-exchange"></i>
-	  	<span class="menu-title">
-	  		Транзакций
-	  	</span>
-	  </a>
-	</li>
-	<li class="dropdown">
-	  <a href="{{ URL::to('user/addmoney') }}" class="dropdown-toggle simple-link"><i class="fa fa-download"></i>
-	  	<span class="menu-title">
-	  		Пополнение средств
-	  	</span>
-	  </a>
-	</li>
-	<li class="dropdown">
-	  <a href="{{ URL::to('user/withdraw') }}" class="dropdown-toggle simple-link"><i class="fa fa-upload"></i>
-	  	<span class="menu-title">
-	  		Вывод средств
-	  	</span>
-	  </a>
-	</li>
-						<li class="divider">
-						</li>
-						<li class="dropdown">
-  <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link"><i class="fa fa-sign-out"></i>
-  	<span class="menu-title">
-  		Выход
-  	</span>
-  </a>
-</li>
-					</ul>
-				</div>
-				<!-- END USER LOGIN DROPDOWN -->
-              @endif
-		  </div>
-      </div>
+					</div>
         </div>
-      </div>
-      
+        @else
+        <div class="dashboard-user-sliding-menu pull-right">
+					<div class="username username-hide-on-mobile pull-left">
+						Hello <strong >{{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}</strong> 
+					</div>
+					<a href="{{ URL::to('logout') }}" class="icon"><i class="fa fa-sign-out"></i></a>
+					<div class="dashboard-user-slide-menu"> 
+						<ul class="menu clearfix">
+							<li class="user-menu-element"><a href="{{ URL::to('user/edit') }}"><span class="menu-title">Личный кабинет</span></a></li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}"><span class="menu-title">Транзакций</span></a></li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}"><span class="menu-title">Пополнение средств</span></a></li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}"><span class="menu-title">Вывод средств</span></a></li>
+							<li class="user-menu-element"><a href="{{ URL::to('bet') }}"><span class="menu-title">Ставки</span></a></li>
+						</ul>
+					</div>
+				</div>
+				@endif
+    </div>
     </header>
     <div class="front-page-wrapper">
     	<div class="sidebar-menu">
-	    	<div class="sidebar-elements">
-	    		<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase"></div>О проекте</a>
-					<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/roopor.png') }}" alt="roopor"></div>Связь с нами</a>
-					<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/info.png') }}" alt="info"></div>Правила поьзования</a>
-					<a href="#" class="sidebar-menu-element"><div><img src="{{ URL::asset('images/news.png') }}"alt="news"></div>Новости</a>
-				</div>
+	    	<ul class="sidebar-elements clearfix">
+	    		<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase">О проекте</a></li>
+					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">Связь с нами</a></li>
+					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/info.png') }}" alt="info">Правила поьзования</a></li>
+					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/news.png') }}"alt="news">Новости</a></li>
+				</ul>
 			</div>
     @yield('content')
     </div>
@@ -209,9 +150,14 @@
     @yield('custom_scripts')
     <script type="text/javascript">
       $('html').click(function() {
-        $('.register-form').hide();        
+         $('.register-form').hide();  
+         $('.login-form').show();       
       });
       $('div.register a').click(function(e) {
+        e.stopPropagation();
+        $('.register-form').show();
+      });
+      $('.register-button').click(function(e) {
         e.stopPropagation();
         $('.register-form').show();
       });
@@ -223,7 +169,9 @@
       		$(this).toggleClass("active");
 	      	$(".sidebar-menu").toggleClass("active");
 				});
-      });
+				
+			});
+
     </script>
     <script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/announcements-ticker.js') }}" type="text/javascript"></script>
