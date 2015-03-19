@@ -89,6 +89,7 @@ class AnnouncementsController extends BaseController
             'stream' => $announcement->series_id,
             'type' => 'message',
             'text' => $announcement->getMessage(),
+            'ratio' => $announcement->probability,
         ));
 
         Flash::success('Анонс сохранен.');

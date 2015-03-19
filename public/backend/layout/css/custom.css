@@ -726,3 +726,8 @@ li.money {
 	text-shadow: none;
 	font-weight:400;
 }
+
+.announcement-popover-confirmation {
+    text-align: center;
+    margin-top: 15px;
+}
