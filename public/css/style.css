@@ -1,3 +1,6 @@
+.page-quick-sidebar-over-content {
+	overflow-x: hidden;
+}
 .content {
     margin-top: 100px;
 }
@@ -27,51 +30,44 @@ text-shadow: 0px 0px 5px #FFFFFF;
 }
 .sidebar-menu {
 	position:absolute;
-	height:40px;/*100%*/
-	width:100%;/*300*/
+	width:100%;
 	left:0px;/*left:-300px*/
 	top:-80px;
-	background:#1e8bc3;
+	background: #005383;
 	transition: 0.256s all ease-in-out;
 	z-index: 2;
-	padding:10px 0;/*60 0 0 0*/
+	line-height: 20px;
 }
 .sidebar-menu.active {
-	top:0px;/*left:0*/
+	top:0px;
 	transition: 0.256s all ease-in-out;
 }
 .sidebar-elements {
-	margin:0;
+	margin:0 0 0 40px;
 	padding:0;
-	list-style-type;none;
+	list-style-type: none;
+	
 }
-.sidebar-elements .sidebar-menu-element {
+.sidebar-elements li {
+	float:left;
+	padding:10px 10px 9px;
+	border-left:1px solid #136999;
+}
+.sidebar-elements li:last-child {
+	border-right:1px solid #136999;
+	
+}
+.sidebar-elements li:hover {
+	background: #086193;
+}
+.sidebar-elements li a {
 	color:#fff;
 	font-family: "Open Sans", sans-serif;
 	font-size:14px;
-	/*border-top:1px solid #409ccc;*/
-	padding:12px 0px 10px 20px;
-/*
-	display:block;
-	width:100%;
-*/
+}
+.sidebar-elements li img {
+	margin:0 10px 2px 0;
 	
-}
-.sidebar-elements .sidebar-menu-element div {
-	float:left;
-	width:30px;
-	margin-top:-2px;
-}
-.sidebar-elements .sidebar-menu-element:hover {
-	background:#1676b2;
-}
-/*
-.sidebar-elements .sidebar-menu-element:last-child {
-	border-bottom:1px solid #409ccc;
-}
-*/
-.sidebar-elements .sidebar-menu-element img {
-	margin-right:15px;
 }
 header {
     background: #fff;
@@ -90,8 +86,11 @@ header .blurry {
 .logo-wrapper {
 	width:300px;
 }
-.logo-wrapper + div {
-	padding-left:0;
+.logo-wrapper + .announce {
+	padding:0px;
+	height:34px;
+	line-height: 34px;
+	max-width:960px;
 }
 .logo-wrapper .header-logo {
 	width:100%;
@@ -100,7 +99,7 @@ header .blurry {
 .logo-wrapper .header-logo + div {
 	width:60px;
 	height:100%;
-	position:absolute;
+	position:absolute;  
 	left:300px;
 	top:0;
 	z-index: 999;
@@ -113,7 +112,7 @@ header .blurry {
 	cursor:pointer;
 }
 .logo-wrapper .sidebar-menu-button.active {
-	border:1px solid #1e8bc3;
+	border:1px solid #086193;
 }
 .logo-wrapper .sidebar-menu-button span,
 .logo-wrapper .sidebar-menu-button div {
@@ -126,7 +125,7 @@ header .blurry {
 }
 .logo-wrapper .sidebar-menu-button.active span,
 .logo-wrapper .sidebar-menu-button.active div {
-	background:#1e8bc3;
+	background:#086193;
 }
 .map-region > div > div {
     display: inline-block;
@@ -158,6 +157,7 @@ header .blurry {
     padding: 0;
     background: #cdcdcd url(http://jarvis-tech.com/images/map-bg2.png) repeat-x 100% 0;
     /* background-color: #fafafa; */
+    background-size:contain;
 }
 
 .map-region .container-fluid .info .inside {
@@ -274,18 +274,26 @@ header .login-form input {
 }
 
 header .login-form input[type=submit],header .register input[type=submit] {
-    background: #1E8BC3;
+  background: #1E8BC3;
 	border: 0;
 	height: 33px;
 	margin-left: 16px;
-	width: 76px;
-	padding: 0;
+	width: auto;
+	padding: 0px 10px;
 	position: relative;
 	color: #fff;
 	top: 0px;
 	font-size: 12px;
 	font-family: "Roboto";
 	font-weight: 100;
+}
+header .login-form input[type=submit]:hover {
+	color:#fff;
+	background: #1E8BC3;
+}
+header .login-form .register-button input[type=submit] {
+	background: #333;
+	margin-right:10px;
 }
 header .login-form input[name=email] {
     margin-right: 16px;
@@ -388,6 +396,7 @@ section.content-region .partners .list .logo img {
 section.partners {
 	background:#e6eff5;
 	padding:20px 0px 50px;
+	display: none;
 }
 footer {
     background-color: #05478a;
@@ -447,7 +456,7 @@ position: absolute;
 
 .register {
     position: relative;
-padding: 5px 0px;
+/* 		padding: 5px 0px; */
 }
 
 header .register input {
@@ -540,7 +549,7 @@ section.content-region .columns .container .clmn .title/* , .row.top-header .tex
 }
 a.logo-text,a.logo-text:hover{
 	font-family: rockwell;
-	font-size: 24px;
+	/* font-size: 24px; */
 	color: #F56000;
 }
 /*
@@ -650,6 +659,7 @@ color: #848484;
 color: #05478a;
 }
 #login-register {
+/*
 background: #ffffff;
 border: 1px solid #aaa;
 display: block;
@@ -662,13 +672,16 @@ padding: 20px;
 -webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.1);
 -moz-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.1);
 box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.1);
+*/
 }
 #login-register {
+/*
 	position: absolute;
 	background: #ffffff;
 	border: 1px solid #d8d8d8;
 	top: 60px;
 	z-index: 1000000;
+*/
 }
 #login-register:after, #login-register:before {
 	bottom: 100%;
@@ -715,6 +728,9 @@ float: left;
 .login-form .form-actions {
 float: left;
 }
+.login-form .register-button {
+	
+}
 .input-icon > .form-control {
 border-left: 3px solid #1e8bc3;
 
@@ -753,6 +769,11 @@ float: right;
 }
 .form-signin .form-actions input[type=submit]{
 	width: 115px;
+	margin-right:10px;
+}
+.form-signin .form-actions input[type=submit]:hover {
+	color:#fff;
+	background: #1E8BC3;
 }
 .text .body {
 color: #474747;
@@ -806,6 +827,73 @@ filter: drop-shadow( 2px 3px 2px rgba(0,0,0,.3) );
 .announcements-ticker {
     overflow: hidden;
 }
+
+/*       USER MENU       */
+#login-register input.form-control:focus {
+	border-top:1px solid #9bc4da;
+	border-right:1px solid #9bc4da;
+	border-bottom:1px solid #9bc4da;
+}
+.dashboard-user-sliding-menu {
+	padding:7px 0px 7px 10px;
+	line-height: 20px;
+	color:#005383;
+	font-family: "Open Sans", sans-serif;
+	background: #fff;
+	cursor: pointer;
+}
+.dashboard-user-sliding-menu div.username,
+.dashboard-user-sliding-menu a.icon {
+	position:relative;
+	z-index: 1;
+	background:#fff;
+}
+.dashboard-user-sliding-menu a.icon {
+	padding-right:10px;
+}
+.dashboard-user-sliding-menu i {
+	font-size:16px;
+	margin: 0px 0px 0px 5px;
+	color:#005383;
+}
+.dashboard-user-slide-menu {
+	position:absolute;
+	width:auto;
+	right:-1000px;
+	top:10px;
+	background:#fff;
+	transition:all 0.25s ease-in-out;
+}
+.dashboard-user-slide-menu.active {
+	right:131px;
+	transition:all 0.25s ease-in-out;
+}
+.dashboard-user-slide-menu ul {
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+.dashboard-user-slide-menu ul li {
+	float:left;
+	padding:10px 0;
+}
+.dashboard-user-slide-menu ul li a {
+	font-family: "Open Sans", sans-serif;
+	color:#5e5e5e;
+	padding:0 10px;
+	text-decoration:none;
+	border-left:1px solid #e2e2e2;
+	line-height: 20px;
+}
+.dashboard-user-slide-menu ul li a:hover {
+	color:#005383;
+}
+.dashboard-user-slide-menu ul li:last-child {
+	margin-right:10px;
+}
+.dashboard-user-slide-menu ul li:last-child a {
+	border-right: 1px solid #e2e2e2;
+} 
 
 
 

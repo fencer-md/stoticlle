@@ -24,15 +24,15 @@ function social_link_class(site) {
 $(document).ready(function(){
 	
 	/* show hide login box */	
-	$('#show-login').click(function() {
-	  if($(this).next().is(':visible')) {
-	    $(this).next().hide();
-	}
-	else{
-		$(this).next().show();
-		$('.login-form, .login-msg').show();
-	}
-	});
+			$('#show-login').click(function() {
+			  if($(this).next().is(':visible')) {
+			    $(this).next().hide();
+			}
+			else{
+				$(this).next().show();
+				$('.login-form, .login-msg').show();
+			}
+			});
 	/* ////// end shouw hide login box */
 
 	/* 	show register box */
@@ -48,7 +48,6 @@ $(document).ready(function(){
 		//var mapWidth = ($(".container-fluid").height() - 650);
 		//$("#world_map").css("top",mapWidth);
 })
-
 
 $(document).ready(function(){
 	//console.log("a")
