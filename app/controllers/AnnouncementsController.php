@@ -24,12 +24,33 @@ class AnnouncementsController extends BaseController
         $announcements = Announcement::where('success', '=', 0)
             ->orderBy('id', 'desc')->get();
 
+        // Options for stream radio buttons.
+        $streamsRadios = [];
+        foreach($streams as $stream) {
+            $streamsRadios[$stream->id] = $stream->name;
+        }
+
+        // Options for announcement type radio buttons.
+        $typeRadios = [];
+        for($i=1; $i<=3; $i++) {
+            $typeRadios[$i] = 'N'.$i;
+        }
+
+        // Options for probability radio buttons.
+        $probability = ['99.7', '64.7', '33.7', '16.7', '7.7'];
+        $probabilityRadios = [];
+        foreach($probability as $p) {
+            $probabilityRadios[$p] = $p.'%';
+        }
 
         return View::make(
             'announcements.admin.index',
             array(
                 'streams' => $streams,
                 'announcements' => $announcements,
+                'streamsRadios' => $streamsRadios,
+                'typeRadios' => $typeRadios,
+                'probabilityRadios' => $probabilityRadios,
             )
         );
     }
@@ -41,6 +62,24 @@ class AnnouncementsController extends BaseController
     public function postCreate()
     {
         $data = Input::all();
+
+        $validator = Validator::make(
+            $data,
+            array(
+                'probability' => 'required',
+                'series_id' => 'required',
+                'announcement_type' => 'required',
+                'name' => 'required',
+                'game' => 'required',
+                'coefficient' => 'required',
+            )
+        );
+
+        if ($validator->fails()) {
+            Flash::error('Все поля формы обязательны');
+            return Redirect::to('admin/announcements')
+                ->withInput();
+        }
 
         $announcement = new Announcement($data);
         $announcement->save();
