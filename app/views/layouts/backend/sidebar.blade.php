@@ -105,10 +105,13 @@
 @endif
 -->
 <div class="side-bar-user">
-	<div class="warning" id="announcement-notification" style="display: none">
+	<div class="notification warning" id="announcement-notification" style="display: none">
 		<div class="text">Внимание!</div>
 		<div class="info">сейчас будет ставка</div>
 	</div>
+    <div class="notification danger" id="announcement-notification-canceled" style="display: none">
+        <div class="text">Игра отменена</div>
+    </div>
 	<div class="remaining-time">
 		<img src="{{ URL::asset('images/timer.png') }}" alt="timer">
 		<div class="text">7 дней</div>
