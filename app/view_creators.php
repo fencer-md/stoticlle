@@ -11,6 +11,7 @@ View::creator('announcements.ticker', function($view)
      */
     $ajax = true;
     $message = null;
+    $show = true;
 
     // Show announcements only for logged in users.
     if (Auth::check()) {
@@ -29,13 +30,10 @@ View::creator('announcements.ticker', function($view)
             $announcement = Announcement::latestExpired();
         }
         $message = empty($announcement) ? null : $announcement->getMessage();
+    } else {
+        // Do not show the ticker.
+        $show = false;
     }
-
-    /*
-     * Show the ticker.
-     * Usually will be always show, but in case there are no announcements in database we hide it completely.
-     */
-    $show = !empty($message);
 
     $view->with('show', $show)
         ->with('ajax', $ajax)

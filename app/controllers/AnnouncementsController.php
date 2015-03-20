@@ -82,6 +82,9 @@ class AnnouncementsController extends BaseController
         }
 
         $announcement = new Announcement($data);
+        $expires = new Carbon();
+        $expires->addMinutes(10);
+        $announcement->expires_at = $expires;
         $announcement->save();
 
         // Send message to WebSocket server.
@@ -139,6 +142,7 @@ class AnnouncementsController extends BaseController
         $this->broadcast(array(
             'stream' => $stream,
             'type' => 'notify',
+            'expires' => $endTime->timestamp,
         ));
 
         Flash::success('Отчет завершится в ' . $endTime->format('H:i:s'));
@@ -157,6 +161,11 @@ class AnnouncementsController extends BaseController
         $endTime->subSecond();
         $counter->ends_at = $endTime;
         $counter->save();
+
+        $this->broadcast(array(
+            'stream' => $stream,
+            'type' => 'notifyCancel',
+        ));
 
         Flash::success('Отчет остоновлен');
         return Redirect::to('admin/announcements');
