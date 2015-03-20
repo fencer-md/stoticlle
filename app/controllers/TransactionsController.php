@@ -363,7 +363,8 @@ class TransactionsController extends \BaseController {
 
         return View::make('backend.user.transaction')
             ->with('stream', AnnouncementSeries::find($user->announcement_stream))
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('accountSum', Session::get('announcemntsSum', 1000));
     }
 
     public function receiveMoney()

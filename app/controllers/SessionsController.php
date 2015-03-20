@@ -67,6 +67,7 @@ class SessionsController extends \BaseController {
             $user->save();
         }
         Auth::logout();
+        Session::clear();
 
         return Redirect::to('/');
     }

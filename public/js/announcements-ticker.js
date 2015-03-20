@@ -9,7 +9,7 @@ $(document).ready(function(){
             ajax.marquee();
         }
         setInterval(function(){
-            $.get('/announcements', function(data){
+            $.get('/user/announcements/new', function(data){
                 ajax.marquee('destroy').text(data).marquee(marqueeOptions);
             });
         }, 300000); // 5 min
