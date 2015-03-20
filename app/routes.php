@@ -88,8 +88,7 @@ Route::group(['before' => 'auth'], function()
 
 		Route::controller('admin/announcements', 'AnnouncementsController');
 	});
-	Route::get('announcements', 'AnnouncementsController@getNew');
-	Route::any('bet', 'AnnouncementsController@anyBet');
+    Route::controller('user/announcements', 'UserAnnouncementsController');
 
 	Route::get('user/edit', 'UserController@editUserInfo');
 	Route::post('user/edit/update', 'UserController@updateInfo');

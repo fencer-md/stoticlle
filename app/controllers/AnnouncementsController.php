@@ -5,16 +5,6 @@ use Carbon\Carbon;
 class AnnouncementsController extends BaseController
 {
     /**
-     * User: Handle ajax announcements update.
-     */
-    public function getNew()
-    {
-        $announcement = Announcement::latest();
-        $message = empty($announcement)? null : $announcement->message;
-        echo $message;
-    }
-
-    /**
      * Admin: Index page.
      * @return \Illuminate\View\View
      */
@@ -82,6 +72,9 @@ class AnnouncementsController extends BaseController
         }
 
         $announcement = new Announcement($data);
+        $expires = new Carbon();
+        $expires->addMinutes(10);
+        $announcement->expires_at = $expires;
         $announcement->save();
 
         // Send message to WebSocket server.
@@ -90,6 +83,7 @@ class AnnouncementsController extends BaseController
             'type' => 'message',
             'text' => $announcement->getMessage(),
             'ratio' => $announcement->probability,
+            'id' => $announcement->id,
         ));
 
         Flash::success('Анонс сохранен.');
@@ -139,6 +133,7 @@ class AnnouncementsController extends BaseController
         $this->broadcast(array(
             'stream' => $stream,
             'type' => 'notify',
+            'expires' => $endTime->timestamp,
         ));
 
         Flash::success('Отчет завершится в ' . $endTime->format('H:i:s'));
@@ -158,38 +153,13 @@ class AnnouncementsController extends BaseController
         $counter->ends_at = $endTime;
         $counter->save();
 
+        $this->broadcast(array(
+            'stream' => $stream,
+            'type' => 'notifyCancel',
+        ));
+
         Flash::success('Отчет остоновлен');
         return Redirect::to('admin/announcements');
-    }
-
-    /**
-     * @deprecated ???
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     */
-    public function anyBet()
-    {
-        $data = Announcement::where('expires_at', '>', new Carbon())->first();
-
-        if (!$data) {
-            Flash::error('Нет активных ставок');
-            return Redirect::to('user/transactions');
-        }
-
-        if (Input::get('bet')) {
-            $bet = new AnnouncementBet();
-            $bet->announcement_id = $data->id;
-            $bet->user_id = Auth::user()->id;
-            $bet->amount = Input::get('bet');
-            $bet->save();
-            Flash::success('Ставка сохранена');
-        }
-
-        return View::make(
-            'announcements.user.bet',
-            array(
-                'data' => $data,
-            )
-        );
     }
 
     /**

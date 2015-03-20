@@ -11,7 +11,7 @@
                 <form class="pull-left form-inline clearfix">
                     <div class="form-group user-chart-form">
                         <label for="account-sum">Сумма на счету</label>
-                        <input type="text" class="form-control" id="account-sum">
+                        <input type="text" class="form-control" id="account-sum" value="{{$accountSum}}">
                     </div>
                 </form>
             </div>
@@ -47,6 +47,11 @@
         var x = Math.round(pH);
         $('.user-anouncements .package-footer').outerWidth(x+1);
         $('.user-anouncements .package-body').width(aP-pH-1);
+
+        // Save sum on change.
+        $('#account-sum').blur(function(){
+            $.post('/user/announcements/account-sum',{sum: $(this).val()});
+        });
     });
 </script>
 @stop
