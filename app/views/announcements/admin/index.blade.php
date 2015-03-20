@@ -91,37 +91,27 @@
                      )) }}
                         <div class="radio-buttons-group col-sm-3">
                             <div class="radio-list col-sm-4">
-                                <label><input name="probability" value="99.7" type="radio">99.7%</label>
-                                <label><input name="probability" value="64.7" type="radio">64.7%</label>
-                                <label><input name="probability" value="33.7" type="radio">33.7%</label>
-                                <label><input name="probability" value="16.7" type="radio">16.7%</label>
-                                <label><input name="probability" value="7.7" type="radio">7.7%</label>
+                                {{ Form::radios('probability', $probabilityRadios, null, ['required']) }}
                             </div>
                             <div class="radio-list col-sm-4">
-                                @foreach($streams as $stream)
-                                    <label>
-                                        <input name="series_id" value="{{$stream->id}}" type="radio">{{$stream->name}}
-                                    </label>
-                                @endforeach
+                                {{ Form::radios('series_id', $streamsRadios, null, ['required']) }}
                             </div>
                             <div class="radio-list col-sm-4">
-                                @for ($i = 1; $i <= 3; $i++)
-                                    <label><input name="announcement_type" value="{{$i}}" type="radio">N{{$i}}</label>
-                                @endfor
+                                {{ Form::radios('announcement_type', $typeRadios, null, ['required']) }}
                             </div>
                         </div>
 
                         <div class="form-group col-sm-3">
                             <label class="sr-only" for="announcement-name">Имя</label>
-                            <input class="form-control" id="announcement-name" placeholder="Имя" type="text" name="name">
+                            {{ Form::text('name', null, ["class" => "form-control", "placeholder" => "Имя", "required"]) }}
                         </div>
                         <div class="form-group col-sm-2">
                             <label class="sr-only" for="announcement-name">Гейм</label>
-                            <input class="form-control" id="announcement-name" placeholder="Гейм" type="text" name="game">
+                            {{ Form::text('game', null, ["class" => "form-control", "placeholder" => "Гейм", "required"]) }}
                         </div>
                         <div class="form-group col-sm-2">
                             <label class="sr-only" for="announcement-name">Коеффициент</label>
-                            <input class="form-control" id="announcement-name" placeholder="Коеффициент" type="text" name="coefficient">
+                            {{ Form::text('coefficient', null, ["class" => "form-control", "placeholder" => "Коеффициент", "required"]) }}
                         </div>
                         <div class="col-sm-1">
                             <button type="submit" class="btn blue">Отправить</button>
@@ -168,9 +158,6 @@
                     description: ''
                 }).show();
             });
-
-            //$('.announcements-packages .package-body').jScrollPane();
-
 
             $.fn.hScroll = function (options) {
                 function scroll(obj, e) {

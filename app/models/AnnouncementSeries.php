@@ -56,6 +56,16 @@ class AnnouncementSeries extends Eloquent {
             $count++;
         }
 
+        // Add current date if needed.
+        $today = new \Carbon\Carbon();
+        $todayDate = $today->format($format);
+        if (empty($result[$todayDate])) {
+            $day = new stdClass();
+            $day->date = $todayDate;
+            $day->announcements = array();
+            $result[$todayDate] = $day;
+        }
+
         // Group by "+/-".
         foreach($result as $date => $data) {
             $announcements = array();

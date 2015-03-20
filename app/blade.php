@@ -40,3 +40,23 @@ Blade::extend(function($view, $compiler) {
 Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);
 });
+
+/**
+ * $options Array with radio button's value as key and value for label.
+ *
+ * <code>
+ * {{ Form::radios('select1', [1 => 'One', 2 => 'Two'], 2) }}
+ * </code>
+ */
+Form::macro('radios', function($name, $options, $selected = null, $attributes = [])
+{
+    if (empty($selected)) {
+        $selected = array_keys($options)[0];
+    }
+
+    $html = '';
+    foreach($options as $value => $label) {
+        $html .= '<label>' . Form::radio($name, $value, $value == $selected, $attributes) . $label . '</label>';
+    }
+    return $html;
+});
