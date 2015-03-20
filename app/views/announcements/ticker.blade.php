@@ -63,6 +63,9 @@
                 onWSNotify: function(msg){
                     var now = Math.round(new Date().getTime()/1000);
 
+                    // Hide previous canceled game.
+                    $('#announcement-notification-canceled').hide();
+
                     AnnouncementSound.play(); // Play sound.
                     var notification = $('#announcement-notification');
                     if (notification.length) {
@@ -74,6 +77,10 @@
                 },
                 onWSNotifyCancel: function(msg){
                     $('#announcement-notification').hide();
+                    var canceled = $('#announcement-notification-canceled').show();
+                    setTimeout(function(){
+                        canceled.hide();
+                    }, 120000); // Hide after 2 min
                 }
             };
         </script>

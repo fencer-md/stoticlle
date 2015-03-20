@@ -574,22 +574,31 @@ li.money {
 	background:#1e8bc3;
 	padding:80px 20px 0;
 }
-.side-bar-user .warning {
-	background-color: #feec56;
+.side-bar-user .notification {
 	font-family:"Open Sans", sans-serif;
 	font-weight:300;
 	padding: 20px 35px;
 	line-height: 1;
 	margin-bottom: 30px;
 }
-.side-bar-user .warning .text {
+
+.side-bar-user .notification.warning {
+    background-color: #feec56;
+}
+
+.side-bar-user .notification.danger {
+    background-color: #E63A22;
+    color: #fff;
+}
+
+.side-bar-user .notification .text {
 	margin-bottom: 5px;
 }
-.side-bar-user .warning .text,
+.side-bar-user .notification .text,
 .side-bar-user .remaining-time .text {
 	font-size: 28px;
 }
-.side-bar-user .warning .info,
+.side-bar-user .notification .info,
 .side-bar-user .remaining-time .info {
 	font-size: 16px;
 }
