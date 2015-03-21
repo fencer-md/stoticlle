@@ -36,6 +36,9 @@
                         case "notifyCancel":
                             Announcements.onWSNotifyCancel(msg);
                             break;
+                        case "result":
+                            Announcements.onWSResult(msg);
+                            break;
                     }
                 },
                 onWSMessage: function(msg, ws) {
@@ -45,16 +48,16 @@
 
                     // Show new empty result with confirmation popover.
                     var display = $('.announcements');
-                    if (display) {
+                    if (display.length) {
                         var results = display.find('.day:last').find('.results');
-                        var content = msg.text + '<br />' +
+                        var popup = msg.text + '<br />' +
                                 '<div class="announcement-popover-confirmation">' +
                                 '<a href="/user/announcements/bet/'+msg.id+'" class="btn btn-primary">Подтверждаю</a>' +
                                 '</div>';
-
-                        content = content.replace(/"/g, '&quot;');
+                        popup = popup.replace(/"/g, '&quot;');
+                        var content = ($('#account-sum').val() / msg.ratio).toFixed(2);
                         var newItem = $('<div data-original-title="" class="result" data-placement="top" ' +
-                        'data-toggle="popover" title="" data-content="' + content + '"></div>');
+                        'data-toggle="popover" title="" data-content="' + popup + '">'+ content +'</div>');
 
                         results.append(newItem);
                         newItem.popover({html: true, trigger: 'click'}).popover('show');
@@ -81,6 +84,13 @@
                     setTimeout(function(){
                         canceled.hide();
                     }, 120000); // Hide after 2 min
+                },
+                onWSResult: function(msg) {
+                    // Refresh only announcements page.
+                    var display = $('.announcements');
+                    if (display.length) {
+                        window.location.reload();
+                    }
                 }
             };
         </script>

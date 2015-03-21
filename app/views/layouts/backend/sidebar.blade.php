@@ -61,49 +61,6 @@
 @endif
 	
 @if ( Auth::user()->role == "2" )
-<!--
-
-	<li class="dashboard-stat  avlb-amount">
-		<div class="icon"> <i class="fa fa-usd"></i></div>
-				<div class="number">{{ round($data['currentAmmount'], 2) }}$</div>
-				<div class="desc">У вас на счету</div>
-			
-		</li>
-		<li class="dashboard-stat  total-investment">
-			<div class="icon"> <i class="fa fa-cloud-download"></i></div>
-			<div class="desc">Всего инвестировано</div>
-			<div class="number">{{ round($data['totalInvested'], 2) }}$</div>
-
-		</li>
-		<li class="dashboard-stat  total-reward">
-			<div class="icon"> <i class="fa fa-cloud-upload"></i></div>
-			<div class="desc">Всего прибыли</div>
-			<div class="number">{{ round($data['totalRewarded'], 2) }}$</div>
-
-		</li>
-		
-		@if ( Auth::user()->awaiting_award == "1" )
-		<li class="dashboard-stat  current-invested">
-			<div class="desc">Информация о инвестиций</div>
-			<div class="end-date">
-			<div class="day"><?php echo date("d"); ?></div>
-			<div class="month"><?php echo date("M"); ?></div>
-		</div>
-			<div class="dates"><div class="invested">
-				<div class="lable">Инвестировано</div>
-				<div class="number">{{ round($data['lastInvestedAmmount'], 2) }}$</div>
-			</div>
-			<div class="will-be">
-				<div class="lable">Прибыль</div>
-				<div class="number"> @include('includes.backend.cycles')</div>
-			</div>
-		</div>
-	</li>
-		@endif
-@if ( Auth::user()->awaiting_award == "0" )
-<li class="cycle-end">@include('includes.backend.newoffer')</li>
-@endif
--->
 <div class="side-bar-user">
 	<div class="notification warning" id="announcement-notification" style="display: none">
 		<div class="text">Внимание!</div>
