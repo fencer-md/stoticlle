@@ -55,3 +55,9 @@
     });
 </script>
 @stop
+
+@macro('groupMessage', $group)
+@foreach($group as $a)
+    {{inlineAnnouncementStatus($a)}} {{$a->getMessage()}}<br />
+@endforeach
+@endmacro

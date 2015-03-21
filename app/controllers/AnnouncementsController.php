@@ -146,12 +146,7 @@ class AnnouncementsController extends BaseController
      */
     public function getStopCountdown($stream)
     {
-        $counter = AnnouncementCounter::getByStream($stream);
-
-        $endTime = new Carbon();
-        $endTime->subSecond();
-        $counter->ends_at = $endTime;
-        $counter->save();
+        $this->stopCounter($stream);
 
         $this->broadcast(array(
             'stream' => $stream,
@@ -195,9 +190,17 @@ class AnnouncementsController extends BaseController
      */
     public function getResult($id, $value)
     {
+        /* @var $announcement Announcement */
         $announcement = Announcement::find($id);
         $announcement->success = $value;
         $announcement->save();
+
+        $this->stopCounter($announcement->series_id);
+
+        $this->broadcast(array(
+            'stream' => $announcement->series_id,
+            'type' => 'result',
+        ));
 
         Flash::success('Результат сохранен.');
         return Redirect::to('admin/announcements');
@@ -218,5 +221,14 @@ class AnnouncementsController extends BaseController
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'web-broadcast');
         $socket->connect('tcp://'.$config['ip'].':'.$config['port']);
         $socket->send(json_encode($data));
+    }
+
+    protected function stopCounter($stream)
+    {
+        $counter = AnnouncementCounter::getByStream($stream);
+        $endTime = new Carbon();
+        $endTime->subSecond();
+        $counter->ends_at = $endTime;
+        $counter->save();
     }
 }

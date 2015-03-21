@@ -9,9 +9,3 @@
 @elseif($announcement->success == Announcement::SUCCESS) <span class="text-green"><i class="fa fa-plus"></i></span>
 @endif
 @endmacro
-
-@macro('groupMessage', $group)
-@foreach($group as $a)
-    {{inlineAnnouncementStatus($a)}} {{$a->getMessage()}}<br />
-@endforeach
-@endmacro

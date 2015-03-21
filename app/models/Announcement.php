@@ -44,4 +44,14 @@ class Announcement extends Eloquent
             'k-' . $this->coefficient
         ));
     }
+
+    public function getMessageWithBets()
+    {
+        $message = $this->getMessage();
+        $count = AnnouncementBet::query()->where('announcement_id', '=', $this->id)->count();
+
+        $message .= " ($count человек)";
+
+        return $message;
+    }
 }
