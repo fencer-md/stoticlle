@@ -11,9 +11,15 @@
 |
 */
 
-App::before(function($request)
-{
-	//
+App::before(function ($request) {
+    if (Auth::user()) {
+        /* @var $user User */
+        $user = Auth::user();
+        $expires = new Carbon\Carbon();
+        $expires->addMinutes(5);
+        $user->session_expires = $expires;
+        $user->save();
+    }
 });
 
 
