@@ -15,7 +15,7 @@ class AnnouncementsTable extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->increments('id');
             $table->string('message');
-            $table->double('coefficient', 15, 8);
+            $table->double('coefficient', 15, 2);
             $table->enum('announcement_type', array(1, 2, 3));
             $table->timestamps();
             $table->timestamp('expires_at');

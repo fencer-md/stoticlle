@@ -71,4 +71,9 @@ class SessionsController extends \BaseController {
 
         return Redirect::to('/');
     }
+
+    public function show()
+    {
+        // Just to keep session alive.
+    }
 }
