@@ -8,7 +8,6 @@
             <source src="{{ asset('snd/announcement.mp3') }}" type="audio/mpeg">
         </audio>
         <script>
-            var AnnouncementSound = document.getElementById('announcement-sound');
             var Announcements = {
                 ws: null,
                 options: {},
@@ -69,6 +68,7 @@
                     // Hide previous canceled game.
                     $('#announcement-notification-canceled').hide();
 
+                    var AnnouncementSound = document.getElementById('announcement-sound');
                     AnnouncementSound.play(); // Play sound.
                     var notification = $('#announcement-notification');
                     if (notification.length) {
