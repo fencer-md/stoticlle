@@ -202,3 +202,9 @@
 
     </script>
 @stop
+
+@macro('groupMessage', $group)
+@foreach($group as $a)
+    {{inlineAnnouncementStatus($a)}} {{$a->getMessageWithBets()}}<br />
+@endforeach
+@endmacro
