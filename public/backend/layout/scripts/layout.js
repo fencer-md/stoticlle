@@ -531,4 +531,8 @@ $(document).ready(function(){
 		/* $('.nice-select').selectize(); */
 	
 
+    // Refresh session each minute.
+    setInterval(function(){
+        $.get('/session/ping');
+    }, 60000);
 });
