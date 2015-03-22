@@ -11,6 +11,14 @@
             var Announcements = {
                 ws: null,
                 options: {},
+                conn: null,
+                url: null,
+                connect: function(){
+                    var conn = new WebSocket(Announcements.url);
+                    conn.onmessage = Announcements.onWebsocketMessage;
+                    conn.onclose = Announcements.onWebsocketClose;
+                    Announcements.conn = conn;
+                },
                 init: function (ws, options) {
                     Announcements.ws = ws;
                     Announcements.options = options;
@@ -20,8 +28,8 @@
                     }
 
                     var host = 'ws.' + window.location.hostname;
-                    var conn = new WebSocket('ws://' + host + ':{{$websocketPort}}?uid={{$user}}');
-                    conn.onmessage = Announcements.onWebsocketMessage;
+                    Announcements.url = 'ws://' + host + ':{{$websocketPort}}?uid={{$user}}';
+                    Announcements.connect();
                 },
                 onWebsocketMessage: function(e){
                     var msg = JSON.parse(e.data);
@@ -39,6 +47,11 @@
                             Announcements.onWSResult(msg);
                             break;
                     }
+                },
+                onWebsocketClose: function(){
+                    setTimeout(function(){
+                        Announcements.connect();
+                    }, 2000); // reconnect in 2 sec.
                 },
                 onWSMessage: function(msg, ws) {
                     Announcements.ws.marquee('destroy')
