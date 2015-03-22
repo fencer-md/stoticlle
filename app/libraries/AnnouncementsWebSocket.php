@@ -58,4 +58,16 @@ class AnnouncementsWebSocket implements MessageComponentInterface {
             }
         }
     }
+
+    public function ping()
+    {
+        $data = [
+            'type' => 'ping',
+        ];
+
+        $msg = json_encode($data);
+        foreach ($this->clients as $client) {
+            $client->send($msg);
+        }
+    }
 }
