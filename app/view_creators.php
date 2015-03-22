@@ -39,3 +39,22 @@ View::creator('announcements.ticker', function($view)
         ->with('ajax', $ajax)
         ->with('message', $message);
 });
+
+
+View::creator('announcements.user.remaining', function($view){
+    $days = null;
+    /* @var $user User */
+    $user = Auth::user();
+    if ($user) {
+        if ($user->announcement_start->isPast()) {
+            $now = new Carbon\Carbon();
+            $left = $now->diff($user->announcement_start);
+            $days = 7 - $left->days;
+            if ($days < 0) {
+                $days = 0;
+            }
+        }
+    }
+
+    $view->with('days', $days);
+});

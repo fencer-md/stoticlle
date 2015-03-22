@@ -69,11 +69,7 @@
     <div class="notification danger" id="announcement-notification-canceled" style="display: none">
         <div class="text">Игра отменена</div>
     </div>
-	<div class="remaining-time">
-		<img src="{{ URL::asset('images/timer.png') }}" alt="timer">
-		<div class="text">7 дней</div>
-		<div class="info">осталось времени</div>
-	</div>
+    @include('announcements.user.remaining')
 	<div class="special-news">
 		<div class="header">Спецыальные новости</div>
 		<div class="news">
