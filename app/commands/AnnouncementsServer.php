@@ -7,6 +7,8 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\Factory as LoopFactory;
+use Monolog\Logger;
+use Monolog\Handler\RotatingFileHandler;
 
 class AnnouncementsServer extends Command
 {
@@ -32,9 +34,13 @@ class AnnouncementsServer extends Command
      */
     public function fire()
     {
+        // create a log channel
+        $log = new Logger('websocket');
+        $log->pushHandler(new RotatingFileHandler(storage_path().'/logs/websocket.log', 10, Logger::DEBUG));
+
         $config = Config::get('announcements-server');
         $loop = LoopFactory::create();
-        $announcements = new AnnouncementsWebSocket();
+        $announcements = new AnnouncementsWebSocket($log);
 
         // Listen for the web server to make a message push.
         $broadcast = 'tcp://' . $config['broadcast']['ip'] . ':' . $config['broadcast']['port'];
@@ -64,6 +70,7 @@ class AnnouncementsServer extends Command
             $announcements->ping();
         });
 
+        $log->info('Server started');
         $loop->run();
     }
 
