@@ -110,6 +110,8 @@ Route::group(['before' => 'auth'], function()
 
 Route::get('user/confirm/{cc}', 'UserController@confirm');
 
+Route::get('language/{lang}', 'LanguageController@index');
+
 Route::resource('session', 'SessionsController');
 Route::resource('user', 'SessionsController');
 Route::controller('password', 'RemindersController');
