@@ -45,7 +45,7 @@ View::creator('announcements.user.remaining', function($view){
     $days = null;
     /* @var $user User */
     $user = Auth::user();
-    if ($user) {
+    if ($user && $user->announcement_start) {
         if ($user->announcement_start->isPast()) {
             $now = new Carbon\Carbon();
             $left = $now->diff($user->announcement_start);
