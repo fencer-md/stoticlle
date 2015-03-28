@@ -12,3 +12,4 @@ Thumbs.db
 /app/config/dev
 *.log
 /_ide_helper*
+/public/uploads/user-photos
