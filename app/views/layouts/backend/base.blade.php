@@ -13,19 +13,19 @@
 	   <link rel="shortcut icon" href="favicon.ico" />
 	</head>
 	<body class="page-header-fixed">
-		<div class="page-header navbar navbar-fixed-top">
+		<div class="page-header navbar navbar-fixed-top clearfix">
             {{-- BEGIN TOP NAVIGATION BAR --}}
-            <div class="page-header-inner">
-                <div class="pull-left page-logo">
-                	<div class="pull-left dashboard-sidebar-menu-button">
+            <div class="page-header-inner clearfix">
+                <div class="pull-left page-logo col-xs-12 col-sm-4 col-md-3">
+                	<div class="pull-left dashboard dashboard-sidebar-menu-button">
 										<span></span>
 										<span></span>
 										<span></span>
 									</div>
                     <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
                 </div>
-                <div class="blurry"></div>
-                <div class="col-md-4">@include('announcements.ticker')</div>
+                <div class="blurry hidden-xs col-sm-push-4 col-md-push-3"></div>
+                <div class="col-xs-8 col-sm-8 col-md-6">@include('announcements.ticker')</div>
                 <div class="pull-right">
                     @include('layouts.backend.topnavigationbar')
                 </div>

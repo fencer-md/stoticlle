@@ -27,9 +27,9 @@
    	  	</div>
         <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
 		  </div>
-      <div class="blurry"></div>  
+      <!-- <div class="blurry"></div> -->  
     </div>
-    <div class="announce pull-left">@include('announcements.ticker')</div>
+    
     <div class="user-slide-menu pull-right">
     	<div class="menu-toggler sidebar-toggler hide">
 			<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -39,10 +39,12 @@
         <!-- <div class="col-md-6">@include('announcements.ticker')</div> -->
         <!-- <div class="col-md-2"><select class="language-picker"><option>Руский</option><option>English</option><option>Romina</option></select></div>-->
         @if ( Auth::user() == null )
+        <i class="fa fa-user"></i>
         <div class="login clearfix">
 					<div id="login-register">
 						<div class="text-right">
-               <div class="login-form">              
+							 <div class="login-specific-button">Войти</div>
+							 <div class="login-form">              
                  {{ Form::open(['action' => 'SessionsController@store', 'class' => 'login-form']) }}
                      <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail', 'class'=>'form-control']) }}</div>
                      <div class="input-icon"><i class="fa fa-lock"></i>{{ Form::password('password', ['placeholder' => 'Пароль','class'=>'form-control']) }}</div>
@@ -51,23 +53,25 @@
                  {{ Form::close() }}
                  <div class="form-actions register-button">{{ Form::submit('Присоединяйтесь', ['id'=>'join'])}}</div>
                </div>
-               <div class="register">
+               <!-- <div class="register"> -->
                  <!-- <div class="login-msg" >вы еще не снами? <a id="join" href="#">Присоединяйтесь</a></div> -->
-                 <div class="register-form">
+                <div class="register-specific-button">Присоединяйтесь</div>
+                <div class="register-form">
                    {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
                        <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail','class'=>'form-control']) }}</div>
-                       <div class="form-actions">{{ Form::submit('присоединиться', ['class'=>'btn blue']) }}</div>
+                       <div class="form-actions">{{ Form::submit('Присоединиться', ['class'=>'btn blue']) }}</div>
                    {{ Form::close() }}
-               </div>
+               <!-- </div> -->
+                </div>
             </div>
 					</div>
         </div>
-        @else
+        @elseif ( Auth::user()->role == "2" )
         <div class="dashboard-user-sliding-menu pull-right">
 					<div class="username username-hide-on-mobile pull-left">
-						Hello <strong >{{ Auth::user()->userInfo->first_name }} {{ Auth::user()->userInfo->last_name }}</strong> 
+						<span class="greetings">Hello</span><span class="greeting">Hi</span> <strong class="first_name" >{{ Auth::user()->userInfo->first_name }}</strong><strong class="last_name"> {{ Auth::user()->userInfo->last_name }}</strong> 
 					</div>
-					<a href="{{ URL::to('logout') }}" class="icon"><i class="fa fa-sign-out"></i></a>
+					<a href="{{ URL::to('logout') }}" class="icon hidden-xs"><i class="fa fa-sign-out"></i></a>
 					<div class="dashboard-user-slide-menu"> 
 						<ul class="menu clearfix">
 							<li class="user-menu-element"><a href="{{ URL::to('user/edit') }}"><span class="menu-title">Личный кабинет</span></a></li>
@@ -75,8 +79,113 @@
 							<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}"><span class="menu-title">Пополнение средств</span></a></li>
 							<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}"><span class="menu-title">Вывод средств</span></a></li>
 							<li class="user-menu-element"><a href="{{ URL::to('bet') }}"><span class="menu-title">Ставки</span></a></li>
+							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}"><span class="menu-title">Выйти</span></a></li>
 						</ul>
 					</div>
+				</div>
+				@elseif ( Auth::user()->role == "1" )
+				<div class="dashboard-user-sliding-menu admin pull-right">
+					<ul class="nav navbar-nav pull-right">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown"
+           data-close-others="true">
+            <span class="menu-title">Config</span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ URL::to('user/admin/config/rate') }}">Rate</a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown"
+           data-close-others="true">
+            <span class="menu-title">Actions</span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ URL::to('user/admin/addmoneyrequests') }}">Request for funding</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/moneyrecieved') }}">Money recieved</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/withdrawrequests') }}">Withdraw request</a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown"
+           data-close-others="true">
+            <span class="menu-title">Manage users</span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ URL::to('user/admin/userlist') }}">See all users</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/userlistnew') }}">Recently joined</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/investors') }}">Investors</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/nonactiveusers') }}">Didn't invest</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/awarded') }}">Awarded</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/nextstepusers') }}">Next step users</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/edituserlist') }}">Manage users</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/monitored') }}">Monitored users</a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle simple-dropdown" data-toggle="dropdown" data-hover="dropdown"
+           data-close-others="true">
+            <span class="menu-title">Transactions</span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ URL::to('user/admin/transactions/all') }}">All transactions</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/funds') }}">Funding</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/investments/all') }}">Invested money</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/earned/all') }}">Earned money</a>
+            </li>
+            <li>
+                <a href="{{ URL::to('user/admin/denied') }}">Refused transactions</a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="{{ URL::to('admin/announcements') }}" class="simple-link dropdown-toggle">
+            <span class="menu-title">Announcements</span>
+        </a>
+    </li>
+
+    <li class="dropdown">
+        <a href="{{ URL::to('logout') }}" class="dropdown-toggle simple-link" title="Выход">
+            <i class="fa fa-sign-out visible-xs-inline-block visible-sm-inline-block"></i><span class="menu-title hidden-xs hidden-sm">Выход</span>
+        </a>
+    </li>
+</ul>
 				</div>
 				@endif
     </div>
@@ -148,33 +257,141 @@
     
     @include('includes.frontend.scripts')
     @yield('custom_scripts')
-    <script type="text/javascript">
-      $('html').click(function() {
-         $('.register-form').hide();  
-         $('.login-form').show();       
-      });
-      $('div.register a').click(function(e) {
+<script type="text/javascript">
+/*on html click, reveal initial block for header*/
+      if ( window.matchMedia('(min-width: 992px)').matches || window.matchMedia('(max-width: 767px)').matches) {
+
+      	$(document).click(function(e){
+      		e.stopPropagation();
+	      	if ( $(e.target).is("#login-register .text-right *") ) {	      		
+		      	return;
+	      	} else {
+	      		$(".login-specific-button").hide();
+						$(".register-specific-button").hide();
+		      	$('.register-form').hide();  
+						$('.login-form').show();
+	      	}
+      	});
+			}
+			$(window).resize(function() {
+				var windowW = $(window).width();
+				if ( windowW > 991 || windowW < 768 ) {
+				
+					$(".login-specific-button").hide();
+					$(".register-specific-button").hide();
+					
+					$(document).click(function(e) {
+      		e.stopPropagation();
+	      	if ( $(e.target).is("#login-register .text-right *") ) {	      		
+		      	return;
+	      	} else {
+	      		$(".login-specific-button").hide();
+						$(".register-specific-button").hide();
+		      	$('.register-form').hide();  
+						$('.login-form').show();
+	      	}
+      	});
+				}
+			});
+			if ( window.matchMedia('(min-width: 768px)').matches && window.matchMedia('(max-width: 991px)').matches ) {
+				$(document).click(function(e){
+      		e.stopPropagation();
+	      	if ( $(e.target).is("#login-register .text-right *") ) {	      		
+		      	return;
+	      	} else {
+						$(".register-form").removeClass("active");
+						$(".login-form").removeClass("active");
+						$(".login-specific-button").show();
+						$(".register-specific-button").show();		
+					}	
+				});
+			};
+			$(window).resize(function() {
+				var windowW = $(window).width();
+				if ( windowW > 767 && windowW < 992 ) { 
+					$(document).click(function(e){
+      			e.stopPropagation();
+						if ( $(e.target).is("#login-register .text-right *") ) {	      		
+		      		return;
+						} else {
+							$(".register-form").removeClass("active");
+							$(".login-form").removeClass("active");
+							$(".login-specific-button").show();
+							$(".register-specific-button").show();		
+						}	
+					});
+				};
+			});
+      /*
+$('div.register a').click(function(e) {
         e.stopPropagation();
         $('.register-form').show();
       });
+*/
       $('.register-button').click(function(e) {
         e.stopPropagation();
         $('.register-form').show();
+        $('.login-form').hide();
       });
-      $('.register-form').click(function(e) {
+      /*
+$('.register-form').click(function(e) {
         e.stopPropagation();
       });
+*/
       $(document).ready(function(){
       	$(".sidebar-menu-button").on("click",function() {
+      		$(".user-slide-menu > i.fa-user").removeClass("active");
+      		$("#login-register").removeClass("active");
+      		$(".dashboard-user-slide-menu").removeAttr("style");
+      		$(".dashboard-user-slide-menu").removeClass("active");
       		$(this).toggleClass("active");
-	      	$(".sidebar-menu").toggleClass("active");
+	      	$(".sidebar-menu").toggleClass("active");	      	
 				});
 				
+				if ( window.matchMedia('(min-width: 768px)').matches && window.matchMedia('(max-width: 991px)').matches ) {
+					$(".login-specific-button").on("click", function(e){
+						e.stopPropagation();
+						$(this).hide();
+						$(".register-specific-button").hide();
+						setTimeout(function() {
+							$("#login-register .login-form").addClass("active");
+						}, 244); 
+					});
+					$(".register-specific-button").on("click", function(e){
+						e.stopPropagation();
+						$(this).hide();
+						$(".login-specific-button").hide();
+						setTimeout(function() {
+							$("#login-register .register-form").addClass("active");
+						}, 244); 
+					})
+				}
+				$(window).resize(function() {
+					var windowW = $(window).width();
+					if ( windowW > 767 && windowW < 992 ) { 
+						$(".login-specific-button").on("click", function(e){
+						e.stopPropagation();
+						$(this).hide();
+						$(".register-specific-button").hide();
+						setTimeout(function() {
+							$("#login-register .login-form").addClass("active");
+						}, 244); 
+					});
+					$(".register-specific-button").on("click", function(e){
+						e.stopPropagation();
+						$(this).hide();
+						$(".login-specific-button").hide();
+						setTimeout(function() {
+							$("#login-register .register-form").addClass("active");
+						}, 244); 
+					})
+					}
+				});
 			});
 
-    </script>
-    <script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/announcements-ticker.js') }}" type="text/javascript"></script>
+</script>
+<script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/announcements-ticker.js') }}" type="text/javascript"></script>
 
   </body>
 </html>

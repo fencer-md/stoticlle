@@ -630,6 +630,9 @@ li.money {
 	color:#bbdced;
 	margin-bottom:20px;
 }
+.side-bar-user .special-news .news:last-child {
+	margin-bottom:0;
+}
 .side-bar-user .special-news .news .date {
 	color:#fff;
 	margin-right:10px;

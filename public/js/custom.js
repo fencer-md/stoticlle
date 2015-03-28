@@ -50,13 +50,60 @@ $(document).ready(function(){
 })
 
 $(document).ready(function(){
-	//console.log("a")
-var map;
-
-	 // build map
+	var continentsDataProvider;
+	
+	var worldDataProvider = {
+	    map: "worldLow",
+	    images: [],
+	    getAreasFromMap: true
+	};
+	
+	var dataProvider;
+	
+	var continentsDataProvider = {
+    	map: "continentsLow",
+    	alpha: 1,
+    	images: [],
+	    areas: [{
+	        id: "africa",
+	        title: "Africa",
+	        linkToObject: worldDataProvider,
+	        passZoomValuesToTarget: true
+	    }, {
+	        id: "asia",
+	        title: "Asia",
+	        linkToObject: worldDataProvider,
+	        passZoomValuesToTarget: true
+	    }, {
+	        id: "australia",
+	        title: "Australia",
+	        linkToObject: worldDataProvider,
+	        passZoomValuesToTarget: true
+	    }, {
+	        id: "europe",
+	        title: "Europe",
+	        linkToObject: worldDataProvider,
+	        passZoomValuesToTarget: true
+	    }, {
+	        id: "north_america",
+	        title: "North America",
+	        linkToObject: worldDataProvider,
+	        passZoomValuesToTarget: true
+	    }, {
+	        id: "south_america",
+	        title: "South America",
+	        linkToObject: worldDataProvider,
+	        passZoomValuesToTarget: true
+	    }]
+	
+	};
+	
+	
+	var map;
+	
+	// build map
 	AmCharts.ready(function() {
-		//console.log("b")
-		AmCharts.theme = AmCharts.themes.dark;
+		AmCharts.theme = "none";
 		map = new AmCharts.AmMap();
 		map.pathToImages = "http://www.amcharts.com/lib/3/images/";
 		
@@ -72,40 +119,10 @@ var map;
 			color: "#ffffff",
 			rollOverScale: 3
 		};
-
-		//map.addTitle("Population of the World in 2011", 14);
-		//map.addTitle("source: Gapminder", 11);
-		
-		var dataProvider = {
-			mapVar:  AmCharts.maps.continentsLow,
-			alpha: 1,
-			images: [],
-			areas: [{
-			"id": "africa",
-			"title": "Africa",
-		}, {
-			"id": "asia",
-			"title": "Asia",
-		}, {
-			"id": "australia",
-			"title": "Australia",
-		}, {
-			"id": "europe",
-			"title": "Europe",
-		}, {
-			"id": "north_america",
-			"title": "North America",
-		}, {
-			"id": "south_america",
-			"title": "South America",
-		}]
-		}
 		map.zoomControl = {
 			buttonFillColor:"#05478a", 
 			buttonRollOverColor:"#1E8BC3"
 		};
-		
-		//map.imagesSettings.balloonText = "<div >[[title]]</div>";
 		
 		
 		for (i in my_data)
@@ -126,8 +143,22 @@ var map;
 					vall += "$</span>";
 					vall += "</span>";
 					
+					continentsDataProvider.images.push({
+						type: "circle",
+						width: 7,
+						height: 7,
+						stroke: "#ffffff",
+						"stroke-width":"1",
+						color: "#1E8BC3",
+						longitude: user_coord[1],
+						latitude: user_coord[0],
+						value: vall,
+						title: vall,
+						groupId: i,
+						outline:1,
+					});
 					
-					dataProvider.images.push({
+					worldDataProvider.images.push({
 						type: "circle",
 						width: 7,
 						height: 7,
@@ -145,28 +176,44 @@ var map;
 			}
 		}
 		
-		map.dataProvider = dataProvider;
-		
+	map.dataProvider = continentsDataProvider;
+	
+/*
+	map.addListener("click", function (event) {
+        var info = map.getDevInfo();
+        map.zoomToLongLat( map.zoomLevel() * 1.2, info.longitude, info.latitude );
+    });
+*/
+	
+	//loadUsers(map.mapObject.id);
+	
+/*
+	map.addListener("clickMapObject", function (event) {
+		var mapID = event.mapObject.id;
+		console.log(mapID);
+		loadUsers(mapID);
+    });
+    
+*/
 
-		
-		map.addListener("clickMapObject", function (event) {
-		   $(".pop_up_overlay").remove();/*pop_up_info*/
-		   $(".op_up_overlay2").remove();
-		   $("#login-register").hide();
 
-		   var info = event.chart.getDevInfo();
-		   var id = event.mapObject.id;
-		   console.log(info);
-		   var pop_up = "<div class='pop_up_overlay'><div class='pop_up_info' style='margin:32px auto 0;'>";
+
+	map.addListener("clickMapObject", function (event) {
+		var mapID = event.mapObject.id;
+		//loadUsersbyregion(my_data,mapID);
+		//console.log(mapID);
+		
+		var loadUsersbyRegion = function(obj,reg){
+			var pop_up = "<div class='pop_up_overlay'><div class='pop_up_info' style='margin:32px auto 0;'>";
+			var ca = [];
 			
-			 var users = my_data[id];
-			 for (i in users)
-			 {
-				if(i>10){break} 
-				
-				var user = users[i];
+			for(var i in obj[reg]){
+				if(i>10){break}
+				console.log(obj[reg][i]);
+				if(obj[reg][i] == reg){
+				var user = obj[i];
 				//var rand = Math.random()<.5;
-			
+				
 				pop_up += "<div class='user'><div class='sub-user-border'>" + user['first_name'] + " " + user['last_name'] + " – <span class='city'>" + user['city']+"</span>";
 				
 				if(user['online'] == 1){
@@ -197,67 +244,81 @@ var map;
 					}
 					pop_up += "</div>";
 				}
-
+				
 				pop_up += "</div></div></div>";
+				}
+				
+/*
+				if(ca.indexOf(my_data[reg][key].country) == -1) {
+					ca.push(my_data[reg][key].country);
+				}
+*/
 			}
 			pop_up += "</div></div>";
-				//event.mapObject - obiectul
-			// print out dev info
-			
-			
-			$(".amcharts-chart-div").append(pop_up);
-			
-		});  
-		/* Custom*/
-		var pop_up_generator = "<div class='pop_up_overlay'><div class='pop_up_info' style='margin:32px auto 0;'>";
+			return pop_up;
+		}
+		// Example to call it:
+		var arrKeys = loadUsersbyRegion(my_data, mapID);
+		//$(".amcharts-chart-div").append(arrKeys);
+		console.log(arrKeys);
 		
-		for ( i in my_data ) {
-			var region = my_data[i]
-			for (j in region) {
-				var person = region[j];
-				
-				pop_up_generator += "<div class='user'><div class='sub-user-border'>" + person['first_name'] + " " + person['last_name'] + " – <span class='city'>" + person['city']+"</span>";
-				if( person['online'] == 1) {
-					pop_up_generator +="<span class='online'>online</span>";
-				}
-				/*Start Sub-user*/
-				pop_up_generator += "<div class='sub_user'>";
-				if (person.photo.length) {
-					pop_up_generator += "<div class='photo'><img src='/" + person['photo'] + "' /></div>";
-				}
-				pop_up_generator += "<div class='name'><b>" + person['first_name'] + " " + person['last_name'] + "</b><br />" + person['city'] + "</div>";
-				
-				if(person['totalInvested']!=null || person['totalInvested']>1){
-				pop_up_generator += "<div class='user_info'>Invested: ";
-				pop_up_generator += person['totalInvested'];
-				pop_up_generator += "$ <br />";
-				
-				if(user['totalReward']!=null || person['totalReward']>1){
-				pop_up_generator += "Gained: " ;
-				pop_up_generator += person['totalReward']; 
-				pop_up_generator += "$";
+	});
+	
+	/* Custom*/
+	var pop_up_generator = "<div class='pop_up_overlay'><div class='pop_up_info' style='margin:32px auto 0;'>";
+	
+	for ( i in my_data ) {
+		var region = my_data[i]
+		for (j in region) {
+			var person = region[j];
+			
+			pop_up_generator += "<div class='user'><div class='sub-user-border'>" + person['first_name'] + " " + person['last_name'] + " – <span class='city'>" + person['city']+"</span>";
+			if( person['online'] == 1) {
+				pop_up_generator +="<span class='online'>online</span>";
+			}
+			/*Start Sub-user*/
+			pop_up_generator += "<div class='sub_user'>";
+			if (person.photo.length) {
+				pop_up_generator += "<div class='photo'><img src='/" + person['photo'] + "' /></div>";
+			}
+			pop_up_generator += "<div class='name'><b>" + person['first_name'] + " " + person['last_name'] + "</b><br />" + person['city'] + "</div>";
+			
+			if(person['totalInvested']!=null || person['totalInvested']>1){
+			pop_up_generator += "<div class='user_info'>Invested: ";
+			pop_up_generator += person['totalInvested'];
+			pop_up_generator += "$ <br />";
+			
+			if(user['totalReward']!=null || person['totalReward']>1){
+			pop_up_generator += "Gained: " ;
+			pop_up_generator += person['totalReward']; 
+			pop_up_generator += "$";
+			}
+			pop_up_generator += "</div>";
+			}
+			if (person.social != null) {
+				pop_up_generator += '<div class="social_links">';
+				for (var l in person.social) {
+					pop_up_generator += '<a href="' + person.social[l] + '" class="social_link"><span class="' + social_link_class(l) + '"></span></a>';
 				}
 				pop_up_generator += "</div>";
-				}
-				if (person.social != null) {
-					pop_up_generator += '<div class="social_links">';
-					for (var l in person.social) {
-						pop_up_generator += '<a href="' + person.social[l] + '" class="social_link"><span class="' + social_link_class(l) + '"></span></a>';
-					}
-					pop_up_generator += "</div>";
-				}
-
-				/*End Sub user*/
-				pop_up_generator += "</div></div>";
-				/*End User*/
-			  pop_up_generator += "</div>";
 			}
+	
+			/*End Sub user*/
+			pop_up_generator += "</div></div>";
+			/*End User*/
+		  pop_up_generator += "</div>";
 		}
-		pop_up_generator += "</div>";
-		/*End Custom*/
-		
-		map.write("world_map");
-		$(".amcharts-chart-div").append(pop_up_generator);
-		
-	})	
+	}
+	pop_up_generator += "</div>";
+	/*End Custom*/
+	
+	
+
+
+	
+	map.write("world_map");
+	$(".amcharts-chart-div").append(pop_up_generator);
+	})
+
+	
 })

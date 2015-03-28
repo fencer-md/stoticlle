@@ -5,6 +5,7 @@
 <script src="{{ URL::asset('/js/raphael.js') }}"></script>
 
 <script type="text/javascript" src="{{ URL::asset('/js/ammap.js') }}"></script>
+<script src="{{ asset('/js/worldLow.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('/js/continentsLow.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ URL::asset('/js/none.js') }}"></script>
 
