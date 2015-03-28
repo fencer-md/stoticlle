@@ -12,6 +12,17 @@
 */
 
 App::before(function ($request) {
+    // Detect site language from browser and session.
+    /* @var $request \Illuminate\Http\Request */
+    if (Session::has('lang')) {
+        $lang = Session::get('lang');
+    } else {
+        $lang = $request->getLocale();
+    }
+    App::setLocale($lang);
+    Lang::setLocale($lang);
+
+    // Update user's session expiration time.
     if (Auth::user()) {
         /* @var $user User */
         $user = Auth::user();

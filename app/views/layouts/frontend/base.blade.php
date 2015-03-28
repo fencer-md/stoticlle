@@ -74,11 +74,28 @@
 					<a href="{{ URL::to('logout') }}" class="icon hidden-xs"><i class="fa fa-sign-out"></i></a>
 					<div class="dashboard-user-slide-menu"> 
 						<ul class="menu clearfix">
-							<li class="user-menu-element"><a href="{{ URL::to('user/edit') }}"><span class="menu-title">Личный кабинет</span></a></li>
-							<li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}"><span class="menu-title">Транзакций</span></a></li>
-							<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}"><span class="menu-title">Пополнение средств</span></a></li>
-							<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}"><span class="menu-title">Вывод средств</span></a></li>
-							<li class="user-menu-element"><a href="{{ URL::to('bet') }}"><span class="menu-title">Ставки</span></a></li>
+							<li class="user-menu-element">
+                                <a href="{{ URL::to('user/edit') }}">
+                                    <span class="menu-title">{{trans('menu.my_account')}}</span>
+                                </a>
+                            </li>
+							<li class="user-menu-element">
+                                <a href="{{ URL::to('user/transactions') }}">
+                                    <span class="menu-title">{{trans('menu.transactions')}}</span>
+                                </a>
+                            </li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}">
+                                    <span class="menu-title">{{trans('menu.add_money')}}</span>
+                                </a>
+                            </li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}">
+                                    <span class="menu-title">{{trans('menu.withdraw')}}</span>
+                                </a>
+                            </li>
+							<li class="user-menu-element"><a href="{{ URL::to('bet') }}">
+                                    <span class="menu-title">{{trans('menu.bids')}}</span>
+                                </a>
+                            </li>
 							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}"><span class="menu-title">Выйти</span></a></li>
 						</ul>
 					</div>
@@ -188,15 +205,36 @@
 </ul>
 				</div>
 				@endif
+        <a href="{{url('language', ['lang' => 'ru'])}}"><img src="{{asset('images/flags/ru.png')}}" alt="RU"></a>
+        <a href="{{url('language', ['lang' => 'en'])}}"><img src="{{asset('images/flags/gb.png')}}" alt="EN"></a>
+        <a href="{{url('language', ['lang' => 'ro'])}}"><img src="{{asset('images/flags/md.png')}}" alt="RO"></a>
     </div>
     </header>
     <div class="front-page-wrapper">
     	<div class="sidebar-menu">
 	    	<ul class="sidebar-elements clearfix">
-	    		<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase">О проекте</a></li>
-					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">Связь с нами</a></li>
-					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/info.png') }}" alt="info">Правила поьзования</a></li>
-					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/news.png') }}"alt="news">Новости</a></li>
+	    		<li>
+                    <a href="#" class="sidebar-menu-element">
+                        <img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase">
+                        {{trans('menu.about_us')}}
+                    </a>
+                </li>
+					<li><a href="#" class="sidebar-menu-element">
+                            <img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">
+                            {{trans('menu.contact_us')}}
+                        </a>
+                    </li>
+					<li>
+                        <a href="#" class="sidebar-menu-element">
+                            <img src="{{ URL::asset('images/info.png') }}" alt="info">
+                            {{trans('menu.rules')}}
+                        </a>
+                    </li>
+					<li><a href="#" class="sidebar-menu-element">
+                            <img src="{{ URL::asset('images/news.png') }}"alt="news">
+                            {{trans('menu.news')}}
+                        </a>
+                    </li>
 				</ul>
 			</div>
     @yield('content')
@@ -249,7 +287,7 @@
         </div>
 -->
 				<div class="row">
-					<div class="copyright">© Jarvis-Tech 2014. Все права зашишены.</div>
+					<div class="copyright">© Jarvis-Tech 2014. {{trans('layout.copyright')}}</div>
 				</div>
       </div>
       
