@@ -83,7 +83,7 @@ header .logo-wrapper {
 	line-height: 33px;
 }
 header .blurry {
-	background: -webkit-linear-gradient(left,#rgba(255,255,255,1) 10px, rgba(255,255,255,0)); 
+	background: -webkit-linear-gradient(left,#rgba(255,255,255,1) 10px, rgba(255,255,255,0));
   background: -o-linear-gradient(right,rgba(255,255,255,1) 10px, rgba(255,255,255,0)); 
   background: -moz-linear-gradient(right,rgba(255,255,255,1) 10px, rgba(255,255,255,0));
   background: linear-gradient(to right, rgba(255,255,255,1) 10px, rgba(255,255,255,0));
@@ -160,7 +160,7 @@ header .blurry {
 }
 .map-region .container-fluid {
     padding: 0;
-    background: #cdcdcd url(http://jarvis-tech.com/images/map-bg2.png) repeat-x 100% 0;
+    background: #cdcdcd url("../images/map-bg2.png") repeat-x 100% 0;
     /* background-color: #fafafa; */
     background-size:contain;
 }

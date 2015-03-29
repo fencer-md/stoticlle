@@ -4,9 +4,9 @@ class LanguageController extends BaseController
 {
     public function index($lang)
     {
-        var_dump($lang);
-        Session::set('lang', $lang);
-
-        return Redirect::back();
+        $cookie = Cookie::forever('lang', $lang);
+        $response = Redirect::back();
+        $response->withCookie($cookie);
+        return $response;
     }
 }

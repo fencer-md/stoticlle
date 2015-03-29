@@ -12,10 +12,10 @@
 */
 
 App::before(function ($request) {
-    // Detect site language from browser and session.
+    // Detect site language from browser and cookies.
     /* @var $request \Illuminate\Http\Request */
-    if (Session::has('lang')) {
-        $lang = Session::get('lang');
+    if (Cookie::has('lang')) {
+        $lang = Cookie::get('lang');
     } else {
         $lang = $request->getLocale();
     }
