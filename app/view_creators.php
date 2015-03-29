@@ -42,19 +42,16 @@ View::creator('announcements.ticker', function($view)
 
 
 View::creator('announcements.user.remaining', function($view){
-    $days = null;
+    $left = null;
+
     /* @var $user User */
     $user = Auth::user();
-    if ($user && $user->announcement_start) {
-        if ($user->announcement_start->isPast()) {
+    if ($user && $user->announcement_expires) {
+        if ($user->announcement_expires->isFuture()) {
             $now = new Carbon\Carbon();
-            $left = $now->diff($user->announcement_start);
-            $days = 7 - $left->days;
-            if ($days < 0) {
-                $days = 0;
-            }
+            $left = $user->announcement_expires->diff($now);
         }
     }
 
-    $view->with('days', $days);
+    $view->with('left', $left);
 });
