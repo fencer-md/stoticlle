@@ -30,10 +30,6 @@ Route::post('user/store', 'UserController@store');
 Route::group(['before' => 'auth'], function()
 {
 	Route::group(['before' => 'admin'], function() {
-		Route::get('user/admin/config/rate', function() {
-			return View::make('backend.admin.config.rate');
-		});
-		Route::post('user/admin/config/rate', 'ConfigController@update');
 		Route::get('user/admin/userlist', 'UserController@usersList');
 		Route::get('user/admin/userlistnew', 'UserController@usersListNew');
 		Route::get('user/admin/investors', 'UserController@usersListInvestors');
@@ -87,6 +83,7 @@ Route::group(['before' => 'auth'], function()
 		Route::post('user/admin/edit/showcontinent', 'UserController@showOnMap');
 
 		Route::controller('admin/announcements', 'AnnouncementsController');
+		Route::controller('admin/config', 'ConfigController');
 	});
     Route::controller('user/announcements', 'UserAnnouncementsController');
 
