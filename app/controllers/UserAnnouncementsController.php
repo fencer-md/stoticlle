@@ -6,6 +6,10 @@ class UserAnnouncementsController extends BaseController
     {
         $user = Auth::user();
 
+        if (empty($user->announcement_expires) || $user->announcement_expires->isPast()) {
+            return Redirect::to('/user/addmoney');
+        }
+
         return View::make('announcements.user.announcements')
             ->with('stream', AnnouncementSeries::find($user->announcement_stream))
             ->with('user', $user)
