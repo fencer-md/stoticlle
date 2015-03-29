@@ -359,12 +359,12 @@ class TransactionsController extends \BaseController {
 
     public function transactionsListUser()
     {
-        $user = Auth::user();
+        $id = Auth::user()->id;
+        $transactions = Transaction::where('user_id', '=', $id)->where('confirmed', '=', '1')->get();
 
-        return View::make('backend.user.transaction')
-            ->with('stream', AnnouncementSeries::find($user->announcement_stream))
-            ->with('user', $user)
-            ->with('accountSum', Session::get('announcemntsSum', 1000));
+        $data = ['transactions' => $transactions];
+
+        return View::make('backend.user.transaction')->with('data', $data);
     }
 
     public function receiveMoney()

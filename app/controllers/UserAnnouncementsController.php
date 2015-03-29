@@ -1,9 +1,17 @@
 <?php
 
-use Carbon\Carbon;
-
 class UserAnnouncementsController extends BaseController
 {
+    public function getIndex()
+    {
+        $user = Auth::user();
+
+        return View::make('announcements.user.announcements')
+            ->with('stream', AnnouncementSeries::find($user->announcement_stream))
+            ->with('user', $user)
+            ->with('accountSum', Session::get('announcemntsSum', 1000));
+    }
+
     /**
      * User: Handle ajax announcements update.
      */
