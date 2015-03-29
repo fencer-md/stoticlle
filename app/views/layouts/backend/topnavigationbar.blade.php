@@ -131,10 +131,11 @@
 	<div class="dashboard-user-slide-menu user">
   	<ul class="menu clearfix">
   		<li class="user-menu-element"><a href="{{ URL::to('user/edit') }}"><span class="menu-title">Личный кабинет</span></a></li>
-  		<li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}"><span class="menu-title">Транзакций</span></a></li>
+  		<!-- <li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}"><span class="menu-title">Транзакций</span></a></li> -->
   		<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}"><span class="menu-title">Пополнение средств</span></a></li>
-  		<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}"><span class="menu-title">Вывод средств</span></a></li>
-  		<li class="user-menu-element"><a href="{{ URL::to('bet') }}"><span class="menu-title">Ставки</span></a></li>
+  		<!-- <li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}"><span class="menu-title">Вывод средств</span></a></li> -->
+  		<!-- <li class="user-menu-element"><a href="{{ URL::to('bet') }}"><span class="menu-title">Ставки</span></a></li> -->
+  		<li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}"><span class="menu-title">Ставки</span></a></li>
   		<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}"><span class="menu-title">Выйти</span></a></li>
   	</ul>
   </div>
