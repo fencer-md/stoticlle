@@ -4,13 +4,13 @@
 
 @section('content')
     @if($stream)
-        <h3 class="page-title">User Chat</h3>
+        <h3 class="page-title">{{trans('userpage.userchat')}}</h3>
 
         <div class="col-md-12">
             <div class="clearfix">
                 <form class="pull-left form-inline clearfix" id="account-sum-form">
                     <div class="form-group user-chart-form">
-                        <label for="account-sum">Сумма на счету</label>
+                        <label for="account-sum">{{trans('userpage.accountsum')}}</label>
                         <input type="text" class="form-control" id="account-sum" value="{{$accountSum}}">
                     </div>
                 </form>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="package-footer">
-                        <div class="package-footer-header">Всего ставок:</div>
+                        <div class="package-footer-header">{{trans('userpage.totalbids')}}:</div>
                         <div class="package-footer-body">{{$grouped['count']}}</div>
                         <div class="package-footer-footer"><img src="{{asset('images/calendar.png')}}" alt="calendar"></div>
                     </div>
@@ -38,7 +38,7 @@
         </div>
     @else
         <div class="col-md-12">
-            Подпишитесь на рассылку анонсов!
+            {{trans('userpage.signupfor')}}
         </div>
     @endif
 @stop

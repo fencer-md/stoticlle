@@ -63,15 +63,15 @@
 @if ( Auth::user()->role == "2" )
 <div class="side-bar-user">
 	<div class="notification warning" id="announcement-notification" style="display: none">
-		<div class="text">Внимание!</div>
-		<div class="info">сейчас будет ставка</div>
+		<div class="text">{{trans('userpage.atention')}}!</div>
+		<div class="info">{{trans('userpage.incomming')}}</div>
 	</div>
     <div class="notification danger" id="announcement-notification-canceled" style="display: none">
-        <div class="text">Игра отменена</div>
+        <div class="text">{{trans('userpage.cancel')}}</div>
     </div>
     @include('announcements.user.remaining')
 	<div class="special-news">
-		<div class="header">Спецыальные новости</div>
+		<div class="header">{{trans('userpage.specialnews')}}</div>
 		<div class="news">
 			<span class="date">12.03.2014</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
