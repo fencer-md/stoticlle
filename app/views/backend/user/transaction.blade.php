@@ -1,16 +1,16 @@
 @extends('layouts.backend.base')
 
 @section('content')
-    <h3 class="page-title">все транзакций</h3>
+    <h3 class="page-title">{{trans('userpage.usertransactions')}}</h3>
     <div class="col-md-12">
         <table id="transactions" class="table table-striped table-bordered table-hover">
             <thead>
-            <td>ID</td>
-            <td>Число</td>
-            <td>Тип транзакции</td>
-            <td>Направление</td>
-            <td>Реквезиты</td>
-            <td>Сума ($)</td>
+            <td>{{trans('userpage.id')}}</td>
+            <td>{{trans('userpage.date')}}</td>
+            <td>{{trans('userpage.transactiontype')}}</td>
+            <td>{{trans('userpage.transactiondirection')}}</td>
+            <td>{{trans('userpage.requisites')}}</td>
+            <td>{{trans('userpage.sum')}} ($)</td>
             </thead>
             <tbody>
             @foreach ( $data['transactions'] as $transaction )

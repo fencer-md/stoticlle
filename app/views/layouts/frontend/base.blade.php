@@ -43,23 +43,23 @@
         <div class="login clearfix">
 					<div id="login-register">
 						<div class="text-right">
-							 <div class="login-specific-button">Войти</div>
-							 <div class="login-form">              
+							 <div class="login-specific-button">{{trans('menu.login')}}</div>
+							 <div class="login-form">           
                  {{ Form::open(['action' => 'SessionsController@store', 'class' => 'login-form']) }}
                      <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail', 'class'=>'form-control']) }}</div>
                      <div class="input-icon"><i class="fa fa-lock"></i>{{ Form::password('password', ['placeholder' => 'Пароль','class'=>'form-control']) }}</div>
-                     <div class="form-actions">{{ Form::submit('Войти', ['class'=>'btn blue']) }}</div>
+                     <div class="form-actions">{{ Form::submit(Lang::get('menu.login'), ['class'=>'btn blue']) }}</div>
                      
                  {{ Form::close() }}
-                 <div class="form-actions register-button">{{ Form::submit('Присоединяйтесь', ['id'=>'join'])}}</div>
+                 <div class="form-actions register-button">{{ Form::submit(Lang::get('menu.register'), ['id'=>'join'])}}</div>
                </div>
                <!-- <div class="register"> -->
                  <!-- <div class="login-msg" >вы еще не снами? <a id="join" href="#">Присоединяйтесь</a></div> -->
-                <div class="register-specific-button">Присоединяйтесь</div>
+                <div class="register-specific-button">{{trans('menu.register')}}</div>
                 <div class="register-form">
                    {{ Form::open(['action' => 'UserController@store', 'class' => 'form-signin']) }}
                        <div class="input-icon"><i class="fa fa-user"></i>{{ Form::text('email', null, ['placeholder' => 'E-mail','class'=>'form-control']) }}</div>
-                       <div class="form-actions">{{ Form::submit('Присоединиться', ['class'=>'btn blue']) }}</div>
+                       <div class="form-actions">{{ Form::submit(Lang::get('menu.registration'), ['class'=>'btn blue']) }}</div>
                    {{ Form::close() }}
                <!-- </div> -->
                 </div>
@@ -69,10 +69,10 @@
         @elseif ( Auth::user()->role == "2" )
         <div class="dashboard-user-sliding-menu pull-right">
 					<div class="username username-hide-on-mobile pull-left">
-						<span class="greetings">Hello</span><span class="greeting">Hi</span> <strong class="first_name" >{{ Auth::user()->userInfo->first_name }}</strong><strong class="last_name"> {{ Auth::user()->userInfo->last_name }}</strong> 
+						<span class="greetings">{{trans('menu.greetings')}}</span><span class="greeting">{{trans('menu.greeting')}}</span> <strong class="first_name" >{{ Auth::user()->userInfo->first_name }}</strong><strong class="last_name"> {{ Auth::user()->userInfo->last_name }}</strong> 
 					</div>
 					<a href="{{ URL::to('logout') }}" class="icon hidden-xs"><i class="fa fa-sign-out"></i></a>
-					<div class="dashboard-user-slide-menu"> 
+					<div class="dashboard-user-slide-menu">
 						<ul class="menu clearfix">
 							<li class="user-menu-element">
                                 <a href="{{ URL::to('user/edit') }}">
@@ -96,7 +96,7 @@
                                     <span class="menu-title">{{trans('menu.bids')}}</span>
                                 </a>
                             </li>
-							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}"><span class="menu-title">Выйти</span></a></li>
+							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}"><span class="menu-title"><!-- Выйти -->{{trans('menu.logout')}}</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -213,28 +213,24 @@
     <div class="front-page-wrapper">
     	<div class="sidebar-menu">
 	    	<ul class="sidebar-elements clearfix">
-	    		<li>
-                    <a href="#" class="sidebar-menu-element">
-                        <img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase">
-                        {{trans('menu.about_us')}}
-                    </a>
-                </li>
-					<li><a href="#" class="sidebar-menu-element">
-                            <img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">
-                            {{trans('menu.contact_us')}}
-                        </a>
-                    </li>
-					<li>
-                        <a href="#" class="sidebar-menu-element">
-                            <img src="{{ URL::asset('images/info.png') }}" alt="info">
-                            {{trans('menu.rules')}}
-                        </a>
-                    </li>
-					<li><a href="#" class="sidebar-menu-element">
-                            <img src="{{ URL::asset('images/news.png') }}"alt="news">
-                            {{trans('menu.news')}}
-                        </a>
-                    </li>
+	    		<li><a href="{{ URL::to('about-us') }}" class="sidebar-menu-element">
+                 <img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase"> {{trans('menu.about_us')}}
+              </a>
+          </li>
+					<!--
+<li><a href="#" class="sidebar-menu-element">
+                <img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">{{trans('menu.contact_us')}}
+              </a>
+          </li>
+-->
+					<li><a href="{{ URL::to('rules') }}" class="sidebar-menu-element">
+                <img src="{{ URL::asset('images/info.png') }}" alt="info">{{trans('menu.rules')}}
+              </a>
+          </li>
+					<li><a href="{{ URL::to('news') }}" class="sidebar-menu-element">
+                <img src="{{ URL::asset('images/news.png') }}"alt="news"> {{trans('menu.news')}}
+              </a>
+          </li>
 				</ul>
 			</div>
     @yield('content')

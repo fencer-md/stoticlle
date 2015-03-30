@@ -7,16 +7,15 @@
 
 <div class="center-big-width clearfix">
 <div class="col-lg-6 help clearfix">
-    <div class="title">Как пополнить средства?</div>
-    <p class="description">
-        Для пополнения средств на платворму, вам необходимо иметь один из перечисленых Электроных кошельков:</p>
-        <div class="col-md-6">
-        	<ul>
-                    <li>OK Pay</li>
-                    <li>Payeer</li>
-                    <li>Payza</li>
-                    <li>Perfect Money</li>
-				  </ul>
+    <div class="title">{{trans('userpage.howto')}}</div>
+    <p class="description">{{trans('userpage.howtotop')}}</p>
+    <div class="col-md-6">
+      <ul>
+         <li>OK Pay</li>
+         <li>Payeer</li>
+         <li>Payza</li>
+         <li>Perfect Money</li>
+		  </ul>
 				</div>
         <div class="col-md-6">
           <ul>
@@ -26,17 +25,16 @@
                     <li>Yandex</li>
           </ul>
         </div>
-        <p class="description">Отметьте галочкой какой электроный кошелек вы хотите исаользывать для перевода, в поле <span>реквезиты</span> впишите ваш номер кошелька который вы будете использывать и в графе <span>сумма</span> впишите сумму которую вы хотите перевести.
-        </p>
+        <p class="description">{{trans('userpage.howtobottom')}}</p>
 </div>
 <div class="portlet box blue col-lg-6">
-    <div class="portlet-title"><div class="caption">Пополнение Средств</div></div>
+    <div class="portlet-title"><div class="caption">{{trans('userpage.addfunds')}}</div></div>
     <div class="portlet-body form">
         {{ Form::open(['action' => 'TransactionsController@addMoneyToAccount', 'class' => 'form-horizontal', 'id' => 'add-money-form']) }}
         <div class="form-body col-md-12">
 
             <div class="form-group @if ($errors->has('add_method')) has-error @endif">
-                {{ Form::label('add_method', 'Способы Проплаты', ['class' => 'col-md-3 control-label']) }}
+                {{ Form::label('add_method', Lang::get('userpage.paymantways'), ['class' => 'col-md-3 control-label']) }}
                 <div class="col-md-9" id="payment_methods">
                     <div class="radio-list col-xs-12 row">
                         @foreach(Helper::paymentMethods() as $id => $method)
@@ -52,7 +50,7 @@
                 </div>
             </div>
             <div class="form-group credentials @if ($errors->has('credentials')) has-error @endif">
-                {{ Form::label('credentials', 'Реквезиты', ['class' => 'control-label col-md-3']) }}
+                {{ Form::label('credentials', Lang::get('userpage.requisites'), ['class' => 'control-label col-md-3']) }}
                 <div class="controls">
                     <div class="col-md-9">
                         {{ Form::text('credentials', '', ['class' => 'form-control', 'data-placeholder' => "Insert your credentials"]) }}
@@ -61,7 +59,7 @@
                 </div>
             </div>
             <div class="form-group has-feedback ammount  @if ($errors->has('add_money')) has-error @endif">
-                {{ Form::label('add_money', 'Сумма ($)', ['class' => 'control-label col-md-3']) }}
+                {{ Form::label('add_money', Lang::get('userpage.sum2'), ['class' => 'control-label col-md-3']) }}
                 <div class="controls">
                     <div class="col-md-9">
                       {{ Form::text('add_money', null, ['class' => 'form-control']) }}
@@ -70,7 +68,7 @@
                 </div>
             </div>
             <div class="pull-right col-xs-3">
-							{{ Form::submit('Пополнить', ['class' => 'btn blue pull-right']) }}
+							{{ Form::submit(Lang::get('userpage.add'), ['class' => 'btn blue pull-right']) }}
             </div>
       </div>
 
