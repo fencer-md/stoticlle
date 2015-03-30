@@ -665,3 +665,17 @@ $(document).ready(function(){
 		};
 	});
 });
+
+$(document).ready(function(){
+    // Announcements scroller.
+    $('.announcements').on('mousewheel', function(event, delta) {
+        val = this.scrollLeft - (delta * 200);
+        jQuery(this).stop().animate({scrollLeft:val},500);
+        event.preventDefault();
+    });
+    $('.scroll-button-right').click(function(e){
+        e.preventDefault();
+        var target = $(this).next();
+        target.stop().animate({scrollLeft: target[0].scrollLeft + 200}, 500);
+    });
+});

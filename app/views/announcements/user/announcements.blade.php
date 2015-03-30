@@ -17,13 +17,23 @@
             </div>
         </div>
 
-        <div class="col-md-12 stream-wrapper">
-            {? $grouped = $stream->groupedByDate('d.m.Y', $user) ?}
-            @include('announcements.common.stream')
-            <div class="package-footer">
-                <div class="package-footer-header">Всего ставок:</div>
-                <div class="package-footer-body">{{$grouped['count']}}</div>
-                <div class="package-footer-footer"><img src="{{asset('images/calendar.png')}}" alt="calendar"></div>
+        <div class="row">
+            <div class="col-md-12 stream-wrapper">
+                <div class="col-md-10 announcements-wrapper">
+                    <div class="scroll-button-right"><i class="fa fa-chevron-right"></i></div>
+
+                    <div class="announcements">
+                        {? $grouped = $stream->groupedByDate('d.m.Y', $user) ?}
+                        @include('announcements.common.stream')
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="package-footer">
+                        <div class="package-footer-header">Всего ставок:</div>
+                        <div class="package-footer-body">{{$grouped['count']}}</div>
+                        <div class="package-footer-footer"><img src="{{asset('images/calendar.png')}}" alt="calendar"></div>
+                    </div>
+                </div>
             </div>
         </div>
     @else

@@ -18,20 +18,28 @@
     @foreach($streams as $stream)
         <div class="row">
             <div class="col-md-12 stream-wrapper">
-                <div class="stream">
+                <div class="col-md-1 stream">
                     <div class="name">{{$stream->name}}</div>
                     <div class="buttons">
-                        <a class="clock"
-                           href="{{ URL::to('admin/announcements/start-countdown', array('id' => $stream->id)) }}"
-                                ><i class="fa fa-clock-o"></i></a>{{--
-                    --}}<a class="cancel"
-                           href="{{ URL::to('admin/announcements/stop-countdown', array('id' => $stream->id)) }}"
-                                ><i class="fa fa-times"></i></a>
+                        <a class="clock" href="{{ URL::to('admin/announcements/start-countdown', array('id' => $stream->id)) }}">
+                            <i class="fa fa-clock-o"></i>
+                        </a>
+                        <a class="cancel" href="{{ URL::to('admin/announcements/stop-countdown', array('id' => $stream->id)) }}">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                     <div class="timer" id="timer-{{$stream->id}}">{{$stream->getCountdownTimestamp()}}</div>
                 </div>
-                {? $grouped = $stream->groupedByDate('d.m.Y') ?}
-                @include('announcements.common.stream')
+
+                <div class="col-md-11 announcements-wrapper">
+                    <div class="scroll-button-right"><i class="fa fa-chevron-right"></i></div>
+
+                    <div class="announcements">
+                        {? $grouped = $stream->groupedByDate('d.m.Y') ?}
+                        @include('announcements.common.stream')
+                    </div>
+                </div>
+
             </div>
         </div>
     @endforeach
