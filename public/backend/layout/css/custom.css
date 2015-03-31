@@ -560,6 +560,11 @@ li.money {
     min-width: 34px;
     line-height: 34px;
     vertical-align: top;
+    background-color: #fff;
+}
+
+.result-placeholder {
+    width: 0px;
 }
 
 .result {
@@ -590,12 +595,10 @@ li.money {
 
 .text-green {
     color: #3AB40F;
-    font-size: 18px;
 }
 
 .text-red {
     color: #D51919;
-    font-size: 18px;
 }
 
 .announcements-ticker {

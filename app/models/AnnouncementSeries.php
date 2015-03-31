@@ -45,25 +45,27 @@ class AnnouncementSeries extends Eloquent {
         $count = 0;
         foreach($query->get() as $a) {
             $date = $a->created_at->format($format);
+            $dateKey = $a->created_at->format('Y-m-d');
 
-            if (empty($result[$date])) {
+            if (empty($result[$dateKey])) {
                 $day = new stdClass();
                 $day->date = $date;
                 $day->announcements = array();
-                $result[$date] = $day;
+                $result[$dateKey] = $day;
             }
-            $result[$date]->announcements[] = $a;
+            $result[$dateKey]->announcements[] = $a;
             $count++;
         }
 
         // Add current date if needed.
         $today = new \Carbon\Carbon();
         $todayDate = $today->format($format);
-        if (empty($result[$todayDate])) {
+        $dateKey = $today->format('Y-m-d');
+        if (empty($result[$dateKey])) {
             $day = new stdClass();
             $day->date = $todayDate;
             $day->announcements = array();
-            $result[$todayDate] = $day;
+            $result[$dateKey] = $day;
         }
 
         // Group by "+/-".
@@ -100,6 +102,7 @@ class AnnouncementSeries extends Eloquent {
 
             $output[$date] = $day;
         }
+        uksort($output, function($a, $b){ return -strcmp($a, $b);});
 
         $result = array(
             'count' => $count,
