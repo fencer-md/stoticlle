@@ -21,20 +21,23 @@
 		<section class="content-region content-about-us content-faq">
 			<div class="container">
 				<div class="row">
-					<h1 class="page-title">Jarvis Tech</h1>
+					<h1 class="page-title">О нас</h1>
 					<div class="info-block">
-						<div class="about-image">
-							<div class="media"></div>
-						</div>
-						<h1 class="info-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. Suspendisse quis pulvinar mi.</h1>
 						<div class="info-content">
-							<p>orem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio orci, auctor sit amet justo sed, pretium pulvinar ex. Proin varius leo at viverra molestie. Nam eu erat eu neque efficitur gravida non vehicula odio. Proin bibendum enim id massa tempus, semper vestibulum nunc posuere. Donec sed faucibus nibh. Vivamus sapien purus, sagittis tincidunt ultrices vel, maximus vitae tortor. Donec tristique mauris ut metus vehicula accumsan. Praesent vel ex velit. Curabitur quis felis convallis, interdum tellus et, finibus nisl. Donec nulla eros, sagittis sit amet dolor sed, tincidunt viverra augue. Morbi ut neque euismod libero congue congue ac eu ipsum.</p>
-
-							<p>Aliquam quis arcu a magna rutrum viverra eu a dolor. In ultrices odio sapien, dictum efficitur ipsum varius et. Vivamus eleifend felis erat, tincidunt volutpat mi cursus pharetra. Sed gravida nibh vitae ultrices dignissim. Proin placerat arcu ut egestas cursus. In hac habitasse platea dictumst. Vivamus tempus urna orci, eu efficitur purus porta ac.</p>
-
-							<p>Nunc eget nisl eleifend, ullamcorper arcu eu, luctus purus. Nullam feugiat felis ac mi mattis, non accumsan nisl tristique. Duis consequat porttitor enim, sit amet interdum ipsum tempor nec. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed sed molestie tellus. Aenean diam velit, pretium ac enim nec, euismod convallis dui. Ut congue leo enim, quis euismod ligula commodo eu. Sed fringilla hendrerit magna, ut consequat erat venenatis eget. Quisque eget metus ut diam elementum eleifend. Mauris sit amet odio mi.</p>
-
-							<p>Fusce tristique accumsan mauris ut ullamcorper. Maecenas sit amet nibh eros. Fusce ut dignissim ligula. Vivamus consectetur dapibus massa, vel tincidunt mauris tristique eu. Cras in mollis nisl, a molestie nisl. Integer magna libero, efficitur ac risus at, fringilla porta urna. Nulla aliquet, risus quis dignissim convallis, nulla lacus commodo eros, eu faucibus mi magna a risus. Vestibulum maximus sollicitudin massa, ut semper tellus volutpat accumsan. Nunc turpis est, pellentesque quis dictum at, fringilla sed orci. Aliquam convallis nulla et euismod molestie. Mauris in velit lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+							<p>Мы верим что объединив человеческий и «машинный» интеллекты, мы можем улучшить любую область нашей жизни. Не смотря на то, что современные технологии  затронули почти все сферы нашей жизни, индустрия спортивных ставок осталась на том же уровне чтои 20 лет назад. Пора это менять.
+							</p>
+						</div>
+						<div class="text-center info-title">Для этого мы создали Jarvis.</div>
+						<div class="question">Что такое JARVIS?</div>
+								<img src="{{ URL::asset('images/global.jpg') }}" alt="global" class="img-responsive">
+						<div class="info-content">
+							<p>Jarvis - это Алгорифмическая беттинговая машина. Cозданная на основе искусственного интеллекта, она обрабатывает огромное количество спортивных данных, с целью большой вероятности выигрыша.
+							</p>
+						</div>
+						<div class="question">Как JARVIS работает?</div>
+						<div class="info-content">
+							<p>JARVIS выдаёт прогнозы с вероятностью выигрыша от 80% до 90%. Это достигается за счёт тысяч алгорифмов запрограммированных в JARVIS.Конечно же, главное преимущество JARVIS-а в исключении человеческого фактора, а именно:
+							</p>
 						</div>
 					</div>
 					<div class="step-by-step">
@@ -42,19 +45,28 @@
 							<div class="number">	
 								<div class="step-number">1</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>
+								Подчиняется математическим расчётам 
+								<div class="sub-text">В отличии от человека, он неподвластен эмоциям - страх, жадность, беспокойство.</div>
+							</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">2</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>
+								Алгорифмы совершенствуются. 
+								<div class="sub-text">Периодически программисты работают над улучшением алгорифмов.</div>
+							</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">3</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>
+								Обрабатывает огромное количество данных.
+								<div class="sub-text">Тут входят все данные: и те что были собраны с прошлых матчей, и данные которые JARVIS собирает в реальном времени.</div>
+							</div>
 						</div>
 					</div>
 				</div>

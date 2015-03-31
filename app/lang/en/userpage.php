@@ -5,7 +5,7 @@ return array(
 	'usertransactions' => 'All transactions',
 	'id' => 'Id',
 	'date' => 'Date',
-	'transactiontype' => 'transaction type',
+	'transactiontype' => 'Transaction type',
 	'transactiondirection' => 'Direction',
 	'requisites' => 'Requisites',
 	'sum' => 'Amount',
@@ -28,4 +28,6 @@ return array(
 	'hours' => 'hours',
 	'lesshour' => 'less then an hour',
 	'timeleft' => 'time left',
+	'bet' => 'Bet',
+	'message' => 'Message',
 );

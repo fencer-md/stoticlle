@@ -36,11 +36,28 @@
 		<div class="page-container">
 			<div class="sidebar-menu-top">
 	    	<ul class="sidebar-elements clearfix">
-	    		<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase">{{trans('menu.about_us')}}</a></li>
-<!-- 					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">{{trans('menu.contact_us')}}</a></li> -->
-					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/info.png') }}" alt="info">{{trans('menu.rules')}}</a></li>
-					<li><a href="#" class="sidebar-menu-element"><img src="{{ URL::asset('images/news.png') }}"alt="news">{{trans('menu.news')}}</a></li>
-				</ul>
+	    		<li>
+	    			<a href="{{ URL::to('about-us') }}" class="sidebar-menu-element">
+	    				<img src="{{ URL::asset('images/suitecase.png') }}" alt="suitcase"> {{trans('menu.about_us')}}
+            </a>
+          </li>
+					<!--
+<li><a href="#" class="sidebar-menu-element">
+                <img src="{{ URL::asset('images/roopor.png') }}" alt="roopor">{{trans('menu.contact_us')}}
+              </a>
+          </li>
+-->
+					<li>
+						<a href="{{ URL::to('rules') }}" class="sidebar-menu-element">
+            	<img src="{{ URL::asset('images/info.png') }}" alt="info">{{trans('menu.rules')}}
+            </a>
+          </li>
+					<li>
+						<a href="{{ URL::to('news') }}" class="sidebar-menu-element">
+            	<img src="{{ URL::asset('images/news.png') }}"alt="news"> {{trans('menu.news')}}
+            </a>
+          </li>				
+        </ul>
 			</div>
 			<!-- BEGIN SIDEBAR -->
 			<div class="page-sidebar-wrapper">

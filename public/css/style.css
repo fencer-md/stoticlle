@@ -945,10 +945,10 @@ section.content-region.content-faq .step .number {
 section.content-region.content-faq .step .step-number {
 	color:#777;
 	font-size:26px;
-	padding: 4px 5px 3px;
+	padding: 6px 5px 5px;
 	text-align: center;
 	border-radius: 50% !important;
-	border:3px solid #d8d8d8;
+	border:1px solid #d8d8d8;
 	background:#fff;
 	max-width:50px;
 	line-height: 1.42857143;
@@ -1067,9 +1067,9 @@ section.content-region.content-about-us {
 }
 section.content-region.content-about-us .page-title {
 	margin: 0px 0px 45px 0px;
-	color: #1e8bc3;
+	color: #474747;
 	font-weight: 300;
-	font-size: 26px;
+	font-size: 30px;
 	font-family: "Roboto", sans-serif;
 	line-height: 20px;
 }
@@ -1079,31 +1079,49 @@ section.content-region.content-about-us .info-title {
 	font-size:16px;
 	font-weight: 300;
 	line-height: 20px;
-	margin-bottom:20px;
 }
 section.content-region.content-about-us .info-content {
 	font-family: "Open Sans", sans-serif;
 	color:#474747;
-	font-size:13px;
-	margin-bottom:40px;
+	font-size:14px;
 }
 section.content-region.content-about-us .info-content p {
-	margin-bottom: 20px;
+	margin-bottom: 25px;
+	font-weight: 300;
 }
-section.content-region.content-about-us .about-image {
-	float:right;
-	width:248px;
-	height:188px;
-	background: #fff;
-	border: 1px solid #d8d8d8;
-	margin:0px 0px 15px 15px;
+section.content-region.content-about-us .question {
+	font-family: "Open Sans", sans-serif;
+	font-size:18px;
+	color:#05478a;
+	margin-top:60px;
+	margin-bottom:25px;
+	
 }
+section.content-region.content-about-us .sub-text {
+	font-family: "Open Sans", sans-serif;
+	font-size:14px;
+	color:#777;
+}
+section.content-region.content-about-us img {
+	width:100%;
+	padding:3px;
+	border:1px solid #d8d8d8;
+	box-shadow:0px 1px 6px rgba(0,0,0,0.15);
+	margin-bottom:20px;
+}
+
+
+
+
+/*    */
 .login-specific-button,
 .register-specific-button {display:none;}
 .greeting {display:none;}
 /*       Media Queries       */
 
 @media ( min-width:992px) {
+	.dashboard-user-slide-menu {left:auto;}
+	.dashboard-user-slide-menu.active {left:auto;}
 	.dashboard-user-sliding-menu.admin {padding:0;}
 	.dashboard-user-sliding-menu.admin .navbar-nav>li>a {
 		padding:9px 10px 5px;

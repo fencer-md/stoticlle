@@ -55,52 +55,52 @@
 				<div class="row">
 					<h1 class="page-title">Как это работает</h1>
 					<div class="additional-info">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales quam nisi, et imperdiet nisi volutpat non. Nullam quis ante aliquet ex gravida vestibulum condimentum at augue.</p>
-						<p>Nullam quam tellus, vulputate id metus quis, pellentesque eleifend quam. Quisque egestas nisl ex, a tincidunt ipsum sodales ut. Nullam aliquam eros quis vulputate dapibus. In non felis imperdiet massa iaculis laoreet nec quis nisl. Pellentesque quam ex, finibus eget suscipit eu, molestie eget lorem. </p>
+						<p>Для того чтобы ты имел успех в Джарвисе и преумножил свой капитал - есть определенные правила, которые нужно соблюдать.</p>
+						<p>Если ты не будешь соблюдать эти правила - нет никакого смысла работать с джарвисом.</p>
 					</div>
 					<div class="step-by-step">
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">1</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div> Каждый день с 9:30 войди в свой аккаунт, для начала ставок.</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">2</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>В колонке "Сумма на счёте" - укажи ту сумму, которую ты готов вложить в ставки. </div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">3</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>Каждый раз, когда тебе JARVIS рекоммендует ставить определенную сумму денег, например $15, мы советуем делать именно такую ставку. JARVIS не только даёт прогнозы на выигрыш, но и определенную последовательность ставок, для того чтобы ты остался в плюсе.</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">4</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>Если ты получил минус - дождись первого плюса. Если ты получили даже два минуса, дождитесь результата. Если после двух минусов, то есть двух поражений будет плюс, поток закроется и ты будешь в выигрыше. Если будет минус, в этой игре ты проиграешь. Вероятность получить три минуса подряд - редкий случай. Смысл в том, чтобы не оставлять на минусе игру, а посмотреть чем закончится поток.</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">5</div>
 							</div>
-							<div class="step-content"><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content"><div class="step-arrow"></div>Не пропускай игры. Чем больше ты пропускаешь игр, тем больше ты теряешь возможностей.</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">6</div>
 							</div>
-							<div class="step-content "><div class="step-arrow"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. </div>
+							<div class="step-content "><div class="step-arrow"></div>Если букмерская  до завершения игры предлагает забрать ставку, но в замен она предлагает хорошую прибыль, мы советуем забрать ставку. Например в теннисе - если будет счет 30:0 и контора предлагает хорошую прибыль - забираете деньги.</div>
 						</div>
 						<div class="step clearfix">
 							<div class="number">	
 								<div class="step-number">7</div>
 							</div>
 							<div class="step-content">
-								<div class="step-arrow"></div><div class="step-media"></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur eget nisi sit amet suscipit. Suspendisse potenti.
+								<div class="step-arrow"></div><!-- <div class="step-media"></div> -->Количество игр за один день - неизвестно. Каждый день будут минимум две игры.
 							</div>
 						</div>
 					</div>

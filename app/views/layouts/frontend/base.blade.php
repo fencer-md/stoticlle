@@ -74,29 +74,27 @@
 					<a href="{{ URL::to('logout') }}" class="icon hidden-xs"><i class="fa fa-sign-out"></i></a>
 					<div class="dashboard-user-slide-menu">
 						<ul class="menu clearfix">
-							<li class="user-menu-element">
-                                <a href="{{ URL::to('user/edit') }}">
-                                    <span class="menu-title">{{trans('menu.my_account')}}</span>
-                                </a>
-                            </li>
-							<li class="user-menu-element">
-                                <a href="{{ URL::to('user/transactions') }}">
-                                    <span class="menu-title">{{trans('menu.transactions')}}</span>
-                                </a>
-                            </li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/edit') }}">
+                  <span class="menu-title">{{trans('menu.my_account')}}</span></a>
+              </li>
+							<li class="user-menu-element"><a href="{{ URL::to('user/transactions') }}">
+                  <span class="menu-title">{{trans('menu.transactions')}}</span></a>
+              </li>
 							<li class="user-menu-element"><a href="{{ URL::to('user/addmoney') }}">
-                                    <span class="menu-title">{{trans('menu.add_money')}}</span>
-                                </a>
-                            </li>
-							<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}">
+									<span class="menu-title">{{trans('menu.add_money')}}</span> </a>
+              </li>
+							<!--
+<li class="user-menu-element"><a href="{{ URL::to('user/withdraw') }}">
                                     <span class="menu-title">{{trans('menu.withdraw')}}</span>
                                 </a>
                             </li>
+-->
 							<li class="user-menu-element"><a href="{{ URL::to('bet') }}">
-                                    <span class="menu-title">{{trans('menu.bids')}}</span>
-                                </a>
-                            </li>
-							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}"><span class="menu-title"><!-- Выйти -->{{trans('menu.logout')}}</span></a></li>
+                  <span class="menu-title">{{trans('menu.bids')}}</span> </a>
+              </li>
+							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}">
+									<span class="menu-title"><!-- Выйти -->{{trans('menu.logout')}}</span></a>
+							</li>
 						</ul>
 					</div>
 				</div>

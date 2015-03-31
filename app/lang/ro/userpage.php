@@ -28,4 +28,6 @@ return array(
 	'hours' => 'ore',
 	'lesshour' => 'mai puțin de o oră',
 	'timeleft' => 'timp rămas',
+	'bet' => 'Pariu',
+	'message' => 'Mesaj',
 );

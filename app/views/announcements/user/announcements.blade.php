@@ -67,6 +67,10 @@
         $('#account-sum-form').submit(function(e){
             e.preventDefault();
         });
+        /*added        
+        setTimeout(function(){
+					window.location.reload(1);
+				}, 5000);*/
     });
 </script>
 @stop

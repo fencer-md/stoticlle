@@ -648,6 +648,8 @@ $(document).ready(function(){
 		$(".dashboard-user-slide-menu.user").css("right",usernameW);
 		$(".dashboard-user-sliding-menu").on("click",function() {
 			$(".dashboard-user-slide-menu.user").css("right",usernameW);
+			/*added for front page*/
+			$(".dashboard-user-slide-menu").css("right",usernameW);
 		});
 	}
 	$(window).resize(function() {
@@ -656,12 +658,20 @@ $(document).ready(function(){
 			var usernameW = $(".dashboard-user-sliding-menu").outerWidth()-5;
 			$(".dashboard-user-sliding-menu").on("click",function() {
 				$(".dashboard-user-slide-menu.user").css("right",usernameW);
+				/*added for front page*/
+				$(".dashboard-user-slide-menu").css("right",usernameW);
 			});
 			$(".dashboard-user-slide-menu.user").css("right",usernameW);
 			$(".dashboard-user-slide-menu.user.active").css("right",usernameW);
+			/*added for front page*/
+			$(".dashboard-user-slide-menu").css("right",usernameW);
+			$(".dashboard-user-slide-menu.active").css("right",usernameW);
 		} else {
 			$(".dashboard-user-slide-menu.user").removeAttr("style");
 			$(".dashboard-user-slide-menu.user.active").removeAttr("style");
+			/*added for front page*/
+			$(".dashboard-user-slide-menu").removeAttr("style");
+			$(".dashboard-user-slide-menu.active").removeAttr("style");
 		};
 	});
 });

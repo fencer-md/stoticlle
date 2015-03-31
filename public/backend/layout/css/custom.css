@@ -343,6 +343,7 @@ table.result-announcements >tbody >tr > td .dismiss {
 .package-footer {
     display: table-cell;
     width: 150px;
+    height:150px;
     background-color: #e8f3f9;
     border: 3px solid #1e8bc3;
     text-align: center;
@@ -520,7 +521,9 @@ li.money {
 
     */
 }
-
+.announcements-wrapper + .col-md-2 {
+	padding:0;
+}
 .announcements {
     vertical-align: top;
     height: 100%;
