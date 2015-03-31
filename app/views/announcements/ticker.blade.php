@@ -61,7 +61,7 @@
                     // Show new empty result with confirmation popover.
                     var display = $('.announcements');
                     if (display.length) {
-                        var results = display.find('.day:last').find('.results');
+                        var results = display.find('.day:first').find('.results');
                         var popup = msg.text + '<br />' +
                                 '<div class="announcement-popover-confirmation">' +
                                 '<a href="/user/announcements/bet/'+msg.id+'" class="btn btn-primary">Подтверждаю</a>' +
@@ -71,8 +71,27 @@
                         var newItem = $('<div data-original-title="" class="result" data-placement="top" ' +
                         'data-toggle="popover" title="" data-content="' + popup + '">'+ content +'</div>');
 
-                        results.append(newItem);
-                        newItem.popover({html: true, trigger: 'click'}).popover('show');
+                        var placeholder = results.find(".result-placeholder");
+                        if (placeholder.length) {
+                            placeholder.before(newItem);
+                        } else {
+                            results.append(newItem);
+                        }
+                        var position = newItem.position();
+                        var startingPosition = $('.announcements-wrapper').width();
+                        console.log(startingPosition);
+
+                        newItem.css({zIndex: 100, left: startingPosition, position:"absolute"});
+
+
+                        newItem.animate({"left": position.left}, 2000, function(){
+                            if (placeholder.length) {
+                                placeholder.remove();
+                            }
+
+                            newItem.css({position:"relative", zIndex:0, left:0});
+                            newItem.popover({html: true, trigger: 'click'}).popover('show');
+                        });
                     }
                 },
                 onWSNotify: function(msg){
