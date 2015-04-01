@@ -29,7 +29,7 @@
 						</div>
 						<div class="text-center info-title">Для этого мы создали Jarvis.</div>
 						<div class="question">Что такое JARVIS?</div>
-								<img src="{{ URL::asset('images/global.jpg') }}" alt="global" class="img-responsive">
+						<img src="{{ URL::asset('images/global.jpg') }}" alt="global" class="img-responsive">
 						<div class="info-content">
 							<p>Jarvis - это Алгорифмическая беттинговая машина. Cозданная на основе искусственного интеллекта, она обрабатывает огромное количество спортивных данных, с целью большой вероятности выигрыша.
 							</p>
