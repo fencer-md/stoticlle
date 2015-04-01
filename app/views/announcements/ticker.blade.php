@@ -79,10 +79,7 @@
                         }
                         var position = newItem.position();
                         var startingPosition = $('.announcements-wrapper').width();
-                        console.log(startingPosition);
-
                         newItem.css({zIndex: 100, left: startingPosition, position:"absolute"});
-
 
                         newItem.animate({"left": position.left}, 2000, function(){
                             if (placeholder.length) {
