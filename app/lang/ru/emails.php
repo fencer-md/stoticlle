@@ -1,8 +1,11 @@
 <?php
 
 return array(
+    'salutation' => ':dear :name,',
+    'dear' => '[0,1] Уважаемый|{2} Уважаемая',
+    'user' => 'Пользователь',
+
     'subscription' => array(
-        'expires' => 'Ваша подписка изтекает через :number :days',
         'days' => 'день|дня|дней',
         'subject' => 'Ваша подписка изтекает'
     )

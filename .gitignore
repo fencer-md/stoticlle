@@ -14,3 +14,4 @@ Thumbs.db
 *.log
 /_ide_helper*
 /public/uploads/user-photos
+/workbench
