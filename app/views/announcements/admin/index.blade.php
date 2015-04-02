@@ -21,7 +21,7 @@
                 <div class="col-md-1 stream">
                     <div class="name">{{$stream->name}}</div>
                     <div class="buttons">
-                        <a class="clock" href="{{ URL::to('admin/announcements/start-countdown', array('id' => $stream->id)) }}">
+                        <a class="clock" id="start-countdown" href="{{ URL::to('admin/announcements/start-countdown', array('id' => $stream->id)) }}">
                             <i class="fa fa-clock-o"></i>
                         </a>
                         <a class="cancel" href="{{ URL::to('admin/announcements/stop-countdown', array('id' => $stream->id)) }}">
@@ -205,9 +205,15 @@
 
             $('[data-toggle="popover"]').popover({html: true, trigger: 'hover'});
 
+            $('#start-countdown').click(function(e){
+                e.preventDefault();
+
+                var name = prompt("Имя");
+                if (name) {
+                    $.post(this.href, {name: name});
+                }
+            });
         });
-
-
     </script>
 @stop
 
