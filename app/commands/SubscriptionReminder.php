@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Mail\Message;
 
 class SubscriptionReminder extends Command
 {
@@ -51,10 +52,29 @@ class SubscriptionReminder extends Command
         $users = $this->getUsers($days);
 
         foreach ($users as $user) {
+            /* @var $user \User */
             $subj = Lang::get('emails.subscription.subject');
-            Mail::send('emails.announcements.expires', array('days' => $days), function($message) use($user, $subj) {
-                /* @var $user \User */
-                /* @var $message \Illuminate\Mail\Message */
+
+            $name = null;
+            $genderNumber = 0;
+            $userInfo = $user->userInfo;
+            if ($userInfo) {
+                $name = trim($userInfo->first_name . ' ' . $userInfo->last_name);
+                $genderNumber = $userInfo->genderNumber();
+            }
+            if (empty($name)) {
+                $name = trans('emails.user');
+            }
+
+            $data = array(
+                'days' => $days,
+                'name' => $name,
+                'genderNumber' => $genderNumber,
+                'lang' => Lang::getLocale(),
+                'url' => '#',
+            );
+
+            Mail::send('emails.announcements.expires', $data, function(Message $message) use($user, $subj) {
                 $message->to($user->email)
                     ->subject($subj);
             });
