@@ -89,7 +89,7 @@
                                 </a>
                             </li>
 -->
-							<li class="user-menu-element"><a href="{{ URL::to('bet') }}">
+							<li class="user-menu-element"><a href="{{ URL::to('user/announcements') }}">
                   <span class="menu-title">{{trans('menu.bids')}}</span> </a>
               </li>
 							<li class="user-menu-element visible-xs-block"><a href="{{ URL::to('logout') }}">
