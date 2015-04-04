@@ -1,5 +1,5 @@
 @foreach($grouped['data'] as $day)
-    <div class="day">
+    <div class="day-date">
         <div class="date">{{$day->date}}</div>
         <div class="results">
             @foreach($day->announcements as $group)
