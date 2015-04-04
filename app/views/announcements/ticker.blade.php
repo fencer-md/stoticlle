@@ -58,6 +58,10 @@
                             .text(msg.text)
                             .marquee(Announcements.options);
 
+                    $('#announcement-notification').hide();
+                    var AnnouncementSound = document.getElementById('announcement-sound');
+                    AnnouncementSound.play(); // Play sound.
+
                     // Show new empty result with confirmation popover.
                     var display = $('.announcements');
                     if (display.length) {
@@ -120,6 +124,7 @@
                 onWSResult: function(msg) {
                     // Refresh only announcements page.
                     var display = $('.announcements');
+
                     if (display.length) {
                         var AnnouncementSound = document.getElementById('announcement-sound');
                         AnnouncementSound.play(); // Play sound.
