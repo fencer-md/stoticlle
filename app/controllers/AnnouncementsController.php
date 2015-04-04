@@ -121,9 +121,10 @@ class AnnouncementsController extends BaseController
      * Admin: Start stream countdown.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getStartCountdown($stream)
+    public function postStartCountdown($stream)
     {
         $counter = AnnouncementCounter::getByStream($stream);
+        $name = Input::get('name');
 
         $endTime = new Carbon();
         $endTime->addMinutes(10);
@@ -133,6 +134,7 @@ class AnnouncementsController extends BaseController
         $this->broadcast(array(
             'stream' => $stream,
             'type' => 'notify',
+            'text' => $name,
             'expires' => $endTime->timestamp,
         ));
 

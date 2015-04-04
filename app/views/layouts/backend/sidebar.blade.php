@@ -62,10 +62,11 @@
 	
 @if ( Auth::user()->role == "2" )
 <div class="side-bar-user">
-	<div class="notification warning" id="announcement-notification" style="display: none">
-		<div class="text">{{trans('userpage.atention')}}!</div>
-		<div class="info">{{trans('userpage.incomming')}}</div>
-	</div>
+    <div class="notification warning" id="announcement-notification" style="display: none">
+        <div class="text">{{trans('userpage.atention')}}!</div>
+        <div class="info">{{trans('userpage.incomming')}}</div>
+        <div id="announcement-notification-name"></div>
+    </div>
     <div class="notification danger" id="announcement-notification-canceled" style="display: none">
         <div class="text">{{trans('userpage.cancel')}}</div>
     </div>

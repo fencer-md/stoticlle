@@ -18,7 +18,7 @@ View::creator('announcements.ticker', function($view)
         // Paid users get latest.
         /* @var $user \User */
         $user = Auth::user();
-        if ($user->announcement_stream && !empty($user->announcement_start) && $user->announcement_start->isPast()) {
+        if ($user->announcement_stream && !empty($user->announcement_expires) && $user->announcement_expires->isFuture()) {
             $ajax = false;
             $announcement = Announcement::latestInStream(Auth::user()->announcement_stream);
             $config = Config::get('announcements-server.websocket');

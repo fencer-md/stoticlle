@@ -58,6 +58,10 @@
                             .text(msg.text)
                             .marquee(Announcements.options);
 
+                    $('#announcement-notification').hide();
+                    var AnnouncementSound = document.getElementById('announcement-sound');
+                    AnnouncementSound.play(); // Play sound.
+
                     // Show new empty result with confirmation popover.
                     var display = $('.announcements');
                     if (display.length) {
@@ -101,9 +105,12 @@
                     AnnouncementSound.play(); // Play sound.
                     var notification = $('#announcement-notification');
                     if (notification.length) {
+                        var text = notification.find('#announcement-notification-name');
+                        text.text(msg.text);
                         notification.show(); // Show text notification.
                         setTimeout(function () {
                             notification.hide();
+                            text.text('');
                         }, (msg.expires - now)*1000); //Hide after 5 sec.
                     }
                 },
@@ -117,7 +124,11 @@
                 onWSResult: function(msg) {
                     // Refresh only announcements page.
                     var display = $('.announcements');
+
                     if (display.length) {
+                        var AnnouncementSound = document.getElementById('announcement-sound');
+                        AnnouncementSound.play(); // Play sound.
+
                         window.location.reload();
                     }
                 }
