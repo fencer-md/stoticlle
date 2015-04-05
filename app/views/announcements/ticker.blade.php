@@ -115,6 +115,9 @@
                     }
                 },
                 onWSNotifyCancel: function(msg){
+                    var AnnouncementSound = document.getElementById('announcement-sound');
+                    AnnouncementSound.play(); // Play sound.
+
                     $('#announcement-notification').hide();
                     var canceled = $('#announcement-notification-canceled').show();
                     setTimeout(function(){
