@@ -65,7 +65,7 @@
                     // Show new empty result with confirmation popover.
                     var display = $('.announcements');
                     if (display.length) {
-                        var results = display.find('.day:first').find('.results');
+                        var results = display.find('.day-date:first .results');
                         var popup = msg.text + '<br />' +
                                 '<div class="announcement-popover-confirmation">' +
                                 '<a href="/user/announcements/bet/'+msg.id+'" class="btn btn-primary">Подтверждаю</a>' +
