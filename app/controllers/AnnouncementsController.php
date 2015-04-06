@@ -194,17 +194,41 @@ class AnnouncementsController extends BaseController
     {
         /* @var $announcement Announcement */
         $announcement = Announcement::find($id);
-        $announcement->success = $value;
-        $announcement->save();
+        $series = $announcement->series_id;
 
-        $this->stopCounter($announcement->series_id);
+        // Cancel result.
+        if ($value == 0) {
+            $announcement->delete();
 
-        $this->broadcast(array(
-            'stream' => $announcement->series_id,
-            'type' => 'result',
-        ));
+            /* @var $last Announcement */
+            $last = Announcement::where('series_id', '=', $series)
+                ->orderBy('id', 'desc')
+                ->limit(1)
+                ->first();
 
-        Flash::success('Результат сохранен.');
+            $broadcast = array(
+                'stream' => $series,
+                'type' => 'cancelMessage',
+                'text' => $last->getMessage(),
+                'id' => $id,
+            );
+            Flash::success('Игра отменена.');
+        } else {
+            $announcement->success = $value;
+            $announcement->save();
+
+            $this->stopCounter($series);
+
+            $broadcast = array(
+                'stream' => $series,
+                'type' => 'result',
+            );
+            Flash::success('Результат сохранен.');
+        }
+
+        $this->broadcast($broadcast);
+
+
         return Redirect::to('admin/announcements');
     }
 

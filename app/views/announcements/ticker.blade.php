@@ -37,6 +37,9 @@
                         case "message":
                             Announcements.onWSMessage(msg);
                             break;
+                        case "cancelMessage":
+                            Announcements.onWSCancelMessage(msg);
+                            break;
                         case "notify":
                             Announcements.onWSNotify(msg);
                             break;
@@ -53,7 +56,7 @@
                         Announcements.connect();
                     }, 2000); // reconnect in 2 sec.
                 },
-                onWSMessage: function(msg, ws) {
+                onWSMessage: function(msg) {
                     Announcements.ws.marquee('destroy')
                             .text(msg.text)
                             .marquee(Announcements.options);
@@ -72,7 +75,7 @@
                                 '</div>';
                         popup = popup.replace(/"/g, '&quot;');
                         var content = ($('#account-sum').val() / msg.ratio).toFixed(2);
-                        var newItem = $('<div data-original-title="" class="result" data-placement="top" ' +
+                        var newItem = $('<div id="result-' + msg.id + '" data-original-title="" class="result" data-placement="top" ' +
                         'data-toggle="popover" title="" data-content="' + popup + '">'+ content +'</div>');
 
                         var placeholder = results.find(".result-placeholder");
@@ -94,6 +97,22 @@
                             newItem.popover({html: true, trigger: 'click'}).popover('show');
                         });
                     }
+                },
+                onWSCancelMessage: function(msg) {
+                    Announcements.ws.marquee('destroy')
+                            .text(msg.text)
+                            .marquee(Announcements.options);
+
+                    var result = $('#result-' + msg.id);
+                    result.popover('hide').popover('destroy');
+                    result.css({backgroundColor: '#ff0000'});
+                    setTimeout(function(){
+                        var parent = result.parent();
+                        if (parent.find('.result').length <= 1) {
+                            parent.append('<div class="result-placeholder"></div>');
+                        }
+                        result.remove();
+                    }, 10000); //10 sec
                 },
                 onWSNotify: function(msg){
                     var now = Math.round(new Date().getTime()/1000);

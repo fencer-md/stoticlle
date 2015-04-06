@@ -54,6 +54,7 @@
             <th>Коеффициент</th>
             <th>Время</th>
             <th>Поток</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -75,6 +76,10 @@
                 <td>{{$a->coefficient}}</td>
                 <td>{{$a->created_at->format('H:i / m.d.Y')}}</td>
                 <td>{{$a->stream->name}}</td>
+                <td><a href="{{ URL::to(
+                        'admin/announcements/result',
+                        array('id' => $a->id, 'value' => 0)
+                     ) }}" class="result"><i class="fa fa-trash-o"></i></a></td>
             </tr>
         @endforeach
         </tbody>
