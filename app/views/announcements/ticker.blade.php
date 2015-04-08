@@ -49,6 +49,9 @@
                         case "result":
                             Announcements.onWSResult(msg);
                             break;
+                        case "pause":
+                            Announcements.onWSPaused(msg);
+                            break;
                     }
                 },
                 onWebsocketClose: function(){
@@ -153,6 +156,22 @@
 
                         window.location.reload();
                     }
+                },
+                onWSPaused: function(msg){
+                    var countdown = new Date(parseInt(msg.date) * 1000);
+                    var block = $('#announcement-notification-paused').show();
+                    var counter = $('#announcement-notification-pause-countdown');
+                    counter.countdown('destroy');
+                    counter.countdown({
+                        until: countdown,
+                        compact: true,
+                        format: 'dhMS',
+                        description: '',
+                        localization: $('html').attr('lang'),
+                        onExpiry: function(){
+                            block.hide();
+                        }
+                    });
                 }
             };
         </script>

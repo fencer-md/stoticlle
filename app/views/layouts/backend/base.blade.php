@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if IE 8]> <html lang="{{Lang::getLocale()}}" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="{{Lang::getLocale()}}" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="{{Lang::getLocale()}}"> <!--<![endif]-->
 	<head>
 	   <meta charset="utf-8" />
 	   <title>Dashboard</title>
@@ -10,6 +10,9 @@
 	   <meta content="" name="description" />
 	   <meta content="" name="author" />
 	   @include('includes.backend.styles')
+        <script src="{{ URL::asset('backend/plugins/jquery-1.11.0.min.js') }}" type="text/javascript"></script>
+        <script src="{{ URL::asset('backend/plugins/jquery-migrate-1.2.1.min.js') }}" type="text/javascript"></script>
+
 	   <link rel="shortcut icon" href="favicon.ico" />
 	</head>
 	<body class="page-header-fixed">
@@ -92,5 +95,9 @@
 		@yield('custom_scripts')
 		<script src="{{ asset('js/jquery.marquee.min.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('js/announcements-ticker.js') }}" type="text/javascript"></script>
+        <script src="{{ URL::asset('js/jquery.plugin.min.js') }}"></script>
+        <script src="{{ URL::asset('js/jquery.countdown.min.js') }}"></script>
+        <script src="{{ URL::asset('js/jquery.countdown-ru.js') }}"></script>
+        <script src="{{ URL::asset('js/jquery.countdown-ro.js') }}"></script>
 	</body>
 </html>
