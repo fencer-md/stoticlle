@@ -27,6 +27,9 @@
                         <a class="cancel" href="{{ URL::to('admin/announcements/stop-countdown', array('id' => $stream->id)) }}">
                             <i class="fa fa-times"></i>
                         </a>
+                        <a class="pause" href="{{ URL::to('admin/announcements/pause', array('id' => $stream->id)) }}">
+                            <i class="fa fa-pause"></i>
+                        </a>
                     </div>
                     <div class="timer" id="timer-{{$stream->id}}">{{$stream->getCountdownTimestamp()}}</div>
                 </div>
@@ -191,23 +194,6 @@
                 });
             };
 
-            //$('.announcements-packages .package-body').hScroll();
-
-
-            /*
-             $('.announcements-packages .package-body').on('mousewheel', function(event) {
-             console.log(event.deltaX, event.deltaY, event.deltaFactor);
-             });
-             */
-
-            $("#start_date,#end_date").datepicker();
-            /*
-             var aP = $('.announcements-packages').width();
-             var pH = $('.announcements-packages .package-header-info').outerWidth();
-             $('.announcements-packages .package-body').width(aP-pH);
-             */
-
-
             $('[data-toggle="popover"]').popover({html: true, trigger: 'hover'});
 
             $('.start-countdown').click(function(e){
@@ -217,6 +203,19 @@
                 if (name) {
                     $.post(this.href, {name: name});
                 }
+            });
+
+            $('.pause').each(function(){
+                var $this = $(this);
+                var url = this.href;
+
+                $this.datetimepicker({
+                    autoclose: true,
+                    todayBtn: false,
+                    pickerPosition: "bottom"
+                }).on('hide', function(ev){
+                    $.post(url, {time: ev.date.toISOString()});
+                });
             });
         });
     </script>

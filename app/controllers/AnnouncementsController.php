@@ -257,4 +257,20 @@ class AnnouncementsController extends BaseController
         $counter->ends_at = $endTime;
         $counter->save();
     }
+
+    public function postPause($stream)
+    {
+        $time = Input::get('time');
+        $date = new Carbon($time);
+
+        $series = AnnouncementSeries::find($stream);
+        $series->paused_until = $date;
+        $series->save();
+
+        $this->broadcast(array(
+            'stream' => $series,
+            'type' => 'pause',
+            'date' => $date->getTimestamp(),
+        ));
+    }
 }

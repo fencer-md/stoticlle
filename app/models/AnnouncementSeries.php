@@ -5,7 +5,7 @@ class AnnouncementSeries extends Eloquent {
 
     public function getDates()
     {
-        return array('created_at', 'updated_at', 'ended_at');
+        return array('created_at', 'updated_at', 'ended_at', 'paused_until');
     }
 
     public static function latest()

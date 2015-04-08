@@ -55,3 +55,20 @@ View::creator('announcements.user.remaining', function($view){
 
     $view->with('left', $left);
 });
+
+View::creator('announcements.user.notifications', function($view){
+    // Stream paused until.
+    $paused = null;
+
+    /* @var $user User */
+    $user = Auth::user();
+    if ($user && $user->announcement_expires && $user->announcement_expires->isFuture()) {
+        /* @var $stream AnnouncementSeries */
+        $stream = AnnouncementSeries::find($user->announcement_stream);
+        if ($stream->paused_until && $stream->paused_until->isFuture()) {
+            $paused = $stream->paused_until->getTimestamp();
+        }
+    }
+
+    $view->with('paused', $paused);
+});
