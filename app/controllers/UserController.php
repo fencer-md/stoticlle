@@ -91,6 +91,7 @@ class UserController extends \BaseController {
 
 	public function updateCommentary()
 	{
+        /* @var $user User */
 		$uid = Input::get('uid');
 		$user = User::find($uid);
 		$user->commentary = Input::get('user_commentary');
@@ -107,6 +108,7 @@ class UserController extends \BaseController {
             $start = new Carbon\Carbon();
             $start->setTime(0, 0, 0)->addDay();
             $user->announcement_start = $start;
+            $user->announcement_expires = $start->addDays(Config::get('announcements.duration'));
         }
 
 		if ( Input::get('showRegion') == 1 )

@@ -84,6 +84,9 @@
             <li>
                 <a href="{{ URL::to('user/admin/monitored') }}">Monitored users</a>
             </li>
+            <li>
+                <a href="{{ URL::to('admin/subscriptions') }}">User subscriptions</a>
+            </li>
         </ul>
     </li>
     <li class="dropdown">
