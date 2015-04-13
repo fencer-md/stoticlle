@@ -84,6 +84,7 @@ Route::group(['before' => 'auth'], function()
 
 		Route::controller('admin/announcements', 'AnnouncementsController');
 		Route::controller('admin/config', 'ConfigController');
+		Route::controller('admin/subscriptions', 'SubscriptionsController');
 	});
     Route::controller('user/announcements', 'UserAnnouncementsController');
 
