@@ -139,7 +139,6 @@ class AnnouncementsController extends BaseController
         ));
 
         Flash::success('Отчет завершится в ' . $endTime->format('H:i:s'));
-        return Redirect::to('admin/announcements');
     }
 
     /**

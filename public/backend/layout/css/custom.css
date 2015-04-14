@@ -479,7 +479,8 @@ li.money {
 }
 
 .buttons {
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 21px;
 }
 
@@ -513,7 +514,7 @@ li.money {
 }
 
 .timer {
-    margin-top: 20px;
+    margin-top: 10px;
     display: none;
 }
 
@@ -521,10 +522,6 @@ li.money {
     position: relative;
     height: 100%;
     background-color: #fff;
-
-    /*
-
-    */
 }
 .announcements-wrapper + .col-md-2 {
 	padding:0;
@@ -811,4 +808,9 @@ li.money {
 .announcement-popover-confirmation {
     text-align: center;
     margin-top: 15px;
+}
+
+.announcement-name-input {
+    width: 100%;
+    color: #000;
 }

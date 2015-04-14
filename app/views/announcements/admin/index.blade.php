@@ -31,6 +31,7 @@
                             <i class="fa fa-pause"></i>
                         </a>
                     </div>
+                    <input type="text" class="announcement-name-input">
                     <div class="timer" id="timer-{{$stream->id}}">{{$stream->getCountdownTimestamp()}}</div>
                 </div>
 
@@ -199,9 +200,13 @@
             $('.start-countdown').click(function(e){
                 e.preventDefault();
 
-                var name = prompt("Имя");
+                var name = $(this).parent().parent().find('input').val();
                 if (name) {
-                    $.post(this.href, {name: name});
+                    $.post(this.href, {name: name}, function(){
+                        window.location.reload();
+                    });
+                } else {
+                    alert('Укажите имя');
                 }
             });
 
