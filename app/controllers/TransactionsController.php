@@ -544,13 +544,28 @@ class TransactionsController extends \BaseController {
         $transaction->save();
 
 
-        $email = Auth::user()->email;
-        $username = Auth::user()->userInfo->first_name;
+        $user = Auth::user();
+        $name = null;
+        $genderNumber = 0;
+        $userInfo = $user->userInfo;
+        if ($userInfo) {
+            $name = trim($userInfo->first_name . ' ' . $userInfo->last_name);
+            $genderNumber = $userInfo->genderNumber();
+        }
+        if (empty($name)) {
+            $name = trans('emails.user');
+        }
 
-        $data = ['username' => $username, 'ammount' => $transaction->ammount];
+        $data = array(
+            'name' => $name,
+            'genderNumber' => $genderNumber,
+            'lang' => Lang::getLocale(),
+        );
 
-        Mail::send('emails.moneyadded', $data, function($message) {
-            $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+        $data['ammount'] = $transaction->ammount;
+
+        Mail::send('emails.moneyadded', $data, function($message) use($user) {
+            $message->to($user->email)->subject('Successful transfer!');
         });
 
         $msg = 'You\'ve requested to add '.Input::get('add_money').'$ to your account, wait for the response.';

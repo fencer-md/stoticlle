@@ -35,7 +35,7 @@
                         <div class="radio-pay">
                             <label class="radio" @if (!empty($wallets[$id])) data-wallet="{{ $wallets[$id] }}" @endif>
                                 <span>{{ Form::radio('add_method', $id) }}</span>
-                                <img class="pay-logo" src="{{ URL::asset('public/backend/img/pay_met/' . $id . '.png') }}">
+                                <img class="pay-logo" src="{{ URL::asset('backend/img/pay_met/' . $id . '.png') }}">
                             </label>
                         </div>
                         @endforeach
