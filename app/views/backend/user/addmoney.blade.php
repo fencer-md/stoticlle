@@ -11,18 +11,12 @@
     <p class="description">{{trans('userpage.howtotop')}}</p>
     <div class="col-md-6">
       <ul>
-         <li>OK Pay</li>
-         <li>Payeer</li>
-         <li>Payza</li>
-         <li>Perfect Money</li>
+         <li>PAYPAL</li>
 		  </ul>
 				</div>
         <div class="col-md-6">
           <ul>
-                    <li>Qiwi</li>
-                    <li>Skrill</li>
-                    <li>WebMoney</li>
-                    <li>Yandex</li>
+                    <li>WEBMONEY</li>
           </ul>
         </div>
         <p class="description">{{trans('userpage.howtobottom')}}</p>
@@ -62,7 +56,7 @@
                 {{ Form::label('add_money', Lang::get('userpage.sum2'), ['class' => 'control-label col-md-3']) }}
                 <div class="controls">
                     <div class="col-md-9">
-                      {{ Form::text('add_money', null, ['class' => 'form-control']) }}
+                      {{ Form::text('add_money', '25', ['class' => 'form-control']) }}
                         <div class="help-block">{{ $errors->first('add_money') }}</div>
                     </div>
                 </div>

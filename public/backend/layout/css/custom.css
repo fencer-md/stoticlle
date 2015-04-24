@@ -695,6 +695,10 @@ li.money {
 	line-height: 20px;
 	color:#bbdced;
 	margin-bottom:20px;
+	  background-color: #AD2C2C;
+  padding: 5px;
+  text-align: center;
+  color: #FFF;
 }
 .side-bar-user .special-news .news:last-child {
 	margin-bottom:0;

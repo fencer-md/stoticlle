@@ -28,7 +28,7 @@
                     <a href="/" class="logo-text"><img src="{{ URL::asset('images/logo.png') }}"></a>
                 </div>
                 <div class="blurry hidden-xs col-sm-push-4 col-md-push-3"></div>
-                <div class="col-xs-8 col-sm-8 col-md-6">@include('announcements.ticker')</div>
+                <div class="col-xs-8 col-sm-8 col-md-6" style=" position: absolute; left: 330px; ">@include('announcements.ticker')</div>
                 <div class="pull-right">
                     @include('layouts.backend.topnavigationbar')
                 </div>

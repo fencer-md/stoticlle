@@ -67,11 +67,13 @@
 	<div class="special-news">
 		<div class="header">{{trans('userpage.specialnews')}}</div>
 		<div class="news">
+			<span class="date" style="color: #00FF47;font-weight: 900;">23.04.2015</span><div >{{trans('news.latest')}}</div>
+		</div>
+		<!--
+<div class="news">
 			<span class="date">12.03.2014</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
-		<div class="news">
-			<span class="date">12.03.2014</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		</div>
+-->
 	</div>
 </div>
 @endif
