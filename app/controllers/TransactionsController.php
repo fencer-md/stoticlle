@@ -274,15 +274,11 @@ class TransactionsController extends \BaseController {
         $user->userMoney->times_withdrawn++;
         $user->userMoney->save();
 
-        $email = $user->email;
-        $username = $user->userInfo->first_name;
+        $data = MailHelper::prepareData($user);
+        $data += ['ammount' => Input::get('ammount'), 'text' => Input::get('text'), 'credentials' => 'none'];
 
-        $data = ['username' => $username, 'ammount' => Input::get('ammount'), 'text' => Input::get('text'), 'credentials' => 'none'];
-
-        Mail::send('emails.addmoneycredentials', $data, function($message) {
-            $user = User::where('id', '=', Input::get('uid'))->first();
-            $email = $user->email;
-            $message->to($email, 'test')->subject('Add money request info');
+        Mail::send('emails.addmoneycredentials', $data, function($message) use($user) {
+            $message->to($user->email)->subject('Add money request info');
         });
 
         $user->save();
@@ -304,16 +300,12 @@ class TransactionsController extends \BaseController {
         $transaction->save();
 
         $user = User::where('id', '=', Input::get('uid'))->first();
+        $data = MailHelper::prepareData($user);
 
-        $email = $user->email;
-        $username = $user->userInfo->first_name;
+        $data += ['credentials' => Input::get('credentials'), 'text' => Input::get('text')];
 
-        $data = ['username' => $username, 'credentials' => Input::get('credentials'), 'text' => Input::get('text')];
-
-        Mail::send('emails.addmoneycredentials', $data, function($message) {
-            $user = User::where('id', '=', Input::get('uid'))->first();
-            $email = $user->email;
-            $message->to($email, 'test')->subject('Add money request info');
+        Mail::send('emails.addmoneycredentials', $data, function($message) use($user) {
+            $message->to($user->email)->subject('Add money request info');
         });
 
         return Redirect::back();
@@ -338,16 +330,13 @@ class TransactionsController extends \BaseController {
         $user->userMoney->times_added++;
         $user->userMoney->save();
 
-        $email = $user->email;
-        $username = $user->userInfo->first_name;
+        $data = MailHelper::prepareData($user);
         $text = 'You successfuly added '.$transaction->ammount.'$';
 
-        $data = ['username' => $username, 'ammount' => $transaction->ammount, 'text' => $text, 'credentials' => 'none'];
+        $data += ['ammount' => $transaction->ammount, 'text' => $text, 'credentials' => 'none'];
 
-        Mail::send('emails.addmoneycredentials', $data, function($message) {
-            $user = User::where('id', '=', Input::get('uid'))->first();
-            $email = $user->email;
-            $message->to($email, 'test')->subject('Add money request info');
+        Mail::send('emails.addmoneycredentials', $data, function($message) use($user) {
+            $message->to($user->email)->subject('Add money request info');
         });
 
         return Redirect::back();
@@ -545,23 +534,7 @@ class TransactionsController extends \BaseController {
 
 
         $user = Auth::user();
-        $name = null;
-        $genderNumber = 0;
-        $userInfo = $user->userInfo;
-        if ($userInfo) {
-            $name = trim($userInfo->first_name . ' ' . $userInfo->last_name);
-            $genderNumber = $userInfo->genderNumber();
-        }
-        if (empty($name)) {
-            $name = trans('emails.user');
-        }
-
-        $data = array(
-            'name' => $name,
-            'genderNumber' => $genderNumber,
-            'lang' => Lang::getLocale(),
-        );
-
+        $data = MailHelper::prepareData($user);
         $data['ammount'] = $transaction->ammount;
 
         Mail::send('emails.moneyadded', $data, function($message) use($user) {

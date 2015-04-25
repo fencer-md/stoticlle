@@ -6,7 +6,6 @@
 
 @section('content')
 <div>
-	Hello {{ $username }}!
 	You've successfully withdrawn {{ $ammount }}$ !
 </div>
 @stop

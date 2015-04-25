@@ -6,7 +6,6 @@
 
 @section('content')
 <div>
-	Hello {{ $username }}!
 	You've succesufully added {{ $ammount }} to Jarvis.
 	{{ $text }}
 </div>
