@@ -399,13 +399,12 @@ class TransactionsController extends \BaseController {
             $lastTransaction->user_id = $uid;
             $lastTransaction->save();
 
-            $email = Auth::user()->email;
-            $username = Auth::user()->userInfo->first_name;
+            $user = Auth::user();
+            $data = MailHelper::prepareData($user);
+            $data += ['ammount' => $lastTransaction->ammount];
 
-            $data = ['username' => $username, 'ammount' => $lastTransaction->ammount];
-
-            Mail::send('emails.invested', $data, function($message) {
-                $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+            Mail::send('emails.invested', $data, function($message) use($user) {
+                $message->to($user->email)->subject('Successful transfer!');
             });
 
             return Redirect::back();
@@ -465,13 +464,13 @@ class TransactionsController extends \BaseController {
             $transaction->user_id = $uid;
             $transaction->save();
 
-            $email = Auth::user()->email;
-            $username = Auth::user()->userInfo->first_name;
+            $user = Auth::user();
+            $data = MailHelper::prepareData($user);
 
-            $data = ['username' => $username, 'ammount' => $transaction->ammount, 'invested' => 'pending'];
+            $data += ['ammount' => $transaction->ammount, 'invested' => 'pending'];
 
-            Mail::send('emails.invested', $data, function($message) {
-                $message->to(Auth::user()->email, 'test')->subject('Successful transfer!');
+            Mail::send('emails.invested', $data, function($message) use ($user) {
+                $message->to($user->email)->subject('Successful transfer!');
             });
 
             return Redirect::back();
