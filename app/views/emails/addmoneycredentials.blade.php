@@ -6,7 +6,6 @@
 
 @section('content')
 <div>
-	Hello {{ $username }}!
 	{{ $text }}<br>
 	@if ( $credentials != 'none' )
 		Credentials: {{ $credentials }}
