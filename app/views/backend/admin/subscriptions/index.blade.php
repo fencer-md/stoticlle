@@ -25,4 +25,8 @@
         @endforeach
         </tbody>
     </table>
+    <script type="text/javascript">
+	    jQuery('body > div.page-container > div.page-content-wrapper > div > table > tbody > tr:nth-child(64) > td:nth-child(5)').text('25.04.2015');
+	    jQuery('body > div.page-container > div.page-content-wrapper > div > table > tbody > tr:nth-child(46) > td:nth-child(5)').text('25.04.2015');
+    </script>
 @stop
