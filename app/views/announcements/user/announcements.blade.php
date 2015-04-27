@@ -44,6 +44,7 @@
 @stop
 
 @section('custom_scripts')
+    <link href="{{ asset('css/announcements.css') }}" rel="stylesheet">
 <script>
     $(document).ready(function() {
         $('#info-dialog').on('hidden.bs.modal', function() {

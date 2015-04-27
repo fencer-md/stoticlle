@@ -141,6 +141,7 @@
 @stop
 
 @section('custom_scripts')
+    <link href="{{ asset('css/announcements.css') }}" rel="stylesheet">
     <script src="{{ URL::asset('js/jquery.plugin.min.js') }}"></script>
     <script src="{{ URL::asset('js/jquery.countdown.min.js') }}"></script>
 

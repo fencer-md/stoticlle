@@ -1,219 +1,289 @@
 @extends('layouts.frontend.base')
 
-@section('content')
-	@if(Session::has('msg'))
-      <div class="col-md-12" id="successModal">
-              <h3>Статус регестраций</h3>
-            <div class="col-md-12 container">
-              {{ Session::get('msg') }}
-            </div>
-      </div>
-      @endif
+{{-- Required to show announcements --}}
+@include('announcements.common.stream-helpers')
+@macro('groupMessage', $group)
+@foreach($group as $a)
+    {{inlineAnnouncementStatus($a)}} {{$a->getMessageWithBets()}}<br/>
+@endforeach
+@endmacro
 
-        @if(Session::has('error'))
-            <div class="col-md-12" id="errorModal">
-                        <span class="error-icon"><i class="fa fa-thumbs-o-down"></i></span><span class="error-title">{{ Session::get('errorTitle') }}</span>
-                        
-                            {{ Session::get('error') }}
-                        
-                    </div>
-        @endif
-		<section class="map-region hidden-xs">
-      <div class="container-fluid">
-        <div class="map col-md-12 col-xs-12" id="world_map">
-          
+@section('content')
+    @if(Session::has('msg'))
+        <div class="col-md-12" id="successModal">
+            <h3>Статус регестраций</h3>
+
+            <div class="col-md-12 container">
+                {{ Session::get('msg') }}
+            </div>
         </div>
-        <!--
-<div class="info pull-right col-md-3">
-          <div class="inside">
-            <div class="registered info-homepage">
-            <div class="number"><i class="fa fa-users"></i><div class="block-header">
-              <div class="lables"><div class="total-users">{{ $totalInfo['users_total']}}</div><div class="lable">Пользователей</div></div></div>
-            </div>
-            <div class="user-other"><div class="investors"><div class="investor-users" data-toggle="tooltip" data-placement="top" title="Инвестировали">{{ $totalInfo['users_invested']}}</div></div><div class="withdrawals"><div class="withdrawals" data-toggle="tooltip" data-placement="top" title="Вывели из системы">{{ $totalInfo['users_withdrew']}}</div></div></div>
-            </div>
-            <div class="invested info-homepage">
-            <div class="number"><i class="fa fa-usd"></i><div class="block-header">
-              <div class="lables"><div class="total-users"> ${{ $totalInfo['total_invested']+ $totalInfo['total_won']- $totalInfo['total_withdrew']}}</div><div class="lable">Всего в системе</div></div></div>
-                  
-            </div>
-            <div class="user-other"><div class="investors"><div class="investor-users" data-toggle="tooltip" data-placement="top" title="Всего инвестировано">
-                  $ {{ round($totalInfo['total_invested'])}}
-                </div></div><div class="withdrawals"><div class="all-withdrawals" data-toggle="tooltip" data-placement="top" title="Всего выведено">
-                  $ {{round ($totalInfo['total_withdrew'])}}
-                </div></div></div>
-            </div> 
-          </div>
+    @endif
+
+    @if(Session::has('error'))
+        <div class="col-md-12" id="errorModal">
+            <span class="error-icon"><i class="fa fa-thumbs-o-down"></i></span>
+            <span class="error-title">{{ Session::get('errorTitle') }}</span>
+
+            {{ Session::get('error') }}
         </div>
--->
-				<div class="announce col-xs-12 pull-left">@include('announcements.ticker')</div>
-      </div>
-      
+    @endif
+    <section class="map-region hidden-xs">
+        <div class="container-fluid">
+            <div class="map col-md-12 col-xs-12" id="world_map"></div>
+
+            <div class="announce col-xs-12 pull-left">@include('announcements.ticker')</div>
+        </div>
+
     </section>
-   
+
     <section class="content-region">
-    	<section class="site-information col-xs-push-12">
-    		<div class="container">
-    			<div class="row">
-						<div class="col-xs-12 col-sm-4 col-1">
-							<div class="col">
-								<img src="{{ URL::asset('images/people.png') }}" alt="people">
-								<div class="text">
-									<div class="number">35</div>
-									<div class="info">Пользователей</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-4 col-middle">
-							<div class="col">
-								<img src="{{ URL::asset('images/persent.png') }}" alt="people">
-								<div class="text">
-									<div class="number">$188237</div>
-									<div class="info">Всего в системе </div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-4 col-3">
-							<div class="col">
-								<img src="{{ URL::asset('images/airplane.png') }}" alt="people">
-								<div class="text">
-									<div class="number">823237</div>
-									<div class="info">Анонсов в системе</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-      <section class="videos">
-          <div class="container">
-            <div class="row">
-            	<div class="col-xs-12 col-sm-6">
-            		<div class="text">
-            			<h1>{{ $blocks[0]->content->title }}</h1>
-									<div class="body">
-            				{{ $blocks[0]->content->body }}
-									</div>
-								</div>
-            	</div>
-            	<div class="col-xs-12 col-sm-6">
-            		<div class="video-list">
-                	<div class="videos">
-                		<div class="overlay"><img src="{{ URL::asset('images/player.png') }}" alt="player"></div>
-										<iframe class="video_1 video" width="460" height="300" src="https://youtube.com/embed/sjI5y6rEJtw" frameborder="0" allowfullscreen></iframe>
-										<iframe class="video_2 video" width="460" height="300" src="https://youtube.com/embed/{{ $blocks[0]->content->video_2 }}" frameborder="0" allowfullscreen></iframe>
-										<iframe class="video_3 video" width="460" height="300" src="https://youtube.com/embed/{{ $blocks[0]->content->video_3 }}" frameborder="0" allowfullscreen></iframe>
-									</div>
-                
-									<div class="thumbnails">
-                  	<img class="video_1 video" src="https://img.youtube.com/vi/{{ $blocks[0]->content->video_1 }}/1.jpg">
-										<img class="video_2 video" src="https://img.youtube.com/vi/{{ $blocks[0]->content->video_2 }}/1.jpg">
-										<img class="video_3 video" src="https://img.youtube.com/vi/{{ $blocks[0]->content->video_3 }}/1.jpg">
-									</div>
-								</div>
-            	</div>
+        <section class="site-information col-xs-push-12">
+            <div class="site-information-header">
+                Lorem ipsum и всё такое
             </div>
-          </div>
-				</section>
-      <section class="columns">
-        <div class="container">
-          <div class="row">
-            <div class="col col-xs-12 col-sm-6 col-md-4 about">
-              <div class="col-md-12">
-              	<div class="title">Jarvis Tech</div>
-								<div class="text">
-                	Вы сами будете контролировать процесс обогащения и в любой момент сможете изменить свое решение. Успех основан на уникальной стратегии в ставках, дающей прибыль в 50-400% в месяц(зависит от количества матчей)...
+
+            <div class="site-information-text">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-1">
+                            <div class="col">
+                                <img src="{{ URL::asset('images/people.png') }}" alt="people">
+
+                                <div class="text">
+                                    <div class="number">35</div>
+                                    <div class="info">Пользователей</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-middle">
+                            <div class="col">
+                                <img src="{{ URL::asset('images/persent.png') }}" alt="people">
+
+                                <div class="text">
+                                    <div class="number">$188237</div>
+                                    <div class="info">Всего в системе</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-3">
+                            <div class="col">
+                                <img src="{{ URL::asset('images/airplane.png') }}" alt="people">
+
+                                <div class="text">
+                                    <div class="number">823237</div>
+                                    <div class="info">Анонсов в системе</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="more-info"><a href="{{ $blocks[1]->content->link }}">» узнать больше</a></div>
-             </div>
             </div>
-            <div class="col col-xs-12 col-sm-6 col-md-4 how">
-            <div class="col-md-12">
-              <div class="title">Как это работает</div>
-              <div class="text">
-                Перед тем как нам начать чтото мы конечно хотели бы описать как мы работаем, и как наше с вами взаимодействие будет происходить, прошу вас ознакомиться с небольшой инструкцией...
-              </div>
-              <div class="more-info"><a href="{{ $blocks[1]->content->link }}">» инструкция</a></div>
+        </section>
+
+        <div class="announcements-section">
+            <div class="container">
+                <div class="stream-wrapper" style="margin: 0">
+                    <div class="announcements-wrapper">
+                        {{--
+                        <div class="scroll-button-right"><i class="fa fa-chevron-right"></i></div>
+                        <div class="scroll-button-left"><i class="fa fa-chevron-left"></i></div>
+                        --}}
+                        <div class="announcements">
+                            @include('announcements.common.stream', ['grouped' => $stream])
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-            <div class="col col-xs-12 col-sm-12 col-md-4">
-            <div class="col-md-12">
-              <div class="title">Последние новости</div>
-              <div class="text">
-                  <div class="news"><span class="date">12.03.2014</span><a href="#" class="news-link">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></div>
-                  <div class="news"><span class="date">12.03.2014</span><a href="#" class="news-link">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></div>
-                  <div class="news"><span class="date">12.03.2014</span><a href="#" class="news-link">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></div>
-              </div>
-            </div>
-            </div>
-          </div>
         </div>
-      </section>
-      <section class="partners">
-        <div class="container">
-          <div class="row">
-            <div class="title"><span>Методы оплаты</span></div>
-            <div class="list">
-              <div class="logo">
-                <img src="{{ asset('backend/img/pay_met/skrill.png') }}" alt="Skrill" />
-              </div>
-              <div class="logo">
-                  <img src="{{ asset('backend/img/pay_met/webmoney.png') }}" alt="WebMoney" />
-              </div>
-              <div class="logo">
-                  <img src="{{ asset('backend/img/pay_met/payza.png') }}" alt="Payza" />
-              </div>
-              <div class="logo">
-                  <img src="{{ asset('backend/img/pay_met/payeer.png') }}" alt="Payeer" />
-              </div>
-              <div class="logo">
-                  <img src="{{ asset('backend/img/pay_met/perfect_money.png') }}" alt="Perfect Money" />
-              </div>
-              <div class="logo">
-                  <img src="{{ asset('backend/img/pay_met/okpay.png') }}" alt="OKPAY" />
-              </div>
-              <!--
-<div class="logo">
-                <img src="../../public/backend/img/pay_met/rR9Pw.jpg" alt="rR9Pw" width="" height="" />
-              </div>
-              <div class="logo">
-                <img src="../../public/backend/img/pay_met/yandex.money_.jpg" alt="yandex.money_" width="" height="" />
-              </div>
--->
-              
-          	</div>
-					</div>
+
+
+        <div class="site-moto">
+            <div class="container">
+                <div class="row">
+                    <span class="moto-head">Спортивный беттинг. Всё по-новому.</span>
+                    Шаг за шагом, компьютерные технологии затрагивали области нашей жизни и полностью меняли её.<br/>
+                    На этот раз пришла пора изменить индустрию спортивных ставок.<br/>
+                    Знакомьтесь - это Jarvis.
+                </div>
+            </div>
         </div>
-      </section>
+
+        <section class="columns">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="info-button info-button-active" data-target=".info-text-1">
+                            <i class="flaticon-dollar116"></i> Что такое Jarvis?
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="info-button" data-target=".info-text-2">
+                            <i class="flaticon-dart13"></i> На сколько точно это?
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="info-button" data-target=".info-text-3">
+                            <i class="flaticon-paper-bill"></i> Как я могу заработать?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row info-text info-text-active info-text-1">
+                    <div class="col-xs-12 col-sm-6 col-md-6 image">
+                        <i class="flaticon-dollar116"></i>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <h3>Что такое Jarvis?</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue in nunc
+                            sollicitudin gravida eu id mauris. Mauris sagittis elit quam, in aliquam elit venenatis ac.
+                            Proin efficitur venenatis nunc, eu finibus velit sollicitudin vitae.
+                        </p>
+
+                        <p>
+                            Integer posuere ac ex pulvinar iaculis. Mauris pretium ipsum in egestas accumsan. Morbi ac
+                            luctus quam. Mauris fermentum lorem vel elit sagittis porta quis vel risus.
+                        </p>
+                        <a href="#">Read more</a>
+                    </div>
+                </div>
+
+                <div class="row info-text info-text-2">
+                    <div class="col-xs-12 col-sm-6 col-md-6 image">
+                        <i class="flaticon-dart13"></i>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <h3>На сколько точно это?</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue in nunc
+                            sollicitudin gravida eu id mauris. Mauris sagittis elit quam, in aliquam elit venenatis ac.
+                            Proin efficitur venenatis nunc, eu finibus velit sollicitudin vitae.
+                        </p>
+
+                        <p>
+                            Integer posuere ac ex pulvinar iaculis. Mauris pretium ipsum in egestas accumsan. Morbi ac
+                            luctus quam. Mauris fermentum lorem vel elit sagittis porta quis vel risus.
+                        </p>
+                        <a href="#">Read more</a>
+                    </div>
+                </div>
+
+                <div class="row info-text info-text-3">
+                    <div class="col-xs-12 col-sm-6 col-md-6 image">
+                        <i class="flaticon-paper-bill"></i>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <h3>Как я могу заработать?</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue in nunc
+                            sollicitudin gravida eu id mauris. Mauris sagittis elit quam, in aliquam elit venenatis ac.
+                            Proin efficitur venenatis nunc, eu finibus velit sollicitudin vitae.
+                        </p>
+
+                        <p>
+                            Integer posuere ac ex pulvinar iaculis. Mauris pretium ipsum in egestas accumsan. Morbi ac
+                            luctus quam. Mauris fermentum lorem vel elit sagittis porta quis vel risus.
+                        </p>
+                        <a href="#">Read more</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="how-it-works">
+            <h2>Как это работает?</h2>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 no-side-padding">
+                        <div class="img-circle circle-blue">
+                            <i class="flaticon-send4"></i>
+                        </div>
+                        <h3>Get a free trial</h3>
+
+                        <div class="text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue in
+                            nunc sollicitudin gravida eu id mauris.
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4 no-side-padding">
+                        <div class="img-circle circle-white">
+                            <i class="flaticon-dart13"></i>
+                        </div>
+                        <h3>Get Jarvis forecast</h3>
+
+                        <div class="text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue in
+                            nunc sollicitudin gravida eu id mauris.
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4 no-side-padding">
+                        <div class="img-circle circle-white">
+                            <i class="flaticon-paper-bill"></i>
+                        </div>
+                        <h3>Earn money</h3>
+
+                        <div class="text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue in
+                            nunc sollicitudin gravida eu id mauris.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="trial">
+            <h2>Пользуйтесь 1 неделю совершенно бесплатно</h2>
+
+            <div>
+                <a class="trial-registration" id="trial-registration" href="#">Зарегистрироваться</a>
+            </div>
+        </div>
     </section>
 @stop
 
 @section('custom_scripts')
-<script src="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js') }}" type="text/javascript"></script>
-<link href="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
-<link href="{{ asset('css/pictonic.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/announcements.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/pictonic.css') }}" rel="stylesheet">
+    <link href="{{ asset('font/flaticon/flaticon.css') }}" rel="stylesheet">
 
-<script>
-  var my_data = {{ $usersData }};
-  $('[data-toggle="tooltip"]').tooltip();
-  $('img.video').click(function() {
-    var firstClass = $(this).attr('class').split(' ');
-    firstClass = firstClass[0];
-    $('iframe.video').hide();
-    $('iframe.'+firstClass).show();
-  });
-  $(".video-list .overlay").on("click",function() {
-	  $(this).next(".video #player").click();
-	  $(this).fadeOut();
-  });
-  /* front page ".site-information" arragement*/	
-	$(window).resize(function() {
-		var deviceWidth = $(window).width();
-		if ( deviceWidth < 768 ) {
-			$('section.videos').after( $('.site-information') );
-		} else {
-			$('section.videos').before( $('.site-information') );
-		}
-	});
-</script>
+    <link href="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
+    <script src="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js') }}"
+            type="text/javascript"></script>
+
+    <script>
+        var my_data = {{ $usersData }};
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover({html: true, trigger: 'hover'});
+
+            $('.info-button').click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                $('.info-button').removeClass('info-button-active');
+                $('.info-text').removeClass('info-text-active');
+
+                $this.addClass('info-button-active');
+                $($this.data('target')).addClass('info-text-active');
+            });
+
+            $('#trial-registration').click(function(e){
+                e.stopPropagation();
+                e.preventDefault();
+
+                // Scroll to top.
+                window.scrollTo(0, 0);
+                // Show registration form.
+                $('#join').click();
+            });
+        });
+    </script>
 @stop

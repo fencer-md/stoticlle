@@ -678,14 +678,19 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     // Announcements scroller.
-    $('.announcements').on('mousewheel', function(event, delta) {
+    $('.announcements').on('mousewheel', function(e, delta) {
+        e.preventDefault();
         val = this.scrollLeft - (delta * 200);
-        jQuery(this).stop().animate({scrollLeft:val},500);
-        event.preventDefault();
+        $(this).stop().animate({scrollLeft:val},500);
     });
     $('.scroll-button-right').click(function(e){
         e.preventDefault();
-        var target = $(this).next();
+        var target = $(this).parent().find('.announcements');
         target.stop().animate({scrollLeft: target[0].scrollLeft + 200}, 500);
+    });
+    $('.scroll-button-left').click(function(e){
+        e.preventDefault();
+        var target = $(this).parent().find('.announcements');
+        target.stop().animate({scrollLeft: target[0].scrollLeft - 200}, 500);
     });
 });

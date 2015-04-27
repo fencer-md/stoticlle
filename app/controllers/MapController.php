@@ -88,7 +88,16 @@ class MapController extends \BaseController {
         ];
         $data = json_encode($usersData);
 
-        return View::make('homepage')->with('usersData', $data)->with('totalInfo', $totalInfo);
+        // Load announcements.
+        $stream = AnnouncementSeries::whereName('xx1')->firstOrFail();
+        $grouped = $stream->groupedByDate('d.m.Y');
+        // Show last 5 days starting from yesterday.
+        $grouped['data'] = array_slice($grouped['data'], 1, 5);
+
+        return View::make('homepage')
+            ->with('usersData', $data)
+            ->with('totalInfo', $totalInfo)
+            ->with('stream', $grouped);
     }
 
 }
