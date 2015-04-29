@@ -1,0 +1,110 @@
+.announcements-wrapper {
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+}
+.announcements-wrapper + .col-md-2 {
+    padding:0;
+}
+.announcements {
+    vertical-align: top;
+    height: 100%;
+
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.day-date {
+    display: inline-block;
+    height: 100%;
+    border-right: 1px solid #d9d9d9;
+    min-width: 200px;
+}
+
+.date {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.results {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    height: 40px;
+}
+
+.result, .result-placeholder {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    height: 34px;
+    min-width: 34px;
+    line-height: 34px;
+    vertical-align: top;
+    background-color: #fff;
+}
+
+.result-placeholder {
+    width: 0;
+}
+
+.result {
+    border: 1px solid #d9d9d9;
+    cursor: pointer;
+}
+
+.text-green {
+    color: #3AB40F;
+}
+
+.text-red {
+    color: #D51919;
+}
+
+.scroll-button-left,
+.scroll-button-right {
+    background-color: #1E8BC3;
+    color: #fff;
+    height: 100%;
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 150px;
+    cursor: pointer;
+}
+
+.scroll-button-left {
+    left: 0;
+}
+.scroll-button-right {
+    right: 0;
+}
+
+.stream-row {
+    height: 114px;
+    margin-bottom: 20px;
+}
+
+.stream-row > div {
+    height: 100%;
+}
+
+.stream-wrapper {
+    height: 150px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.stream {
+    background-color: #1e8bc3;
+    /*width: 115px;*/
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    /*display: table-cell;*/
+    vertical-align: top;
+    height: 100%;
+}

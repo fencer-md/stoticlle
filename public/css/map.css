@@ -48,14 +48,16 @@
 	background:rgba(255, 255, 255, 0.6);
 }
 */
+
 #world_map .pop_up_overlay {
-	height: 100%;
-  /* margin: 0px 2%; */
-  right: 0;
-  position: absolute;
-  width: 300px;
-  background:rgba(255,255,255,0.3);
+    height: 100%;
+    right: 0;
+    position: absolute;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.3);
+    top: 0;
 }
+
 .sub_user{
 	background: rgba(255, 255, 255, 0.77);
 	width: 255px;
@@ -136,4 +138,8 @@ circle{
 }
 .amcharts-balloon-div .sub_user {
 background-color: rgba(0, 0, 0, 0);
+}
+
+.amcharts-chart-div a {
+    display: none !important;
 }
