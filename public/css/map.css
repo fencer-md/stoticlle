@@ -139,3 +139,7 @@ circle{
 .amcharts-balloon-div .sub_user {
 background-color: rgba(0, 0, 0, 0);
 }
+
+.amcharts-chart-div a {
+    display: none !important;
+}

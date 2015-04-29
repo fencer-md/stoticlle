@@ -259,6 +259,11 @@
     <script src="{{ asset('backend/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js') }}"
             type="text/javascript"></script>
 
+    <script src="{{ asset('/maps/ammap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/maps/worldLow.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/maps/continentsLow.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/map.js') }}" type="text/javascript"></script>
+
     <script>
         var mapData = {{ $mapData }};
         $(document).ready(function () {

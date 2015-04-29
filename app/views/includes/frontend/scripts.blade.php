@@ -4,11 +4,6 @@
 <script src="{{ URL::asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ URL::asset('/js/raphael.js') }}"></script>
 
-<script type="text/javascript" src="{{ URL::asset('/js/ammap.js') }}"></script>
-<script src="{{ asset('/js/worldLow.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('/js/continentsLow.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ URL::asset('/js/none.js') }}"></script>
-
 <script src="{{ URL::asset('/js/custom.js') }}"></script>
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
 <script src="{{ URL::asset('backend/scripts/metronic.js') }}" type="text/javascript"></script>       
