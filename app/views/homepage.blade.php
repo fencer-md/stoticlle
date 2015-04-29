@@ -260,7 +260,7 @@
             type="text/javascript"></script>
 
     <script>
-        var my_data = {{ $usersData }};
+        var mapData = {{ $mapData }};
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
             $('[data-toggle="popover"]').popover({html: true, trigger: 'hover'});

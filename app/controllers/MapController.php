@@ -32,7 +32,7 @@ class MapController extends \BaseController {
     }
 
     public function output () {
-        $usersData = [];
+        $data = [];
 
         $users = User::where('role', '=', 2)->where('show_continent', '=', 1)->orderByRaw("RAND()")->get();
         foreach ($users as $user) {
@@ -52,7 +52,8 @@ class MapController extends \BaseController {
                 'totalReward' => $user->userMoney->ammount_won,
                 'registered' => $user->created_at,
                 'point' => $user->show_dot,
-                'online' => rand(0,1) == 1
+                'online' => rand(0,1) == 1,
+                'continent' => $continent,
             );
 
             // Social links.
@@ -74,8 +75,9 @@ class MapController extends \BaseController {
                 $userInfo['social'] = null;
             }
 
-            $usersData[$continent][] = $userInfo;
+            $data[] = $userInfo;
         }
+        $data = json_encode($data);
 
         $totalInfo = [
             'users_total' => User::where('role', '=', 2)->where('registration_status', '=', 1)->count(),
@@ -86,7 +88,6 @@ class MapController extends \BaseController {
             'total_won' => DB::table('user_money_info')->sum('ammount_won'),
             'total_withdrew' => DB::table('user_money_info')->sum('ammount_withdrawn'),
         ];
-        $data = json_encode($usersData);
 
         // Load announcements.
         $stream = AnnouncementSeries::whereName('xx1')->firstOrFail();
@@ -95,7 +96,7 @@ class MapController extends \BaseController {
         $grouped['data'] = array_slice($grouped['data'], 1, 5);
 
         return View::make('homepage')
-            ->with('usersData', $data)
+            ->with('mapData', $data)
             ->with('totalInfo', $totalInfo)
             ->with('stream', $grouped);
     }
