@@ -27,8 +27,7 @@
                         ws.marquee({pauseOnHover: true});
                     }
 
-                    var host = 'ws.' + window.location.hostname;
-                    Announcements.url = 'ws://' + host + ':{{$websocketPort}}?uid={{$user}}';
+                    Announcements.url = 'ws://{{$websocketDomain}}:{{$websocketPort}}?uid={{$user}}';
                     Announcements.connect();
                 },
                 onWebsocketMessage: function(e){
