@@ -50,7 +50,7 @@
                                 <img src="{{ URL::asset('images/people.png') }}" alt="people">
 
                                 <div class="text">
-                                    <div class="number">35</div>
+                                    <div class="number">116</div>
                                     <div class="info">Пользователей</div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                 <img src="{{ URL::asset('images/persent.png') }}" alt="people">
 
                                 <div class="text">
-                                    <div class="number">$188237</div>
+                                    <div class="number">$0</div>
                                     <div class="info">Всего в системе</div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                 <img src="{{ URL::asset('images/airplane.png') }}" alt="people">
 
                                 <div class="text">
-                                    <div class="number">823237</div>
+                                    <div class="number">401</div>
                                     <div class="info">Анонсов в системе</div>
                                 </div>
                             </div>
