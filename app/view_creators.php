@@ -24,6 +24,7 @@ View::creator('announcements.ticker', function($view)
             $config = Config::get('announcements-server.websocket');
 
             $view
+                ->with('websocketDomain', $config['domain'])
                 ->with('websocketPort', $config['port'])
                 ->with('user', Auth::user()->id);
         } else {
